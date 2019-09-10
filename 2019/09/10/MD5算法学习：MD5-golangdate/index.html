@@ -79,13 +79,17 @@
 
 
 
-<meta property="og:type" content="website">
+<meta name="description" content="MD5算法学习：MD5-golangdate 1、题目内容    这里有一段丢失的md5密文 e9032???da???08????911513?0???a2要求你还原出他并且加上nctf{}提交 已知线索 明文为：TASC?O3RJMV?WDJKX?ZM 。 题目来源：安恒杯      简单的MD5密码碰撞，通过对比密文e9032与加密后的数据，定位相关信息。我用Python写了一个简单的解题代">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Slipslop">
-<meta property="og:url" content="http://yoursite.com/index.html">
+<meta property="og:url" content="http://yoursite.com/2019/09/10/MD5算法学习：MD5-golangdate/index.html">
 <meta property="og:site_name" content="Slipslop">
+<meta property="og:description" content="MD5算法学习：MD5-golangdate 1、题目内容    这里有一段丢失的md5密文 e9032???da???08????911513?0???a2要求你还原出他并且加上nctf{}提交 已知线索 明文为：TASC?O3RJMV?WDJKX?ZM 。 题目来源：安恒杯      简单的MD5密码碰撞，通过对比密文e9032与加密后的数据，定位相关信息。我用Python写了一个简单的解题代">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-10T08:58:06.176Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Slipslop">
+<meta name="twitter:description" content="MD5算法学习：MD5-golangdate 1、题目内容    这里有一段丢失的md5密文 e9032???da???08????911513?0???a2要求你还原出他并且加上nctf{}提交 已知线索 明文为：TASC?O3RJMV?WDJKX?ZM 。 题目来源：安恒杯      简单的MD5密码碰撞，通过对比密文e9032与加密后的数据，定位相关信息。我用Python写了一个简单的解题代">
 
 
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/10/MD5算法学习：MD5-golangdate/">
 
 
 
 
 
-  <title>Slipslop</title>
+  <title> | Slipslop</title>
   
 
 
@@ -140,8 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -254,9 +257,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -286,9 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/10/MD5算法学习：MD5-golangdate/" itemprop="url">未命名</a></h1>
+          <h1 class="post-title" itemprop="name headline"></h1>
         
 
         <div class="post-meta">
@@ -338,9 +339,7 @@
       
 
       
-        
-          
-            <h1 id="MD5算法学习：MD5-golangdate"><a href="#MD5算法学习：MD5-golangdate" class="headerlink" title="MD5算法学习：MD5-golangdate"></a>MD5算法学习：MD5-golangdate</h1><hr>
+        <h1 id="MD5算法学习：MD5-golangdate"><a href="#MD5算法学习：MD5-golangdate" class="headerlink" title="MD5算法学习：MD5-golangdate"></a>MD5算法学习：MD5-golangdate</h1><hr>
 <h3 id="1、题目内容"><a href="#1、题目内容" class="headerlink" title="1、题目内容"></a>1、题目内容</h3><pre><code>    这里有一段丢失的md5密文 e9032???da???08????911513?0???a2要求你还原出他并且加上nctf{}提交 已知线索 明文为：TASC?O3RJMV?WDJKX?ZM 。
 题目来源：安恒杯
 
@@ -351,8 +350,6 @@
 
 <h3 id="4、MD5算法"><a href="#4、MD5算法" class="headerlink" title="4、MD5算法"></a>4、MD5算法</h3><p>#####1、算法原理<br>    （1）数据填充<br>        填充消息使其长度与448模512同余（即长度=448 mod 512）.也就是说，填充后的消息长度比512的倍数小64位。填充方法：附一个1在消息后面，然后用0来填充，直到消息的长度与448模512同余。至少填充1位，至多填充512位。<br>    （2）添加长度<br>        在上一步的结果之后附上64位的消息长度。如果填充前消息长度大于2^64，则只使用其低64位。添加填充位和消息长度之后，最终消息的长度正好是512的整数倍。<br>    （3）初始化变量<br>        用四个变量（A、B、C、D）来计算消息摘要。这里的A、B、C、D都是32位的寄存器。这些寄存器以下面的十六进制来初始化：<br>            A=01234567h，B=89abcdefh，C=fedcbah，D=76543210h<br>    而且，在内存中是以低字节在前的形式储存的，格式如下：<br>        01 23 45 67 89 AB CD EF FE DC BA 98 76 54 32 10<br>    （4）数据处理<br>        以512位分组为单位处理消息。首先定义4个辅助函数，每个都是以3个32为双字作为输入，输出1个32位双字。<br>            F（X，Y，Z）= （X&amp;Y）|（（<del>X）&amp;Z）<br>            G（X，Y，Z）=（X&amp;Z）|（Y&amp;（</del>Z））<br>            H（X，Y，Z）=  X^Y^Z<br>            I（X，Y，Z）=  Y^（X|（<del>Z））<br>    注“&amp;”是与操作，“|”是或操作，“</del>”是非操作,“^”是异或操作。</p>
 
-          
-        
       
     </div>
     
@@ -369,131 +366,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/a/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Pangaea">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Slipslop">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/10/a/" itemprop="url">a</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T16:42:59+08:00">
-                2019-09-10
-              </time>
+              <a href="/2019/09/10/a/" rel="next" title="a">
+                <i class="fa fa-chevron-left"></i> a
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-            
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -503,10 +397,11 @@
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -514,6 +409,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -534,8 +433,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -607,6 +515,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MD5算法学习：MD5-golangdate"><span class="nav-number">1.</span> <span class="nav-text">MD5算法学习：MD5-golangdate</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、题目内容"><span class="nav-number">1.0.1.</span> <span class="nav-text">1、题目内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-解题代码如下"><span class="nav-number">1.0.2.</span> <span class="nav-text">3. 解题代码如下</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、MD5算法"><span class="nav-number">1.0.3.</span> <span class="nav-text">4、MD5算法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -747,6 +671,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

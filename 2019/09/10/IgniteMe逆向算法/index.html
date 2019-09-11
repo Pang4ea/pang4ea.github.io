@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="XCTF-RE,">
 
 
 
@@ -79,19 +79,20 @@
 
 
 
-<meta name="description" content="标签： XCTF-RE  ###1、RE-IgniteMe        这道题来自XCTF社区，比较简单。        题目链接：https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe ###2、解题思路        下载好后我们发现这是一个EXE文件，先拖入PEID查壳看">
+<meta name="description" content="###1、RE-IgniteMe        这道题来自XCTF社区，比较简单。        题目链接：https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe ###2、解题思路        下载好后我们发现这是一个EXE文件，先拖入PEID查壳看看，发现没有壳。直接运行，">
+<meta name="keywords" content="XCTF-RE">
 <meta property="og:type" content="article">
 <meta property="og:title" content="一道RE学习：IngiteMe">
 <meta property="og:url" content="http://yoursite.com/2019/09/10/IgniteMe逆向算法/index.html">
 <meta property="og:site_name" content="Slipslop">
-<meta property="og:description" content="标签： XCTF-RE  ###1、RE-IgniteMe        这道题来自XCTF社区，比较简单。        题目链接：https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe ###2、解题思路        下载好后我们发现这是一个EXE文件，先拖入PEID查壳看">
+<meta property="og:description" content="###1、RE-IgniteMe        这道题来自XCTF社区，比较简单。        题目链接：https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe ###2、解题思路        下载好后我们发现这是一个EXE文件，先拖入PEID查壳看看，发现没有壳。直接运行，">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://t1.picb.cc/uploads/2019/09/11/gBkxEG.png">
 <meta property="og:image" content="https://t1.picb.cc/uploads/2019/09/11/gBtCLi.png">
-<meta property="og:updated_time" content="2019-09-11T04:09:58.971Z">
+<meta property="og:updated_time" content="2019-09-11T04:12:34.386Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="一道RE学习：IngiteMe">
-<meta name="twitter:description" content="标签： XCTF-RE  ###1、RE-IgniteMe        这道题来自XCTF社区，比较简单。        题目链接：https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe ###2、解题思路        下载好后我们发现这是一个EXE文件，先拖入PEID查壳看">
+<meta name="twitter:description" content="###1、RE-IgniteMe        这道题来自XCTF社区，比较简单。        题目链接：https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe ###2、解题思路        下载好后我们发现这是一个EXE文件，先拖入PEID查壳看看，发现没有壳。直接运行，">
 <meta name="twitter:image" content="https://t1.picb.cc/uploads/2019/09/11/gBkxEG.png">
 
 
@@ -342,9 +343,7 @@
       
 
       
-        <p>标签： XCTF-RE</p>
-<hr>
-<p>###1、RE-IgniteMe<br>        这道题来自XCTF社区，比较简单。<br>        题目链接：<a href="https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe" target="_blank" rel="noopener">https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe</a></p>
+        <p>###1、RE-IgniteMe<br>        这道题来自XCTF社区，比较简单。<br>        题目链接：<a href="https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe" target="_blank" rel="noopener">https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe</a></p>
 <p>###2、解题思路<br>        下载好后我们发现这是一个EXE文件，先拖入PEID查壳看看，发现没有壳。直接运行，题目要求你输入flag，我们用IDA打开，进入-_main函数，按F5<br>        <img src="https://t1.picb.cc/uploads/2019/09/11/gBkxEG.png" alt="主函数">      我们可以发现一串“Congratulations！”字符，这里应该就是关键判断，双击它sub_4011C0函数，进入查看<br>        <img src="https://t1.picb.cc/uploads/2019/09/11/gBtCLi.png" alt="关键函数">    可以看到末尾的关键字符串，从后往前退，它的主要算法是异或和加减以及大小写字母之间的转换，我用C语言写了段代码进行解码，代码如下：</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line"> int i;</span><br><span class="line"> char str[<span class="number">32</span>] = <span class="string">"GONDPHyGjPEKruv&#123;&#123;pj]X@rF"</span>;</span><br><span class="line"></span><br><span class="line"> int num[<span class="number">32</span>] = &#123;<span class="number">0x0D</span>, <span class="number">0x13</span>,<span class="number">0x17</span>,<span class="number">0x11</span>,<span class="number">2</span>,<span class="number">1</span>,</span><br><span class="line"> <span class="number">0x20</span>,<span class="number">0x1D</span>,<span class="number">0x0C</span>,<span class="number">2</span>,<span class="number">0x19</span>,<span class="number">0x2F</span>,<span class="number">0x17</span>,<span class="number">0x2B</span>,<span class="number">0x24</span>,</span><br><span class="line"> <span class="number">0x1F</span>,<span class="number">0x1E</span>,<span class="number">0x16</span>,<span class="number">9</span>,<span class="number">0x0F</span>,<span class="number">0x15</span>,<span class="number">0x27</span>,<span class="number">0x13</span>,<span class="number">0x26</span>,</span><br><span class="line"> <span class="number">0x0A</span>,<span class="number">0x2F</span>,<span class="number">0x1E</span>,<span class="number">0x1A</span>,<span class="number">0x2D</span>,<span class="number">0x0C</span>,<span class="number">0x22</span>,<span class="number">4</span>&#125;;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">for</span>(i = <span class="number">0</span>; str[i] !=<span class="string">'\0'</span>; i++)</span><br><span class="line"> &#123;</span><br><span class="line">  str[i] = ((str[i]^num[i])<span class="number">-72</span>)^<span class="number">0x55</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(str[i] &gt;= <span class="string">'a'</span> &amp;&amp; str[i] &lt;= <span class="string">'z'</span>)</span><br><span class="line">  	str[i] -= <span class="number">32</span>;</span><br><span class="line"> 	<span class="keyword">if</span>(str[i] &gt;= <span class="string">'A'</span> &amp;&amp; str[i] &lt;= <span class="string">'Z'</span>)</span><br><span class="line">  	str[i] += <span class="number">32</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> printf(<span class="string">"EIS&#123;%s&#125;\n"</span>,str);</span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -366,6 +365,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/XCTF-RE/" rel="tag"># XCTF-RE</a>
+          
+        </div>
       
 
       
@@ -462,6 +467,15 @@
 
             
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
             
 
           </nav>

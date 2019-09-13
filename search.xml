@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title></title>
+    <title><![CDATA[一道base64算法CTF]]></title>
     <url>%2F2019%2F09%2F13%2F%E4%B8%80%E9%81%93BASE64%E7%BC%96%E7%A0%81%E7%AE%97%E6%B3%95CTF%2F</url>
-    <content type="text"><![CDATA[title: 一道关于BASE64算法的CTFdate: 2019-09-13 11:24:22tags:— 1、题目内容前两天做了道关于base64算法的题，flag为一段base64编码过后的密文，下面是这道题的链接：https://adworld.xctf.org.cn/media/task/attachments/a5c0e8322d9645468befabddfe0cb51d.exe 题目来源：XCTF社区2、解题过程这是一个exe文件，先用PEID进行查壳，没有壳，运行看看，要求你输入一个flah？拖入IDA，找到_main函数，按F5，代码如下我们可以看到一串关键字符串，逆推，字符串上方有一句for循环语句，经过异或得到下方的字符串，我用C语言写了段代码进行解密，代码如下： 12345678910#include &lt;stdio.h&gt;int main()&#123; int i; char str[50] = "you_know_how_to_remove_junk_code"; for(i = 0; str[i] != '\0'; i++) str[i] = str[i] ^ 0x25; printf("%s\n", str); return 0;&#125; 得到输出： 1\JPzNKJRzMJRzQJzW@HJS@zOPKNzFJA@ 单击v13，再往前推可以发现还有两处di调用过v13，第二处的调用貌似没什么用，应该是垃圾代码，我们直接看第一次调用v13的函数，单击进入 这里是一段关键代码，再点击byte_414E40这个函数 现在可以判断使用了base64解码，所以将刚刚得到的字符串进行编码就可得到falg： 1XEpQek5LSlJ6TUpSelFKeldASEpTQHpPUEtOekZKQUA=]]></content>
+    <content type="text"><![CDATA[1、题目内容前两天做了道关于base64算法的题，flag为一段base64编码过后的密文，下面是这道题的链接：https://adworld.xctf.org.cn/media/task/attachments/a5c0e8322d9645468befabddfe0cb51d.exe 题目来源：XCTF社区2、解题过程这是一个exe文件，先用PEID进行查壳，没有壳，运行看看，要求你输入一个flah？拖入IDA，找到_main函数，按F5，代码如下我们可以看到一串关键字符串，逆推，字符串上方有一句for循环语句，经过异或得到下方的字符串，我用C语言写了段代码进行解密，代码如下： 12345678910#include &lt;stdio.h&gt;int main()&#123; int i; char str[50] = "you_know_how_to_remove_junk_code"; for(i = 0; str[i] != '\0'; i++) str[i] = str[i] ^ 0x25; printf("%s\n", str); return 0;&#125; 得到输出： 1\JPzNKJRzMJRzQJzW@HJS@zOPKNzFJA@ 单击v13，再往前推可以发现还有两处di调用过v13，第二处的调用貌似没什么用，应该是垃圾代码，我们直接看第一次调用v13的函数，单击进入 这里是一段关键代码，再点击byte_414E40这个函数 现在可以判断使用了base64解码，所以将刚刚得到的字符串进行编码就可得到falg： 1XEpQek5LSlJ6TUpSelFKeldASEpTQHpPUEtOekZKQUA=]]></content>
   </entry>
   <entry>
     <title><![CDATA[一些Windows基础知识]]></title>

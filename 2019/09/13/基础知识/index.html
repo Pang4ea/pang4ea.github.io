@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="XCTF-RE,">
+  <meta name="keywords" content="Windows,">
 
 
 
@@ -79,21 +79,28 @@
 
 
 
-<meta name="description" content="1、RE-IgniteMe这道题来自XCTF社区，比较简单。 题目链接：https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe2、解题思路下载好后我们发现这是一个EXE文件，先拖入PEID查壳看看，发现没有壳。直接运行，题目要求你输入flag，我们用IDA打开，进入_main函数">
-<meta name="keywords" content="XCTF-RE">
+<meta name="description" content="1、单位转换bit 位(指的是 0 or 1) byte 字节 1byte = 8 bit word 字 1 word = 2 byte dword (double word) 1KB=1024B 1MB=1024KB 1GB=1024MB 1TB=1024GB2、字节序大端序（Big endain）   ：内存地址低位储存数据的高位， 小端序（Little endain）：内存地址高位储存数据的">
+<meta name="keywords" content="Windows">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一道RE学习：IngiteMe">
-<meta property="og:url" content="http://yoursite.com/2019/09/10/IgniteMe逆向算法/index.html">
+<meta property="og:title" content="一些Windows基础知识">
+<meta property="og:url" content="http://yoursite.com/2019/09/13/基础知识/index.html">
 <meta property="og:site_name" content="Pangaea">
-<meta property="og:description" content="1、RE-IgniteMe这道题来自XCTF社区，比较简单。 题目链接：https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe2、解题思路下载好后我们发现这是一个EXE文件，先拖入PEID查壳看看，发现没有壳。直接运行，题目要求你输入flag，我们用IDA打开，进入_main函数">
+<meta property="og:description" content="1、单位转换bit 位(指的是 0 or 1) byte 字节 1byte = 8 bit word 字 1 word = 2 byte dword (double word) 1KB=1024B 1MB=1024KB 1GB=1024MB 1TB=1024GB2、字节序大端序（Big endain）   ：内存地址低位储存数据的高位， 小端序（Little endain）：内存地址高位储存数据的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://t1.picb.cc/uploads/2019/09/11/gBkxEG.png">
-<meta property="og:image" content="https://t1.picb.cc/uploads/2019/09/11/gBtCLi.png">
-<meta property="og:updated_time" content="2019-09-12T16:36:56.540Z">
+<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/2d7bab50b6c88ba15ecb5e201d555a6b.png">
+<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/ad1fd22070bcd62a7d5a241f38224951.png">
+<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/8693e6cecda5b53c3b7cb55b2470db0b.png">
+<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/SendMessage.png">
+<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/WM_COMMANFD.png">
+<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/WM_COMMAND.png">
+<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/VM_GETTEXT.png">
+<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/WM_QUIT.png">
+<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/WM_LBUTTONDOWN.png">
+<meta property="og:updated_time" content="2019-09-13T00:51:42.918Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一道RE学习：IngiteMe">
-<meta name="twitter:description" content="1、RE-IgniteMe这道题来自XCTF社区，比较简单。 题目链接：https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe2、解题思路下载好后我们发现这是一个EXE文件，先拖入PEID查壳看看，发现没有壳。直接运行，题目要求你输入flag，我们用IDA打开，进入_main函数">
-<meta name="twitter:image" content="https://t1.picb.cc/uploads/2019/09/11/gBkxEG.png">
+<meta name="twitter:title" content="一些Windows基础知识">
+<meta name="twitter:description" content="1、单位转换bit 位(指的是 0 or 1) byte 字节 1byte = 8 bit word 字 1 word = 2 byte dword (double word) 1KB=1024B 1MB=1024KB 1GB=1024MB 1TB=1024GB2、字节序大端序（Big endain）   ：内存地址低位储存数据的高位， 小端序（Little endain）：内存地址高位储存数据的">
+<meta name="twitter:image" content="https://www.z4a.net/images/2019/09/13/2d7bab50b6c88ba15ecb5e201d555a6b.png">
 
 
 
@@ -123,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/10/IgniteMe逆向算法/">
+  <link rel="canonical" href="http://yoursite.com/2019/09/13/基础知识/">
 
 
 
 
 
-  <title>一道RE学习：IngiteMe | Pangaea</title>
+  <title>一些Windows基础知识 | Pangaea</title>
   
 
 
@@ -276,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/IgniteMe逆向算法/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/13/基础知识/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Slipslop">
@@ -293,7 +300,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">一道RE学习：IngiteMe</h1>
+          <h1 class="post-title" itemprop="name headline">一些Windows基础知识</h1>
         
 
         <div class="post-meta">
@@ -305,8 +312,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T17:48:03+08:00">
-                2019-09-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-13T08:51:03+08:00">
+                2019-09-13
               </time>
             
 
@@ -343,15 +350,40 @@
       
 
       
-        <h3 id="1、RE-IgniteMe"><a href="#1、RE-IgniteMe" class="headerlink" title="1、RE-IgniteMe"></a>1、RE-IgniteMe</h3><pre><code>这道题来自XCTF社区，比较简单。
-题目链接：https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe</code></pre><h3 id="2、解题思路"><a href="#2、解题思路" class="headerlink" title="2、解题思路"></a>2、解题思路</h3><p>下载好后我们发现这是一个EXE文件，先拖入PEID查壳看看，发现没有壳。直接运行，题目要求你输入flag，我们用IDA打开，进入_main函数，按F5</p>
-<p><img src="https://t1.picb.cc/uploads/2019/09/11/gBkxEG.png" alt="主函数">      我们可以发现一串“Congratulations！”字符，这里应该就是关键判断，双击它sub_4011C0函数，进入查看<br>        <img src="https://t1.picb.cc/uploads/2019/09/11/gBtCLi.png" alt="关键函数">    可以看到末尾的关键字符串，从后往前推，它的主要算法是异或和加减以及大小写字母之间的转换，我用C语言写了段代码进行解码，代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line"> int i;</span><br><span class="line"> char str[<span class="number">32</span>] = <span class="string">"GONDPHyGjPEKruv&#123;&#123;pj]X@rF"</span>;</span><br><span class="line"></span><br><span class="line"> int num[<span class="number">32</span>] = &#123;<span class="number">0x0D</span>, <span class="number">0x13</span>,<span class="number">0x17</span>,<span class="number">0x11</span>,<span class="number">2</span>,<span class="number">1</span>,</span><br><span class="line"> <span class="number">0x20</span>,<span class="number">0x1D</span>,<span class="number">0x0C</span>,<span class="number">2</span>,<span class="number">0x19</span>,<span class="number">0x2F</span>,<span class="number">0x17</span>,<span class="number">0x2B</span>,<span class="number">0x24</span>,</span><br><span class="line"> <span class="number">0x1F</span>,<span class="number">0x1E</span>,<span class="number">0x16</span>,<span class="number">9</span>,<span class="number">0x0F</span>,<span class="number">0x15</span>,<span class="number">0x27</span>,<span class="number">0x13</span>,<span class="number">0x26</span>,</span><br><span class="line"> <span class="number">0x0A</span>,<span class="number">0x2F</span>,<span class="number">0x1E</span>,<span class="number">0x1A</span>,<span class="number">0x2D</span>,<span class="number">0x0C</span>,<span class="number">0x22</span>,<span class="number">4</span>&#125;;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">for</span>(i = <span class="number">0</span>; str[i] !=<span class="string">'\0'</span>; i++)</span><br><span class="line"> &#123;</span><br><span class="line">  str[i] = ((str[i]^num[i])<span class="number">-72</span>)^<span class="number">0x55</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span>(str[i] &gt;= <span class="string">'a'</span> &amp;&amp; str[i] &lt;= <span class="string">'z'</span>)</span><br><span class="line">  	str[i] -= <span class="number">32</span>;</span><br><span class="line"> 	<span class="keyword">if</span>(str[i] &gt;= <span class="string">'A'</span> &amp;&amp; str[i] &lt;= <span class="string">'Z'</span>)</span><br><span class="line">  	str[i] += <span class="number">32</span>;</span><br><span class="line"> &#125;</span><br><span class="line"> printf(<span class="string">"EIS&#123;%s&#125;\n"</span>,str);</span><br><span class="line"> <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>运行后得出flag：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EIS&#123;wadx_tdgk_aihc_ihkn_pjlm&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="3、总结"><a href="#3、总结" class="headerlink" title="3、总结"></a>3、总结</h3><pre><code>逆向过程需要耐心和不断地尝试。</code></pre>
+        <h3 id="1、单位转换"><a href="#1、单位转换" class="headerlink" title="1、单位转换"></a>1、单位转换</h3><pre><code>bit 位(指的是 0 or 1)
+byte 字节 1byte = 8 bit
+word 字 1 word = 2 byte
+dword (double word)
+1KB=1024B
+1MB=1024KB
+1GB=1024MB
+1TB=1024GB</code></pre><h3 id="2、字节序"><a href="#2、字节序" class="headerlink" title="2、字节序"></a>2、字节序</h3><pre><code>大端序（Big endain）   ：内存地址低位储存数据的高位，
+小端序（Little endain）：内存地址高位储存数据的高位（x86是基于Intel8086处理器的小端体系结构）</code></pre><p><img src="https://www.z4a.net/images/2019/09/13/2d7bab50b6c88ba15ecb5e201d555a6b.png" alt="此处输入图片的描述"></p>
+<h3 id="3、ASCII码"><a href="#3、ASCII码" class="headerlink" title="3、ASCII码"></a>3、ASCII码</h3><p><img src="https://www.z4a.net/images/2019/09/13/ad1fd22070bcd62a7d5a241f38224951.png" alt="此处输入图片的描述"></p>
+<h3 id="4、Win-API"><a href="#4、Win-API" class="headerlink" title="4、Win API"></a>4、Win API</h3><pre><code>API全名（Application Programming Interface  应用程序编程接口）
+用于16位Windows的API（Windows1.0-Windows3.1）称作“Win16”，用于32位Windows的API（Windows 9x/NT/2000/XP/7/10）叫作“Win32”。64位WindowsAPI的名称和功能基本没有变化，还是使用Win32的函数名，只不过是用64位代码实现的。API函数调用从Win16到Win32的转变中保持兼容，并且数量和功能上不断增强——Windows10 1.0只支持不到450个函数调用，现在已有几千个函数了。
+Windows运转的核心是动态链接。Windows提供了丰富的应用程序可利用的函数调用，这些函数采用动态链接库（DLL）实现。在Windows 9x 中，DLL通常位于\WINDOWS\SYSTEM子目录中。在Windows NT/2000/XP/7中，DLL通常位于系统安装目录的\SYSTEM和\SYSTEM32子目录中。
+在早期，Windows的主要部分只需要在3个动态链接库中实现，它们分别代表Windows的三个主要子系统，叫做Kernel、User和GDI。
+    Kernel （由16位的KRNL386.EXE和32位KERNEL32.DLL实现）：操作系统核心功能服务，包括进程与线程控制、内存管理、文件访问等；
+    User    （由16位的KRNL386.EXE和32位KERNEL32.DLL实现）：负责处理用户接口，包括键盘和鼠标输入、窗口和菜单管理等；
+    GUI    （由16位的KRNL386.EXE和32位KERNEL32.DLL实现）：图形设备接口，允许程序在屏幕和打印机上显示文本和图形。</code></pre><p><img src="https://www.z4a.net/images/2019/09/13/8693e6cecda5b53c3b7cb55b2470db0b.png" alt="此处输入图片的描述"></p>
+<pre><code>除了上述模块，Windows提供了其他DLL以支持更多功能，包括对象安全性、注册表操作（ADVAPI32.DLL）、通用控件（COMCTL32.DLL）、公共对话框（COMDLG32.DLL）、用户界面外壳（SHELL32.DLL）和网络（NETAPTI32.DLL）。</code></pre><h3 id="5、WOW64"><a href="#5、WOW64" class="headerlink" title="5、WOW64"></a>5、WOW64</h3><pre><code>WOW64（Windows-on-Windows64-bit）是64位Windows操作系统的子系统，可以使大多数32位应用程序在不进行修改的情况下运行在64位操作系统上。
+64位的Windows，除了带有64位操作系统应有的系统文件，还带有32位操作系统应有的系统文件。Windows的64位系统应有的系统文件，还带有32位操作系统应有的系统文件。Windows的64位系统文件都放在一个叫做“System32“的文件夹中，\Windows\System32文件夹中包含原生的64位映像文件。为了兼容32位操作系统，还增加了\Windows\SysWOW64文件夹，其中存储了32位的操作系统。
+64位应用程序会加载System32目录下64位的kernel32.dll、user32.dll和ntdll.dll。当32位应用程序加载时，WOW64建立32位ntdll.dll所要求的启动环境，将CPU模式切换至32位，并开始执行32位加载器，就如同该进程在原生32位系统上一样。WOW64会对32位ntdll.dll的调用重定向ntdll.dll（64位），而不是发出原生的32位系统调用指令。WOW64转换到原生的64位模式，捕获于系统调用有关的参数，发出对应的原生64位系统调用。当原生的系统调用返回时，WOW64在返回32位模式之前将所有输出参数从64位转换成32位。
+WOW64既不支持16位应用程序的执行（32位Windows支持16位应用程序的执行），也不支持加载32位内核模式的设备驱动。WOW64进程只能加载32位的DLL，不能加载原生的64位DLL。类似的，原生的64位进程不能加载32位的DLL。</code></pre><h3 id="6、Windows消息机制"><a href="#6、Windows消息机制" class="headerlink" title="6、Windows消息机制"></a>6、Windows消息机制</h3><pre><code>Windows是一个消息（Message）驱动式系统。Windows消息提供在应用程序于应用程序之间、应用程序于Windows系统之间进行通信的手段。应用程序想要实现的功能由消息触发，通过对消息的相应和处理完成。
+Windows系统中有两种消息队列：一种是系统消息队列；另一种是应用程序消息队列。计算机的所有输入设备由Windows监控。当一个事件发生时，WIindows先将输入的消息放入系统消息队列，再将输入的消息复制到相应的应用程序队列中，应用程序中的消息循环在它的消息队列中检索每个消息并发送给相应的函数窗口。</code></pre><p>（1）SendMessage函数<br><img src="https://www.z4a.net/images/2019/09/13/SendMessage.png" alt="此处输入图片的描述"></p>
+<p>（2）WM_COMMANFD消息<br><img src="https://www.z4a.net/images/2019/09/13/WM_COMMANFD.png" alt="此处输入图片的描述"></p>
+<p>（3）WM_COMMAND消息<br><img src="https://www.z4a.net/images/2019/09/13/WM_COMMAND.png" alt="此处输入图片的描述"></p>
+<p>（4）WM_GETTEXT消息<br><img src="https://www.z4a.net/images/2019/09/13/VM_GETTEXT.png" alt="此处输入图片的描述"></p>
+<p>（5）WM_QUIT消息<br><img src="https://www.z4a.net/images/2019/09/13/WM_QUIT.png" alt="此处输入图片的描述"></p>
+<p>（6）WM_LBUTTONDOWN消息<br><img src="https://www.z4a.net/images/2019/09/13/WM_LBUTTONDOWN.png" alt="此处输入图片的描述"></p>
+<h3 id="7、虚拟内存"><a href="#7、虚拟内存" class="headerlink" title="7、虚拟内存"></a>7、虚拟内存</h3><pre><code>在默认情况下，32位Windows操作系统的地址空间是在4GB以内。Win32的平坦内存模式使每个进程都拥有自己的虚拟空间。对32位进程来说，这个地址空间是4GB，因为32位指针拥有00000000h-FFFFFFFFh的任何值。此时，进程的代码和数据都放在同一地址空间中，不必区分代码段和数据段。
+虚拟内存（Virtual Memory）不是真正的内存，它通过映射（Map）的方法使可用的虚拟地址（Virtual Address）达到4GB，每个应用程序可以获得2GB的虚拟地址，剩下的2GB留给操作系统自用。在Windows NT中，应用程序甚至可以获得3GB的虚拟地址。
+Windows是一个分时的多任务操作系统，CPU时间在被分成一个个时间片后分配给不同的应用程序。在一个时间片里，与这个程序的执行无关的内容不会映射到线性地址中。因此，每个程序都有自己的4GB寻址空间，互不干扰。在物理内存中，操作系统和系统DLL代码需要供每个应用程序调用，所以他们在任意时刻必须被映射。用户的exe程序只在自己所属的时间片内被映射，用户dll则有选择地被映射。
+实现方法和过程如下：
+1、当一个应用程序启动时，操作系统就创建一个进程，并给该进程分配2GB的虚拟地址（不是内存，只是地址）。
+2、虚拟内存管理器将应用程序的代码映射到那个应用程序的虚拟地址中的某个位置，并把当前需要的代码读入物理地址（注意：虚拟地址与应用程序代码在物理内存中的位置是没有关系的）。
+3、如果使用DLL，DLL也会被映射到进程的虚拟地址空间中。然后，虚拟内存管理器把每次内存访问映射到物理地址。</code></pre>
       
     </div>
     
@@ -368,7 +400,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/XCTF-RE/" rel="tag"># XCTF-RE</a>
+            <a href="/tags/Windows/" rel="tag"># Windows</a>
           
         </div>
       
@@ -381,8 +413,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/10/MD5算法学习/" rel="next" title="MD5算法学习">
-                <i class="fa fa-chevron-left"></i> MD5算法学习
+              <a href="/2019/09/12/Windows 内核函数/" rel="next" title="Windows内核函数">
+                <i class="fa fa-chevron-left"></i> Windows内核函数
               </a>
             
           </div>
@@ -390,10 +422,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/12/Windows 内核函数/" rel="prev" title="Windows内核函数">
-                Windows内核函数 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -546,7 +574,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、RE-IgniteMe"><span class="nav-number">1.</span> <span class="nav-text">1、RE-IgniteMe</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、解题思路"><span class="nav-number">2.</span> <span class="nav-text">2、解题思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、总结"><span class="nav-number">3.</span> <span class="nav-text">3、总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、单位转换"><span class="nav-number">1.</span> <span class="nav-text">1、单位转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、字节序"><span class="nav-number">2.</span> <span class="nav-text">2、字节序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、ASCII码"><span class="nav-number">3.</span> <span class="nav-text">3、ASCII码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、Win-API"><span class="nav-number">4.</span> <span class="nav-text">4、Win API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、WOW64"><span class="nav-number">5.</span> <span class="nav-text">5、WOW64</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、Windows消息机制"><span class="nav-number">6.</span> <span class="nav-text">6、Windows消息机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、虚拟内存"><span class="nav-number">7.</span> <span class="nav-text">7、虚拟内存</span></a></li></ol></div>
             
 
           </div>

@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[RC4算法学习]]></title>
+    <url>%2F2019%2F09%2F15%2FRC4%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0%2F</url>
+    <content type="text"><![CDATA[算法原理RC4生成一种称为密钥流的伪随机流，它与明文通过异或操作混合，以达到加密的目的，解密时与密文进行异或操作。其密钥流由两部分组成，分别是KSA和PRGA。 （1）KSA（the Key-Scheduling Algorithm）RC4首先使用密钥调度算法（KSA）完成对大小为256个字节的数组S的初始化及替换，在替换时使用密钥。其密钥长度一般取516字节，即40128位，通常不超过256位。先用0~255初始化数组S，然后使用密钥进行替换，C语言代码如下： 12345678910111213141516171819202122232425262728293031323334353637/*初始化S盒*/void InitSbox(unsigned char sbox[])&#123; for(int i = 0; i &lt; 256; i++) sbox[i] = i;&#125;/*密钥填充256数组*/void KeyExpansion(unsigned char key[], char *k, int len)&#123; if(len &lt;= 256) &#123; for(int i = 0; i &lt; 256; i++) key[i] = k[i % len]; &#125; if(len &gt; 256) &#123; for(int i = 0; i &lt; 256; i++) key[i] = k[i]; &#125;&#125;/*打乱S盒*/ void UpsetSbox(unsigned char sbox[], unsigned char key[])&#123; int j = 0; unsigned char temp; int n; for(int i = 0; i &lt; 256; i++) &#123; n = j + (int)sbox[i] + (int)key[i]; j = n % 256; temp = sbox[i]; sbox[i] = sbox[j]; sbox[j] = temp; &#125;&#125; （2）PRGA（the Pseudo-Random Generation Algorithm）数组S在完成初始化之后，便不再使用输入的密钥。密钥流的生成是从S[0]到S[255]的。对每个S[i]，根据当前的S的值，将S[i]与S中的另一字节置换。在S[255]完成转换后，操作仍重复执行。 12345678910111213141516171819202122/*加解密数据*/ void DataProcess(unsigned char sbox[], FILE *fp1, FILE *fp2)&#123; int i, j; i = 0; j = 0; char ch = fgetc(fp1); while(ch != EOF) &#123; i = (i + 1) % 256; int temp2 = j + (int)sbox[i]; j = temp2 % 256; unsigned char temp; temp = sbox[i]; sbox[i] = sbox[j]; sbox[j] = temp; int temp1 = (int)sbox[i] + (int)sbox[j]; int t = temp1 % 256; char k = sbox[t]; char cipherchar = ch ^ k; fputc(cipherchar, fp2); ch = fgetc(fp1); &#125;&#125;]]></content>
+      <tags>
+        <tag>RC4</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[一道base64算法CTF]]></title>
     <url>%2F2019%2F09%2F13%2F%E4%B8%80%E9%81%93BASE64%E7%BC%96%E7%A0%81%E7%AE%97%E6%B3%95CTF%2F</url>
     <content type="text"><![CDATA[1、题目内容前两天做了道关于base64算法的题，flag为一段base64编码过后的密文，下面是这道题的链接：https://adworld.xctf.org.cn/media/task/attachments/a5c0e8322d9645468befabddfe0cb51d.exe 题目来源：XCTF社区2、解题过程这是一个exe文件，先用PEID进行查壳，没有壳，运行看看，要求你输入一个flah？拖入IDA，找到_main函数，按F5，代码如下我们可以看到一串关键字符串，逆推，字符串上方有一句for循环语句，经过异或得到下方的字符串，我用C语言写了段代码进行解密，代码如下： 12345678910#include &lt;stdio.h&gt;int main()&#123; int i; char str[50] = "you_know_how_to_remove_junk_code"; for(i = 0; str[i] != '\0'; i++) str[i] = str[i] ^ 0x25; printf("%s\n", str); return 0;&#125; 得到输出： 1\JPzNKJRzMJRzQJzW@HJS@zOPKNzFJA@ 单击v13，再往前推可以发现还有两处di调用过v13，第二处的调用貌似没什么用，应该是垃圾代码，我们直接看第一次调用v13的函数，单击进入 这里是一段关键代码，再点击byte_414E40这个函数 现在可以判断使用了base64解码，所以将刚刚得到的字符串进行编码就可得到falg： 1XEpQek5LSlJ6TUpSelFKeldASEpTQHpPUEtOekZKQUA=]]></content>

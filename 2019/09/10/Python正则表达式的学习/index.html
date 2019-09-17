@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、re.match函数re.match尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。 函数语法：1、re.match(pattren, string, flags=0)     说明：pattern:匹配的正则表达式。 string:要匹配的字符串。 flags:标志位，用于控制正则表达式的匹配方式，如：是否区分大小写，多行匹配等等。匹配成功re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python正则表达式的学习">
+<meta property="og:url" content="http://yoursite.com/2019/09/10/Python正则表达式的学习/index.html">
+<meta property="og:site_name" content="Pangaea">
+<meta property="og:description" content="1、re.match函数re.match尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。 函数语法：1、re.match(pattren, string, flags=0)     说明：pattern:匹配的正则表达式。 string:要匹配的字符串。 flags:标志位，用于控制正则表达式的匹配方式，如：是否区分大小写，多行匹配等等。匹配成功re">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-09-17T09:15:29.495Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Python正则表达式的学习">
+<meta name="twitter:description" content="1、re.match函数re.match尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。 函数语法：1、re.match(pattren, string, flags=0)     说明：pattern:匹配的正则表达式。 string:要匹配的字符串。 flags:标志位，用于控制正则表达式的匹配方式，如：是否区分大小写，多行匹配等等。匹配成功re">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/09/10/Python正则表达式的学习/">
+
+
+
+
+
+  <title>Python正则表达式的学习 | Pangaea</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pangaea</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/Python正则表达式的学习/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Slipslop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pangaea">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Python正则表达式的学习</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T17:48:03+08:00">
+                2019-09-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="1、re-match函数"><a href="#1、re-match函数" class="headerlink" title="1、re.match函数"></a>1、re.match函数</h3><p>re.match尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。</p>
+<h4 id="函数语法："><a href="#函数语法：" class="headerlink" title="函数语法："></a>函数语法：</h4><pre><code>1、re.match(pattren, string, flags=0)
+    说明：pattern:匹配的正则表达式。
+string:要匹配的字符串。
+flags:标志位，用于控制正则表达式的匹配方式，如：是否区分大小写，多行匹配等等。</code></pre><p>匹配成功re.match方法返回一个匹配的对象，否则返回none。可以使用group(num)或group()匹配对象函数来获取匹配表达式。</p>
+<pre><code>group(num=0):匹配的整个表达式的字符串，group()可以一次输入多个组号，在这种情况下它将返回一个包含那些所对应值的元组。
+groups():返回一个包含所有小组字符串的元组，从1到所含的小组号。</code></pre><p>实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">print(re.match(<span class="string">'www'</span>, <span class="string">'www.runoob.com'</span>).span())  <span class="comment"># 在起始位置匹配</span></span><br><span class="line">print(re.match(<span class="string">'com'</span>, <span class="string">'www.runoob.com'</span>))         <span class="comment"># 不在起始位置匹配</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">0</span>, <span class="number">3</span>)</span><br><span class="line"><span class="literal">None</span></span><br></pre></td></tr></table></figure>
+
+<p>实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"> </span><br><span class="line">line = <span class="string">"Cats are smarter than dogs"</span></span><br><span class="line"> </span><br><span class="line">matchObj = re.match( <span class="string">r'(.*) are (.*?) .*'</span>, line, re.M|re.I)</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> matchObj:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"matchObj.group() : "</span>, matchObj.group()</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"matchObj.group(1) : "</span>, matchObj.group(<span class="number">1</span>)</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"matchObj.group(2) : "</span>, matchObj.group(<span class="number">2</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">   <span class="keyword">print</span> <span class="string">"No match!!"</span></span><br></pre></td></tr></table></figure>
+
+<p>运行结果:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">matchObj.group() :  Cats are smarter than dogs</span><br><span class="line">matchObj.group(<span class="number">1</span>) :  Cats</span><br><span class="line">matchObj.group(<span class="number">2</span>) :  smarter</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、re-search方法"><a href="#2、re-search方法" class="headerlink" title="2、re.search方法"></a>2、re.search方法</h3><pre><code>re.search扫描整个字符串并返回第一个成功的匹配。
+函数语法：
+    re.search(p,attern, string, flags=0)</code></pre><p>实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*- </span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line">print(re.search(<span class="string">'www'</span>, <span class="string">'www.runoob.com'</span>).span())  <span class="comment"># 在起始位置匹配</span></span><br><span class="line">print(re.search(<span class="string">'com'</span>, <span class="string">'www.runoob.com'</span>).span())         <span class="comment"># 不在起始位置匹配</span></span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(<span class="number">0</span>, <span class="number">3</span>)</span><br><span class="line">(<span class="number">11</span>, <span class="number">14</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="re-match与re-search的区别"><a href="#re-match与re-search的区别" class="headerlink" title="re.match与re.search的区别"></a>re.match与re.search的区别</h3><p>re.match只匹配字符串的开始，如果字符串开始不符合正则表达式，则匹配失败，函数返回None；而re.search匹配整个字符串，直到找到一个匹配。</p>
+<h3 id="3、检索和替换"><a href="#3、检索和替换" class="headerlink" title="3、检索和替换"></a>3、检索和替换</h3><pre><code>re.sub(pattren, repl, string, count=0, flags=0)
+说明：repl：替换的字符串，也可以为一个函数。
+count：模式匹配后替换的最大次数，默认0表示替换所有的匹配。</code></pre><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"><span class="comment"># -*- coding: UTF-8 -*-</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"> </span><br><span class="line">phone = <span class="string">"2004-959-559 # 这是一个国外电话号码"</span></span><br><span class="line"> </span><br><span class="line"><span class="comment"># 删除字符串中的 Python注释 </span></span><br><span class="line">num = re.sub(<span class="string">r'#.*$'</span>, <span class="string">""</span>, phone)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"电话号码是: "</span>, num</span><br><span class="line"> </span><br><span class="line"><span class="comment"># 删除非数字(-)的字符串 </span></span><br><span class="line">num = re.sub(<span class="string">r'\D'</span>, <span class="string">""</span>, phone)</span><br><span class="line"><span class="keyword">print</span> <span class="string">"电话号码是 : "</span>, num</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">电话号码是:  <span class="number">2004</span><span class="number">-959</span><span class="number">-559</span> </span><br><span class="line">电话号码是 :  <span class="number">2004959559</span></span><br></pre></td></tr></table></figure>
+
+<pre><code>findall
+在字符串中找到正则表达式所匹配的所有子串，并返回一个列表，如果没有找到匹配的，则返回空列表。
+    注意： match 和 search 是匹配一次 findall 匹配所有。</code></pre><p>语法格式为：</p>
+<pre><code>    findall(string[, pos[, endpos]])
+
+参数：
+string : 待匹配的字符串。
+pos :     可选参数，指定字符串的起始位置，默认为 0。
+endpos : 可选参数，指定字符串的结束位置，默认为字符串的长度。</code></pre><p>实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -*- coding:UTF8 -*-</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"> </span><br><span class="line">pattern = re.compile(<span class="string">r'\d+'</span>)   <span class="comment"># 查找数字</span></span><br><span class="line">result1 = pattern.findall(<span class="string">'runoob 123 google 456'</span>)</span><br><span class="line">result2 = pattern.findall(<span class="string">'run88oob123google456'</span>, <span class="number">0</span>, <span class="number">10</span>)</span><br><span class="line"> </span><br><span class="line">print(result1)</span><br><span class="line">print(result2)</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="string">'123'</span>, <span class="string">'456'</span>]</span><br><span class="line">[<span class="string">'88'</span>, <span class="string">'12'</span>]</span><br></pre></td></tr></table></figure>
+
+<pre><code>re.finditer
+和 findall 类似，在字符串中找到正则表达式所匹配的所有子串，并把它们作为一个迭代器返回。
+    re.finditer(pattern, string, flags=0)</code></pre><p>实例：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">it = re.finditer(<span class="string">r"\d+"</span>,<span class="string">"12a32bc43jf3"</span>) </span><br><span class="line"><span class="keyword">for</span> match <span class="keyword">in</span> it: </span><br><span class="line">    <span class="keyword">print</span> (match.group() )</span><br></pre></td></tr></table></figure>
+
+<p>结果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">12</span> </span><br><span class="line"><span class="number">32</span> </span><br><span class="line"><span class="number">43</span> </span><br><span class="line"><span class="number">3</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="4、正则表达式修饰符-可选标志"><a href="#4、正则表达式修饰符-可选标志" class="headerlink" title="4、正则表达式修饰符 - 可选标志"></a>4、正则表达式修饰符 - 可选标志</h3><pre><code>re.I：使匹配对大小写不敏感
+re.L：做本地化识别（locale-aware）匹配
+re.M：多行匹配，影响 ^ 和 $
+re.S：使 . 匹配包括换行在内的所有字符
+re.U：根据Unicode字符集解析字符。这个标志影响 \w, \W, \b, \B.
+re.X：该标志通过给予你更灵活的格式以便你将正则表达式写得更易于理解。</code></pre><h3 id="6、正则表达式模式"><a href="#6、正则表达式模式" class="headerlink" title="6、正则表达式模式"></a>6、正则表达式模式</h3><p>^：匹配字符串的开头<br>$：匹配字符串的末尾。<br>.：匹配任意字符，除了换行符，当re.DOTALL标记被指定时，则可以匹配包括换行符的任意字符。<br>[…]：用来表示一组字符,单独列出：[amk] 匹配’a’，’m’或’k’<br>[^…]：不在[]中的字符：[^abc] 匹配除了a,b,c之外的字符。<br>re<em>：匹配0个或多个的表达式。<br>re+：匹配1个或多个的表达式。<br>re?：匹配0个或1个由前面的正则表达式定义的片段，非贪婪方式<br>re{ n}：精确匹配 n 个前面表达式。例如， o{2} 不能匹配 “Bob” 中的 “o”，但是能匹配 “food” 中的两个 o。<br>re{ n,}：匹配 n 个前面表达式。例如， o{2,} 不能匹配”Bob”中的”o”，但能匹配 “foooood”中的所有 o。”o{1,}” 等价于 “o+”。”o{0,}” 则等价于”o</em>“。<br>re{ n, m}：匹配 n 到 m 次由前面的正则表达式定义的片段，贪婪方式<br>a| b：匹配a或b<br>(re)：对正则表达式分组并记住匹配的文本<br>(?imx)：正则表达式包含三种可选标志：i, m, 或 x 。只影响括号中的区域。<br>(?-imx)：正则表达式关闭 i, m, 或 x 可选标志。只影响括号中的区域。<br>(?: re)：类似 (…), 但是不表示一个组<br>(?imx: re)：在括号中使用i, m, 或 x 可选标志<br>(?-imx: re)：在括号中不使用i, m, 或 x 可选标志<br>(?#…)：注释.<br>(?= re)：前向肯定界定符。如果所含正则表达式，以 … 表示，在当前位置成功匹配时成功，否则失败。但一旦所含表达式已经尝试，匹配引擎根本没有提高；模式的剩余部分还要尝试界定符的右边。<br>(?! re)：前向否定界定符。与肯定界定符相反；当所含表达式不能在字符串当前位置匹配时成功<br>(?&gt; re)：匹配的独立模式，省去回溯。<br>\w：匹配字母数字及下划线<br>\W：匹配非字母数字及下划线<br>\s：匹配任意空白字符，等价于 [\t\n\r\f].<br>\S：匹配任意非空字符<br>\d：匹配任意数字，等价于 [0-9].<br>\D：匹配任意非数字<br>\A：匹配字符串开始<br>\Z：匹配字符串结束，如果是存在换行，只匹配到换行前的结束字符串。<br>\z：匹配字符串结束<br>\G：匹配最后匹配完成的位置。<br>\b：匹配一个单词边界，也就是指单词和空格间的位置。例如， ‘er\b’：可以匹配”never” 中的 ‘er’，但不能匹配 “verb” 中的 ‘er’。<br>\B：匹配非单词边界。’er\B’ 能匹配 “verb”中的’er’，但不能匹配 “never” 中的 ‘er’。<br>\n, \t, 等.    ：匹配一个换行符。匹配一个制表符。等<br>\1…\9：匹配第n个分组的内容。<br>\10：匹配第n个分组的内容，如果它经匹配。否则指的是八进制字符码的表达式。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/09/10/IgniteMe逆向算法/" rel="next" title="一道RE学习：IngiteMe">
+                <i class="fa fa-chevron-left"></i> 一道RE学习：IngiteMe
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/09/10/MD5算法学习/" rel="prev" title="MD5算法学习">
+                MD5算法学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Slipslop">
+            
+              <p class="site-author-name" itemprop="name">Slipslop</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/yourname" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="skype:yourname?call|chat" target="_blank" title="Skype">
+                      
+                        <i class="fa fa-fw fa-skype"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、re-match函数"><span class="nav-number">1.</span> <span class="nav-text">1、re.match函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#函数语法："><span class="nav-number">1.1.</span> <span class="nav-text">函数语法：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、re-search方法"><span class="nav-number">2.</span> <span class="nav-text">2、re.search方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#re-match与re-search的区别"><span class="nav-number">3.</span> <span class="nav-text">re.match与re.search的区别</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、检索和替换"><span class="nav-number">4.</span> <span class="nav-text">3、检索和替换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、正则表达式修饰符-可选标志"><span class="nav-number">5.</span> <span class="nav-text">4、正则表达式修饰符 - 可选标志</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、正则表达式模式"><span class="nav-number">6.</span> <span class="nav-text">6、正则表达式模式</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Slipslop</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/ioufev/love.js"></script>
+
+</body>
+</html>

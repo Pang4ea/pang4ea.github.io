@@ -79,22 +79,22 @@
 
 
 
-<meta name="description" content="##1、静态修改PE输入表法准备工作：一个自行编写的MsgDLL.dll，导出了一个Msg()。修改对象：系统（Windows XP）自带的“记事本”程序notepad.exe。修改目标：启动notepad.exe时能够加载MsgDLL.dll。MsgDLL.dll的主要功能是在DllMain中弹出一个MessageBox来展示自己的存在，代码如下。 12345678910111213141516">
+<meta name="description" content="1、静态修改PE输入表法准备工作：一个自行编写的MsgDLL.dll，导出了一个Msg()。修改对象：系统（Windows XP）自带的“记事本”程序notepad.exe。修改目标：启动notepad.exe时能够加载MsgDLL.dll。MsgDLL.dll的主要功能是在DllMain中弹出一个MessageBox来展示自己的存在，代码如下。 1234567891011121314151617">
 <meta property="og:type" content="article">
 <meta property="og:title" content="DLL注入方法（一）通过干预输入表处理过程加载目标DLL">
 <meta property="og:url" content="http://yoursite.com/2020/03/19/DLL注入方法（一）静态修改PE输入表法/index.html">
 <meta property="og:site_name" content="Pangaea">
-<meta property="og:description" content="##1、静态修改PE输入表法准备工作：一个自行编写的MsgDLL.dll，导出了一个Msg()。修改对象：系统（Windows XP）自带的“记事本”程序notepad.exe。修改目标：启动notepad.exe时能够加载MsgDLL.dll。MsgDLL.dll的主要功能是在DllMain中弹出一个MessageBox来展示自己的存在，代码如下。 12345678910111213141516">
+<meta property="og:description" content="1、静态修改PE输入表法准备工作：一个自行编写的MsgDLL.dll，导出了一个Msg()。修改对象：系统（Windows XP）自带的“记事本”程序notepad.exe。修改目标：启动notepad.exe时能够加载MsgDLL.dll。MsgDLL.dll的主要功能是在DllMain中弹出一个MessageBox来展示自己的存在，代码如下。 1234567891011121314151617">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/03/587bcf3439119a02.png">
 <meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/03/a150910b67761167.png">
 <meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/03/b85ed2c39f88b377.png">
 <meta property="og:image" content="https://ae01.alicdn.com/kf/Uac8676a886504790979ef51054c0784fS.jpg">
 <meta property="og:image" content="https://ae01.alicdn.com/kf/U1e796ce9dee94bdfad8277d5d22a2184i.jpg">
-<meta property="og:updated_time" content="2020-03-18T16:52:40.705Z">
+<meta property="og:updated_time" content="2020-03-18T16:55:45.497Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="DLL注入方法（一）通过干预输入表处理过程加载目标DLL">
-<meta name="twitter:description" content="##1、静态修改PE输入表法准备工作：一个自行编写的MsgDLL.dll，导出了一个Msg()。修改对象：系统（Windows XP）自带的“记事本”程序notepad.exe。修改目标：启动notepad.exe时能够加载MsgDLL.dll。MsgDLL.dll的主要功能是在DllMain中弹出一个MessageBox来展示自己的存在，代码如下。 12345678910111213141516">
+<meta name="twitter:description" content="1、静态修改PE输入表法准备工作：一个自行编写的MsgDLL.dll，导出了一个Msg()。修改对象：系统（Windows XP）自带的“记事本”程序notepad.exe。修改目标：启动notepad.exe时能够加载MsgDLL.dll。MsgDLL.dll的主要功能是在DllMain中弹出一个MessageBox来展示自己的存在，代码如下。 1234567891011121314151617">
 <meta name="twitter:image" content="https://ftp.bmp.ovh/imgs/2020/03/587bcf3439119a02.png">
 
 
@@ -345,7 +345,7 @@
       
 
       
-        <p>##1、静态修改PE输入表法<br><strong>准备工作：</strong>一个自行编写的MsgDLL.dll，导出了一个Msg()。<br><strong>修改对象：</strong>系统（Windows XP）自带的“记事本”程序notepad.exe。<br><strong>修改目标：</strong>启动notepad.exe时能够加载MsgDLL.dll。<br>MsgDLL.dll的主要功能是在DllMain中弹出一个MessageBox来展示自己的存在，代码如下。</p>
+        <h2 id="1、静态修改PE输入表法"><a href="#1、静态修改PE输入表法" class="headerlink" title="1、静态修改PE输入表法"></a>1、静态修改PE输入表法</h2><p><strong>准备工作：</strong>一个自行编写的MsgDLL.dll，导出了一个Msg()。<br><strong>修改对象：</strong>系统（Windows XP）自带的“记事本”程序notepad.exe。<br><strong>修改目标：</strong>启动notepad.exe时能够加载MsgDLL.dll。<br>MsgDLL.dll的主要功能是在DllMain中弹出一个MessageBox来展示自己的存在，代码如下。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">VOID Msg();</span><br><span class="line"></span><br><span class="line">DWORD WINAPI ThreadShow(LPVOID lpParameter);</span><br><span class="line">void WriteLog(char *info,char *logfilename);</span><br><span class="line"></span><br><span class="line">BOOL APIENTRY DllMain( HANDLE hModule, </span><br><span class="line">                       DWORD  ul_reason_for_call, </span><br><span class="line">                       LPVOID lpReserved</span><br><span class="line">					 )</span><br><span class="line">&#123;</span><br><span class="line">	if (ul_reason_for_call == DLL_PROCESS_ATTACH)</span><br><span class="line">	&#123;</span><br><span class="line">		CreateThread(NULL,0,ThreadShow,NULL,0,NULL);</span><br><span class="line">	&#125;</span><br><span class="line">    return TRUE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">DWORD WINAPI ThreadShow(LPVOID lpParameter)</span><br><span class="line">&#123;</span><br><span class="line">	char szPath[MAX_PATH]=&#123;0&#125;;</span><br><span class="line">	char szBuf[1024]=&#123;0&#125;;</span><br><span class="line">	</span><br><span class="line">	GetModuleFileName(NULL,szPath,MAX_PATH);</span><br><span class="line">	sprintf(szBuf,&quot;Dll已注入到进程 %s [Pid = %d]\n&quot;,szPath,GetCurrentProcessId());</span><br><span class="line">	//以三种方式显示自己的存在</span><br><span class="line">	//1.控制台</span><br><span class="line">	//fprintf((FILE*)GetStdHandle(STD_ERROR_HANDLE),&quot;%s&quot;,szBuf);</span><br><span class="line">	printf(&quot;%s&quot;,szBuf);</span><br><span class="line">	//2.调试器</span><br><span class="line">	OutputDebugString(szBuf);</span><br><span class="line">	//3.Msgbox</span><br><span class="line">	Sleep(800);</span><br><span class="line">	MessageBox(NULL,szBuf,&quot;Dll Inject&quot;,MB_OK);</span><br><span class="line">	return 0 ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void WriteLog(char *info,char *logfilename)</span><br><span class="line">&#123;</span><br><span class="line">	HANDLE	hFile;</span><br><span class="line">	static char	tmp[100];</span><br><span class="line">	DWORD	dwwritten=0;</span><br><span class="line">	static SYSTEMTIME systime;</span><br><span class="line">	GetLocalTime(&amp;systime);</span><br><span class="line">	sprintf(tmp,&quot;%04dd-%02d-%02d %02d:%02d:%02d  &quot;,systime.wYear,systime.wMonth,systime.wDay,systime.wHour,systime.wMinute,systime.wSecond);</span><br><span class="line">	hFile=CreateFile(logfilename,GENERIC_WRITE,0,NULL,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL,NULL);</span><br><span class="line">	if(INVALID_HANDLE_VALUE!=hFile) </span><br><span class="line">	&#123;</span><br><span class="line">		SetFilePointer(hFile,0,0,SEEK_END);</span><br><span class="line">		WriteFile(hFile,tmp,lstrlen(tmp),&amp;dwwritten,NULL);</span><br><span class="line">		WriteFile(hFile,info,lstrlen(info),&amp;dwwritten,NULL);</span><br><span class="line">		WriteFile(hFile,&quot;\r\n&quot;,2,&amp;dwwritten,NULL);</span><br><span class="line">		CloseHandle(hFile);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">//导出函数</span><br><span class="line">VOID Msg()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>（1）备份原IID结构<br>原输入表的RVA为0x7604，它的RawOffset为0x7604 - 0x1000 + 0x400 = 0x6A04，大小为0xC8。<br><img src="https://ftp.bmp.ovh/imgs/2020/03/587bcf3439119a02.png" alt><br>增加一个节，将IID数组复制到空白区域，偏移量是0x10400，如图所示。<br><img src="https://ftp.bmp.ovh/imgs/2020/03/a150910b67761167.png" alt></p>
@@ -436,8 +436,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -518,6 +527,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、静态修改PE输入表法"><span class="nav-number">1.</span> <span class="nav-text">1、静态修改PE输入表法</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

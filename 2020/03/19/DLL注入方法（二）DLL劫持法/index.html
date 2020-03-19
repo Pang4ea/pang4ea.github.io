@@ -79,13 +79,20 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Pangaea">
-<meta property="og:url" content="http://yoursite.com/tags/XCTF-RE/index.html">
+<meta name="description" content="1、DLL劫持漏洞原理在Windows系统中，为了节省内存和实现代码重用，微软在Windows操作系统中实现了一种共享函数库的方式。这就是DLL（Dynamic Link Library），即动态链接库，这种库包含了可由多个程序同时使用的代码和数据。每个DLL都有一个入口函数（DLLMain），系统在特定环境下会调用DLLMain。在下面的事件发生时就会调用dll的入口函数： 1.进程装载DLL。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="DLL劫持">
+<meta property="og:url" content="http://yoursite.com/2020/03/19/DLL注入方法（二）DLL劫持法/index.html">
 <meta property="og:site_name" content="Pangaea">
+<meta property="og:description" content="1、DLL劫持漏洞原理在Windows系统中，为了节省内存和实现代码重用，微软在Windows操作系统中实现了一种共享函数库的方式。这就是DLL（Dynamic Link Library），即动态链接库，这种库包含了可由多个程序同时使用的代码和数据。每个DLL都有一个入口函数（DLLMain），系统在特定环境下会调用DLLMain。在下面的事件发生时就会调用dll的入口函数： 1.进程装载DLL。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://image.suning.cn/uimg/ZR/share_order/158463063211089575.jpg">
+<meta property="og:image" content="https://image.suning.cn/uimg/ZR/share_order/158463134468005218.jpg">
+<meta property="og:updated_time" content="2020-03-19T15:25:52.243Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pangaea">
+<meta name="twitter:title" content="DLL劫持">
+<meta name="twitter:description" content="1、DLL劫持漏洞原理在Windows系统中，为了节省内存和实现代码重用，微软在Windows操作系统中实现了一种共享函数库的方式。这就是DLL（Dynamic Link Library），即动态链接库，这种库包含了可由多个程序同时使用的代码和数据。每个DLL都有一个入口函数（DLLMain），系统在特定环境下会调用DLLMain。在下面的事件发生时就会调用dll的入口函数： 1.进程装载DLL。">
+<meta name="twitter:image" content="https://image.suning.cn/uimg/ZR/share_order/158463063211089575.jpg">
 
 
 
@@ -115,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/tags/XCTF-RE/">
+  <link rel="canonical" href="http://yoursite.com/2020/03/19/DLL注入方法（二）DLL劫持法/">
 
 
 
 
 
-  <title>标签: XCTF-RE | Pangaea</title>
+  <title>DLL劫持 | Pangaea</title>
   
 
 
@@ -140,7 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left ">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -254,52 +261,158 @@
           <div id="content" class="content">
             
 
-  
-  
-  
-  <div class="post-block tag">
+  <div id="posts" class="posts-expand">
+    
 
-    <div id="posts" class="posts-collapse">
-      <div class="collection-title">
-        <h1>XCTF-RE<small>标签</small>
-        </h1>
-      </div>
+  
 
-      
-        
+  
+  
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/19/DLL注入方法（二）DLL劫持法/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Slipslop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pangaea">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2019/09/10/IgniteMe逆向算法/" itemprop="url">
-              
-                <span itemprop="name">一道RE学习：IngiteMe</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">DLL劫持</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated" datetime="2019-09-10T17:48:03+08:00" content="2019-09-10">
-          09-10
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-19T23:25:08+08:00">
+                2020-03-19
+              </time>
+            
 
-    </header>
-  </article>
+            
 
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1、DLL劫持漏洞原理"><a href="#1、DLL劫持漏洞原理" class="headerlink" title="1、DLL劫持漏洞原理"></a>1、DLL劫持漏洞原理</h2><p>在Windows系统中，为了节省内存和实现代码重用，微软在Windows操作系统中实现了一种共享函数库的方式。这就是DLL（Dynamic Link Library），即动态链接库，这种库包含了可由多个程序同时使用的代码和数据。<br>每个DLL都有一个入口函数（DLLMain），系统在特定环境下会调用DLLMain。在下面的事件发生时就会调用dll的入口函数：</p>
+<pre><code>1.进程装载DLL。
+2.进程卸载DLL。
+3.DLL在被装载之后创建了新线程。
+4.DLL在被装载之后一个线程被终止了。</code></pre><p><strong><em>windows xp sp2之后</em></strong><br>微软为了防止DLL劫持漏洞的产生，在XP SP2之后，添加了一个SafeDllSearchMode的注册表属性。注册表路径如下：</p>
+<pre><code>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\SafeDllSearchMode</code></pre><p>当SafeDllSearchMode的值设置为1，即安全DLL搜索模式开启时，查找DLL的目录顺序如下：</p>
+<pre><code>1.程序所在目录
+2.系统目录即 SYSTEM32 目录。
+3.16位系统目录即 SYSTEM 目录。
+4.Windows目录。
+5.加载 DLL 时所在的当前目录。
+6.PATH环境变量中列出的目录。</code></pre><p><strong><em>windows 7 以上版本</em></strong><br>系统没有了SafeDllSearchMode 而采用KnownDLLs，那么凡是此项下的DLL文件就会被禁止从exe自身所在的目录下调用，而只能从系统目录即SYSTEM32目录下调用，其注册表位置：</p>
+<p>HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs</p>
+<h2 id="2、下面我们结合AheadLib工具进行DLL劫持"><a href="#2、下面我们结合AheadLib工具进行DLL劫持" class="headerlink" title="2、下面我们结合AheadLib工具进行DLL劫持"></a>2、下面我们结合AheadLib工具进行DLL劫持</h2><p>这是劫持前的运行样子：<br><img src="https://image.suning.cn/uimg/ZR/share_order/158463063211089575.jpg" alt></p>
+<p>运行AheadLib.exe，生成.cpp文件，复制下其中的代码，在VC环境中创建DLL项目，将代码粘贴上去，加入一段我们自己的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MessageBox(NULL,&quot;劫持成功!!!&quot;,TEXT(&quot;DLL Path&quot;),MB_ICONSTOP);</span><br></pre></td></tr></table></figure>
+
+<p>将原MsgDll.dll文件改名为a.dll，编译，生成的.dll文件改名为MsgDll.dll,将MsgDll.dll文件放入到notepad.exe文件目录下，点击运行，可以看到劫持成功。<br><img src="https://image.suning.cn/uimg/ZR/share_order/158463134468005218.jpg" alt></p>
 
       
     </div>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/19/DLL注入方法（一）静态修改PE输入表法/" rel="next" title="DLL注入方法（一）通过干预输入表处理过程加载目标DLL">
+                <i class="fa fa-chevron-left"></i> DLL注入方法（一）通过干预输入表处理过程加载目标DLL
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -307,6 +420,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -327,8 +444,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -409,6 +535,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、DLL劫持漏洞原理"><span class="nav-number">1.</span> <span class="nav-text">1、DLL劫持漏洞原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、下面我们结合AheadLib工具进行DLL劫持"><span class="nav-number">2.</span> <span class="nav-text">2、下面我们结合AheadLib工具进行DLL劫持</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -555,6 +697,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

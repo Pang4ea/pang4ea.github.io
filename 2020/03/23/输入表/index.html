@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Windows内核,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,18 +79,28 @@
 
 
 
-<meta name="description" content="Windows 内核函数Windows 内核部分会调用一些内核层的函数。这些函数都以固定的开始前缀，分别属于内核中不同的管理模块。通过函数名就可以大致知道这个函数所属的层次和模块。这些主要的前缀如下： * Ex：管理层。“Ex”是“Executive”的开头两个字母。 * Ke：核心层。“Ke”是“Kernel”的开头两个字母。 * HAL：硬件抽象层。“HAL”是“Hardware Abstra">
-<meta name="keywords" content="Windows内核">
+<meta name="description" content="1、输入表1.1 输入表结构OriginalFirstThunk和FirstThunk相似，它们分别指向两个本质上相同的数组IMAGE_THUNK_DATA结构。它是一个指针大小的联合体（union）。每个IMAGE_THUNK_DATA元素对应于一个可执行文件输入的函数。具体如下：IMAGRE_IMPORT_BY_NAME结构仅有一个字节大小，存储了一个输入函数的相关信息，结构如下： 1.2 输">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Windows内核函数">
-<meta property="og:url" content="http://yoursite.com/2019/09/12/Windows 内核函数/index.html">
+<meta property="og:title" content="输入表">
+<meta property="og:url" content="http://yoursite.com/2020/03/23/输入表/index.html">
 <meta property="og:site_name" content="Pangaea">
-<meta property="og:description" content="Windows 内核函数Windows 内核部分会调用一些内核层的函数。这些函数都以固定的开始前缀，分别属于内核中不同的管理模块。通过函数名就可以大致知道这个函数所属的层次和模块。这些主要的前缀如下： * Ex：管理层。“Ex”是“Executive”的开头两个字母。 * Ke：核心层。“Ke”是“Kernel”的开头两个字母。 * HAL：硬件抽象层。“HAL”是“Hardware Abstra">
+<meta property="og:description" content="1、输入表1.1 输入表结构OriginalFirstThunk和FirstThunk相似，它们分别指向两个本质上相同的数组IMAGE_THUNK_DATA结构。它是一个指针大小的联合体（union）。每个IMAGE_THUNK_DATA元素对应于一个可执行文件输入的函数。具体如下：IMAGRE_IMPORT_BY_NAME结构仅有一个字节大小，存储了一个输入函数的相关信息，结构如下： 1.2 输">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-12T16:37:10.677Z">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/23/8HApfU.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/23/8HAfc4.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/23/8HEYr9.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/23/8HViZR.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/23/8HeRaR.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/23/8HnoHH.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/23/8HK8Fs.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/23/8HKh0e.md.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/23/8HaN5V.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/03/23/8Hd1JK.png">
+<meta property="og:updated_time" content="2020-03-23T14:24:52.175Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Windows内核函数">
-<meta name="twitter:description" content="Windows 内核函数Windows 内核部分会调用一些内核层的函数。这些函数都以固定的开始前缀，分别属于内核中不同的管理模块。通过函数名就可以大致知道这个函数所属的层次和模块。这些主要的前缀如下： * Ex：管理层。“Ex”是“Executive”的开头两个字母。 * Ke：核心层。“Ke”是“Kernel”的开头两个字母。 * HAL：硬件抽象层。“HAL”是“Hardware Abstra">
+<meta name="twitter:title" content="输入表">
+<meta name="twitter:description" content="1、输入表1.1 输入表结构OriginalFirstThunk和FirstThunk相似，它们分别指向两个本质上相同的数组IMAGE_THUNK_DATA结构。它是一个指针大小的联合体（union）。每个IMAGE_THUNK_DATA元素对应于一个可执行文件输入的函数。具体如下：IMAGRE_IMPORT_BY_NAME结构仅有一个字节大小，存储了一个输入函数的相关信息，结构如下： 1.2 输">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/03/23/8HApfU.png">
 
 
 
@@ -120,13 +130,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/12/Windows 内核函数/">
+  <link rel="canonical" href="http://yoursite.com/2020/03/23/输入表/">
 
 
 
 
 
-  <title>Windows内核函数 | Pangaea</title>
+  <title>输入表 | Pangaea</title>
   
 
 
@@ -273,7 +283,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/12/Windows 内核函数/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/03/23/输入表/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Slipslop">
@@ -290,7 +300,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Windows内核函数</h1>
+          <h1 class="post-title" itemprop="name headline">输入表</h1>
         
 
         <div class="post-meta">
@@ -302,8 +312,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-12T23:00:00+08:00">
-                2019-09-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-23T22:24:39+08:00">
+                2020-03-23
               </time>
             
 
@@ -340,23 +350,10 @@
       
 
       
-        <h3 id="Windows-内核函数"><a href="#Windows-内核函数" class="headerlink" title="Windows 内核函数"></a>Windows 内核函数</h3><p>Windows 内核部分会调用一些内核层的函数。这些函数都以固定的开始前缀，分别属于内核中不同的管理模块。通过函数名就可以大致知道这个函数所属的层次和模块。这些主要的前缀如下：</p>
-<pre><code>* Ex：管理层。“Ex”是“Executive”的开头两个字母。
-* Ke：核心层。“Ke”是“Kernel”的开头两个字母。
-* HAL：硬件抽象层。“HAL”是“Hardware Abstraction Layer”的缩写。
-* Ob：对象管理。“Ob”是“Object”的开头两个字母。
-* MM：内存管理。“MM”是“Memory Manager”的缩写。
-* Ps：进程（线程）管理。“Ps”表示“Process”。
-* Se：安全管理。“Se”是“Security”的开头两个字母。
-* Io：I/O管理。
-* Fs：文件系统。“Fs”是“File System”的缩写。
-* Cc：文件缓存管理。“Cc”表示“Cache”。
-* Cm：系统配置管理。“Cm”是“Configuration Manager”的缩写。
-* Pp：即插即用管理。“Pp”表示“Pnp”。
-* Rtl：运行时程序库。“Rtl”是“Runtime Library”的缩写。
-* Zw/Nt：对应于SSDT中的服务函数，例如与文件或者注册表相关的操作函数。
-* Flt：Minifilter文件过滤驱动中调用的函数。
-* Ndis：Ndis网络框架中调用的函数。</code></pre>
+        <h2 id="1、输入表"><a href="#1、输入表" class="headerlink" title="1、输入表"></a>1、输入表</h2><h3 id="1-1-输入表结构"><a href="#1-1-输入表结构" class="headerlink" title="1.1 输入表结构"></a>1.1 输入表结构</h3><p><img src="https://s1.ax1x.com/2020/03/23/8HApfU.png" alt="8HApfU.png"><br>OriginalFirstThunk和FirstThunk相似，它们分别指向两个本质上相同的数组IMAGE_THUNK_DATA结构。<br><img src="https://s1.ax1x.com/2020/03/23/8HAfc4.png" alt="8HAfc4.png"><br>它是一个指针大小的联合体（union）。每个IMAGE_THUNK_DATA元素对应于一个可执行文件输入的函数。具体如下：<br><a href="https://imgchr.com/i/8HEYr9" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/03/23/8HEYr9.png" alt="8HEYr9.png"></a><br>IMAGRE_IMPORT_BY_NAME结构仅有一个字节大小，存储了一个输入函数的相关信息，结构如下：<br><img src="https://s1.ax1x.com/2020/03/23/8HViZR.png" alt="8HViZR.png"></p>
+<h3 id="1-2-输入地址表"><a href="#1-2-输入地址表" class="headerlink" title="1.2 输入地址表"></a>1.2 输入地址表</h3><p>OriginalFirstThunk是单独的一项，不可改写，称为INT。FirstThunk是PE装载器重写的。PE装载器首先搜索OriginalFirstThunk，如果找到，加载程序就迭代搜索数组中的每一个指针，找出每一个IMAGRE_IMPORT_NAME结构所指向的输入函数的地址。然后，加载器用真正的入口地址来替代由FirstThunk指向的IMAGE_THUNK_DATA数组里元素的值。因此该表被称为输入地址表（Import Address Table，IAT）<br><img src="https://s1.ax1x.com/2020/03/23/8HeRaR.png" alt="8HeRaR.png"></p>
+<h2 id="2、一道CTF实例（脱壳后IAT表修复）"><a href="#2、一道CTF实例（脱壳后IAT表修复）" class="headerlink" title="2、一道CTF实例（脱壳后IAT表修复）"></a>2、一道CTF实例（脱壳后IAT表修复）</h2><p>在这里我们主要讲IAT表，脱壳过程不做讲解。<br><img src="https://s1.ax1x.com/2020/03/23/8HnoHH.png" alt="8HnoHH.png"><br>从图中我们可以看出该文件的IAT表是错的。<br>打开OD，右键-&gt;查找-&gt;当前模块中的名称<br><img src="https://s1.ax1x.com/2020/03/23/8HK8Fs.png" alt="8HK8Fs.png"><br>可以看到，该程序第一个调用的为Sleep函数，该函数在PE中的偏移位置为26A4，我们继续查找PE中出现26A4的地方，如图所示：<br><a href="https://imgchr.com/i/8HKh0e" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/03/23/8HKh0e.md.png" alt="8HKh0e.md.png"></a><br>该位置即为IID数组的位置。<br>我们还要找到该程序加载了几个DLL，通过搜索我们可以发现，它调用了KERNEL32.dll（偏移位置27B0）、MSVCP90.dll（偏移位置24D0）、MSVCR90.dll（偏移位置2500）三个DLL。<br>现在我们开始修复IAT表，在2000位置插入<br><img src="https://s1.ax1x.com/2020/03/23/8HaN5V.png" alt="8HaN5V.png"><br>然后在空闲位置输入新的IAT表，改变的位置为2800和大小C8。<br><img src="https://s1.ax1x.com/2020/03/23/8Hd1JK.png" alt="8Hd1JK.png"><br>程序成功运行。</p>
+
       
     </div>
     
@@ -371,12 +368,6 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Windows内核/" rel="tag"># Windows内核</a>
-          
-        </div>
-      
 
       
       
@@ -386,8 +377,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/10/IgniteMe逆向算法/" rel="next" title="一道RE学习：IngiteMe">
-                <i class="fa fa-chevron-left"></i> 一道RE学习：IngiteMe
+              <a href="/2020/03/19/DLL注入方法（二）DLL劫持法/" rel="next" title="DLL注入方法（二）DLL劫持法">
+                <i class="fa fa-chevron-left"></i> DLL注入方法（二）DLL劫持法
               </a>
             
           </div>
@@ -395,10 +386,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/13/基础知识/" rel="prev" title="一些Windows基础知识">
-                一些Windows基础知识 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -551,7 +538,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-内核函数"><span class="nav-number">1.</span> <span class="nav-text">Windows 内核函数</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、输入表"><span class="nav-number">1.</span> <span class="nav-text">1、输入表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-1-输入表结构"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 输入表结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1-2-输入地址表"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 输入地址表</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、一道CTF实例（脱壳后IAT表修复）"><span class="nav-number">2.</span> <span class="nav-text">2、一道CTF实例（脱壳后IAT表修复）</span></a></li></ol></div>
             
 
           </div>

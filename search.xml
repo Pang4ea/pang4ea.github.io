@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[输入表]]></title>
+    <url>%2F2020%2F03%2F23%2F%E8%BE%93%E5%85%A5%E8%A1%A8%2F</url>
+    <content type="text"><![CDATA[1、输入表1.1 输入表结构OriginalFirstThunk和FirstThunk相似，它们分别指向两个本质上相同的数组IMAGE_THUNK_DATA结构。它是一个指针大小的联合体（union）。每个IMAGE_THUNK_DATA元素对应于一个可执行文件输入的函数。具体如下：IMAGRE_IMPORT_BY_NAME结构仅有一个字节大小，存储了一个输入函数的相关信息，结构如下： 1.2 输入地址表OriginalFirstThunk是单独的一项，不可改写，称为INT。FirstThunk是PE装载器重写的。PE装载器首先搜索OriginalFirstThunk，如果找到，加载程序就迭代搜索数组中的每一个指针，找出每一个IMAGRE_IMPORT_NAME结构所指向的输入函数的地址。然后，加载器用真正的入口地址来替代由FirstThunk指向的IMAGE_THUNK_DATA数组里元素的值。因此该表被称为输入地址表（Import Address Table，IAT） 2、一道CTF实例（脱壳后IAT表修复）在这里我们主要讲IAT表，脱壳过程不做讲解。从图中我们可以看出该文件的IAT表是错的。打开OD，右键-&gt;查找-&gt;当前模块中的名称可以看到，该程序第一个调用的为Sleep函数，该函数在PE中的偏移位置为26A4，我们继续查找PE中出现26A4的地方，如图所示：该位置即为IID数组的位置。我们还要找到该程序加载了几个DLL，通过搜索我们可以发现，它调用了KERNEL32.dll（偏移位置27B0）、MSVCP90.dll（偏移位置24D0）、MSVCR90.dll（偏移位置2500）三个DLL。现在我们开始修复IAT表，在2000位置插入然后在空闲位置输入新的IAT表，改变的位置为2800和大小C8。程序成功运行。]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[DLL注入方法（二）DLL劫持法]]></title>
     <url>%2F2020%2F03%2F19%2FDLL%E6%B3%A8%E5%85%A5%E6%96%B9%E6%B3%95%EF%BC%88%E4%BA%8C%EF%BC%89DLL%E5%8A%AB%E6%8C%81%E6%B3%95%2F</url>
     <content type="text"><![CDATA[1、DLL劫持漏洞原理在Windows系统中，为了节省内存和实现代码重用，微软在Windows操作系统中实现了一种共享函数库的方式。这就是DLL（Dynamic Link Library），即动态链接库，这种库包含了可由多个程序同时使用的代码和数据。每个DLL都有一个入口函数（DLLMain），系统在特定环境下会调用DLLMain。在下面的事件发生时就会调用dll的入口函数： 1.进程装载DLL。 2.进程卸载DLL。 3.DLL在被装载之后创建了新线程。 4.DLL在被装载之后一个线程被终止了。windows xp sp2之后微软为了防止DLL劫持漏洞的产生，在XP SP2之后，添加了一个SafeDllSearchMode的注册表属性。注册表路径如下： HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\SessionManager\SafeDllSearchMode当SafeDllSearchMode的值设置为1，即安全DLL搜索模式开启时，查找DLL的目录顺序如下： 1.程序所在目录 2.系统目录即 SYSTEM32 目录。 3.16位系统目录即 SYSTEM 目录。 4.Windows目录。 5.加载 DLL 时所在的当前目录。 6.PATH环境变量中列出的目录。windows 7 以上版本系统没有了SafeDllSearchMode 而采用KnownDLLs，那么凡是此项下的DLL文件就会被禁止从exe自身所在的目录下调用，而只能从系统目录即SYSTEM32目录下调用，其注册表位置： HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\KnownDLLs 2、下面我们结合AheadLib工具进行DLL劫持这是劫持前的运行样子： 运行AheadLib.exe，生成.cpp文件，复制下其中的代码，在VC环境中创建DLL项目，将代码粘贴上去，加入一段我们自己的代码： 1MessageBox(NULL,&quot;劫持成功!!!&quot;,TEXT(&quot;DLL Path&quot;),MB_ICONSTOP); 将原MsgDll.dll文件改名为a.dll，编译，生成的.dll文件改名为MsgDll.dll,将MsgDll.dll文件放入到notepad.exe文件目录下，点击运行，可以看到劫持成功。]]></content>

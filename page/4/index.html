@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Windows内核,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,18 +79,13 @@
 
 
 
-<meta name="description" content="Windows 内核函数Windows 内核部分会调用一些内核层的函数。这些函数都以固定的开始前缀，分别属于内核中不同的管理模块。通过函数名就可以大致知道这个函数所属的层次和模块。这些主要的前缀如下： * Ex：管理层。“Ex”是“Executive”的开头两个字母。 * Ke：核心层。“Ke”是“Kernel”的开头两个字母。 * HAL：硬件抽象层。“HAL”是“Hardware Abstra">
-<meta name="keywords" content="Windows内核">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Windows内核函数">
-<meta property="og:url" content="http://yoursite.com/2019/09/12/Windows 内核函数/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pangaea">
+<meta property="og:url" content="http://yoursite.com/page/4/index.html">
 <meta property="og:site_name" content="Pangaea">
-<meta property="og:description" content="Windows 内核函数Windows 内核部分会调用一些内核层的函数。这些函数都以固定的开始前缀，分别属于内核中不同的管理模块。通过函数名就可以大致知道这个函数所属的层次和模块。这些主要的前缀如下： * Ex：管理层。“Ex”是“Executive”的开头两个字母。 * Ke：核心层。“Ke”是“Kernel”的开头两个字母。 * HAL：硬件抽象层。“HAL”是“Hardware Abstra">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-09-12T16:37:10.677Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Windows内核函数">
-<meta name="twitter:description" content="Windows 内核函数Windows 内核部分会调用一些内核层的函数。这些函数都以固定的开始前缀，分别属于内核中不同的管理模块。通过函数名就可以大致知道这个函数所属的层次和模块。这些主要的前缀如下： * Ex：管理层。“Ex”是“Executive”的开头两个字母。 * Ke：核心层。“Ke”是“Kernel”的开头两个字母。 * HAL：硬件抽象层。“HAL”是“Hardware Abstra">
+<meta name="twitter:title" content="Pangaea">
 
 
 
@@ -120,13 +115,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/12/Windows 内核函数/">
+  <link rel="canonical" href="http://yoursite.com/page/4/">
 
 
 
 
 
-  <title>Windows内核函数 | Pangaea</title>
+  <title>Pangaea</title>
   
 
 
@@ -145,7 +140,8 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -258,9 +254,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -273,7 +269,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/12/Windows 内核函数/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/Python正则表达式的学习/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Slipslop">
@@ -290,7 +286,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Windows内核函数</h1>
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/10/Python正则表达式的学习/" itemprop="url">Python正则表达式的学习</a></h1>
         
 
         <div class="post-meta">
@@ -302,8 +300,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-12T23:00:00+08:00">
-                2019-09-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T17:48:03+08:00">
+                2019-09-10
               </time>
             
 
@@ -340,23 +338,19 @@
       
 
       
-        <h3 id="Windows-内核函数"><a href="#Windows-内核函数" class="headerlink" title="Windows 内核函数"></a>Windows 内核函数</h3><p>Windows 内核部分会调用一些内核层的函数。这些函数都以固定的开始前缀，分别属于内核中不同的管理模块。通过函数名就可以大致知道这个函数所属的层次和模块。这些主要的前缀如下：</p>
-<pre><code>* Ex：管理层。“Ex”是“Executive”的开头两个字母。
-* Ke：核心层。“Ke”是“Kernel”的开头两个字母。
-* HAL：硬件抽象层。“HAL”是“Hardware Abstraction Layer”的缩写。
-* Ob：对象管理。“Ob”是“Object”的开头两个字母。
-* MM：内存管理。“MM”是“Memory Manager”的缩写。
-* Ps：进程（线程）管理。“Ps”表示“Process”。
-* Se：安全管理。“Se”是“Security”的开头两个字母。
-* Io：I/O管理。
-* Fs：文件系统。“Fs”是“File System”的缩写。
-* Cc：文件缓存管理。“Cc”表示“Cache”。
-* Cm：系统配置管理。“Cm”是“Configuration Manager”的缩写。
-* Pp：即插即用管理。“Pp”表示“Pnp”。
-* Rtl：运行时程序库。“Rtl”是“Runtime Library”的缩写。
-* Zw/Nt：对应于SSDT中的服务函数，例如与文件或者注册表相关的操作函数。
-* Flt：Minifilter文件过滤驱动中调用的函数。
-* Ndis：Ndis网络框架中调用的函数。</code></pre>
+        
+          
+          1、re.match函数re.match尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。
+函数语法：1、re.match(pattren, string
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/10/Python正则表达式的学习/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
       
     </div>
     
@@ -371,40 +365,14 @@
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Windows内核/" rel="tag"># Windows内核</a>
-          
-        </div>
+
+      
+
       
 
       
       
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2019/09/10/IgniteMe逆向算法/" rel="next" title="一道RE学习：IngiteMe">
-                <i class="fa fa-chevron-left"></i> 一道RE学习：IngiteMe
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/13/基础知识/" rel="prev" title="一些Windows基础知识">
-                一些Windows基础知识 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -414,11 +382,14 @@
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/3/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span>
+  </nav>
+
 
 
           </div>
@@ -426,10 +397,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -450,17 +417,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -541,22 +499,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Windows-内核函数"><span class="nav-number">1.</span> <span class="nav-text">Windows 内核函数</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -703,10 +645,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 

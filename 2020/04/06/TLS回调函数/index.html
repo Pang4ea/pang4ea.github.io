@@ -79,21 +79,22 @@
 
 
 
-<meta name="description" content="1、题目内容前两天做了道关于base64算法的题，flag为一段base64编码过后的密文，下面是这道题的链接：https://adworld.xctf.org.cn/media/task/attachments/a5c0e8322d9645468befabddfe0cb51d.exe 题目来源：XCTF社区2、解题过程这是一个exe文件，先用PEID进行查壳，没有壳，运行看看，要求你输入一个fl">
+<meta name="description" content="代码逆向分析领域中，TLS（Thread Local Storage，线程局部存储）回调函数（Callback Function）常用于反调试。TLS回调函数的调用运行要先于EP代码的执行，该特征使它可以作为一种反调试技术使用。 1、程序：HelloTls.exe运行练习程序文件（HelloTls.exe），弹出1一个消息框，单机“确定”按钮后，程序终止运行。下面使用OllyDbg调试练习示例程序">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一道base64算法CTF">
-<meta property="og:url" content="http://yoursite.com/2019/09/13/一道BASE64编码算法CTF/index.html">
+<meta property="og:title" content="TLS回调函数">
+<meta property="og:url" content="http://yoursite.com/2020/04/06/TLS回调函数/index.html">
 <meta property="og:site_name" content="Pangaea">
-<meta property="og:description" content="1、题目内容前两天做了道关于base64算法的题，flag为一段base64编码过后的密文，下面是这道题的链接：https://adworld.xctf.org.cn/media/task/attachments/a5c0e8322d9645468befabddfe0cb51d.exe 题目来源：XCTF社区2、解题过程这是一个exe文件，先用PEID进行查壳，没有壳，运行看看，要求你输入一个fl">
+<meta property="og:description" content="代码逆向分析领域中，TLS（Thread Local Storage，线程局部存储）回调函数（Callback Function）常用于反调试。TLS回调函数的调用运行要先于EP代码的执行，该特征使它可以作为一种反调试技术使用。 1、程序：HelloTls.exe运行练习程序文件（HelloTls.exe），弹出1一个消息框，单机“确定”按钮后，程序终止运行。下面使用OllyDbg调试练习示例程序">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/main.png">
-<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/base64.png">
-<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/16bf2a37b522f4cc551934fd2feb3f58.png">
-<meta property="og:updated_time" content="2019-09-13T03:33:50.450Z">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/06/G6SLWV.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/06/G6Znvn.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/06/G6nE4O.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/06/G6Ksc4.png">
+<meta property="og:updated_time" content="2020-04-06T14:58:03.483Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一道base64算法CTF">
-<meta name="twitter:description" content="1、题目内容前两天做了道关于base64算法的题，flag为一段base64编码过后的密文，下面是这道题的链接：https://adworld.xctf.org.cn/media/task/attachments/a5c0e8322d9645468befabddfe0cb51d.exe 题目来源：XCTF社区2、解题过程这是一个exe文件，先用PEID进行查壳，没有壳，运行看看，要求你输入一个fl">
-<meta name="twitter:image" content="https://www.z4a.net/images/2019/09/13/main.png">
+<meta name="twitter:title" content="TLS回调函数">
+<meta name="twitter:description" content="代码逆向分析领域中，TLS（Thread Local Storage，线程局部存储）回调函数（Callback Function）常用于反调试。TLS回调函数的调用运行要先于EP代码的执行，该特征使它可以作为一种反调试技术使用。 1、程序：HelloTls.exe运行练习程序文件（HelloTls.exe），弹出1一个消息框，单机“确定”按钮后，程序终止运行。下面使用OllyDbg调试练习示例程序">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/04/06/G6SLWV.png">
 
 
 
@@ -123,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/13/一道BASE64编码算法CTF/">
+  <link rel="canonical" href="http://yoursite.com/2020/04/06/TLS回调函数/">
 
 
 
 
 
-  <title>一道base64算法CTF | Pangaea</title>
+  <title>TLS回调函数 | Pangaea</title>
   
 
 
@@ -276,7 +277,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/13/一道BASE64编码算法CTF/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/06/TLS回调函数/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Slipslop">
@@ -293,7 +294,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">一道base64算法CTF</h1>
+          <h1 class="post-title" itemprop="name headline">TLS回调函数</h1>
         
 
         <div class="post-meta">
@@ -305,8 +306,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-13T11:00:00+08:00">
-                2019-09-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-06T22:57:32+08:00">
+                2020-04-06
               </time>
             
 
@@ -343,18 +344,14 @@
       
 
       
-        <h3 id="1、题目内容"><a href="#1、题目内容" class="headerlink" title="1、题目内容"></a>1、题目内容</h3><pre><code>前两天做了道关于base64算法的题，flag为一段base64编码过后的密文，下面是这道题的链接：https://adworld.xctf.org.cn/media/task/attachments/a5c0e8322d9645468befabddfe0cb51d.exe
-题目来源：XCTF社区</code></pre><h3 id="2、解题过程"><a href="#2、解题过程" class="headerlink" title="2、解题过程"></a>2、解题过程</h3><p>这是一个exe文件，先用PEID进行查壳，没有壳，运行看看，要求你输入一个flah？拖入IDA，找到_main函数，按F5，代码如下<br><img src="https://www.z4a.net/images/2019/09/13/main.png" alt="此处输入图片的描述"><br>我们可以看到一串关键字符串，逆推，字符串上方有一句for循环语句，经过异或得到下方的字符串，我用C语言写了段代码进行解密，代码如下：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#include &lt;stdio.h&gt;</span></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int i;</span><br><span class="line">	char str[<span class="number">50</span>] = <span class="string">"you_know_how_to_remove_junk_code"</span>;</span><br><span class="line">	<span class="keyword">for</span>(i = <span class="number">0</span>; str[i] != <span class="string">'\0'</span>; i++)</span><br><span class="line">		str[i] = str[i] ^ <span class="number">0x25</span>;</span><br><span class="line">	printf(<span class="string">"%s\n"</span>, str);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>代码逆向分析领域中，TLS（Thread Local Storage，线程局部存储）回调函数（Callback Function）常用于反调试。TLS回调函数的调用运行要先于EP代码的执行，该特征使它可以作为一种反调试技术使用。</p>
+<h3 id="1、程序：HelloTls-exe"><a href="#1、程序：HelloTls-exe" class="headerlink" title="1、程序：HelloTls.exe"></a>1、程序：HelloTls.exe</h3><p>运行练习程序文件（HelloTls.exe），弹出1一个消息框，单机“确定”按钮后，程序终止运行。<br><img src="https://s1.ax1x.com/2020/04/06/G6SLWV.png" alt="G6SLWV.png"><br>下面使用OllyDbg调试练习示例程序。在OllyDbg调试器中打开并运行HelloTls。<br>.exe文件，弹出如下对话框。<br><img src="https://s1.ax1x.com/2020/04/06/G6Znvn.png" alt="G6Znvn.png"><br>点击确定，按钮，进程终止。</p>
+<h3 id="2、TLS"><a href="#2、TLS" class="headerlink" title="2、TLS"></a>2、TLS</h3><p>1、IMAFGE_DATA_DIRECTORY[9]<br>若在编程中启用了TLS功能，PE头文件中就会设置TLS表（TLS Table）项目。<br>2、IMAGE_TLS_DIRECTORY</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">typedef struct _IMAGE_TLS_DIRECTORY64 </span><br><span class="line">&#123;</span><br><span class="line">    ULONGLONG   StartAddressOfRawData;</span><br><span class="line">    ULONGLONG   EndAddressOfRawData;</span><br><span class="line">    ULONGLONG   AddressOfIndex;</span><br><span class="line">    ULONGLONG   AddressOfCallBacks;</span><br><span class="line">    DWORD   SizeOfZeroFill;</span><br><span class="line">    DWORD   Characteristics;</span><br><span class="line">&#125; IMAGE_TLS_DIRECTORY64；</span><br><span class="line">typedef IMAGE_TLS_DIRECTORY64 * PIMAGE_TLS_DIRECTORY64;</span><br><span class="line"></span><br><span class="line">typedef struct _IMAGE_TLS_DIRECTORY32 </span><br><span class="line">&#123;</span><br><span class="line">    DWORD   StartAddressOfRawData;</span><br><span class="line">    DWORD   EndAddressOfRawData;</span><br><span class="line">    DWORD   AddressOfIndex;</span><br><span class="line">    DWORD   AddressOfCallBacks;</span><br><span class="line">    DWORD   SizeOfZeroFill;</span><br><span class="line">    DWORD   Characteristics;</span><br><span class="line">&#125; IMAGE_TLS_DIRECTORY32；</span><br><span class="line">typedef IMAGE_TLS_DIRECTORY32 * PIMAGE_TLS_DIRECTORY32;</span><br><span class="line"></span><br><span class="line">#ifdef _WIN64</span><br><span class="line">typedef IMAGE_TLS_DIRECTORY64   IMAGE_TLS_DIRECTORY64；</span><br><span class="line">typedef PIMAGE_TLS_DIRECTORY64  PIMAGE_TLS_DIRECTORY64;</span><br><span class="line">#else</span><br><span class="line">typedef IMAGE_TLS_DIRECTORY32   IMAGE_TLS_DIRECTORY32；</span><br><span class="line">typedef PIMAGE_TLS_DIRECTORY32  PIMAGE_TLS_DIRECTORY32;</span><br></pre></td></tr></table></figure>
 
-<p>得到输出：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\JPzNKJRzMJRzQJzW@HJS@zOPKNzFJA@</span><br></pre></td></tr></table></figure>
-
-<p>单击v13，再往前推可以发现还有两处di调用过v13，第二处的调用貌似没什么用，应该是垃圾代码，我们直接看第一次调用v13的函数，单击进入<br><img src="https://www.z4a.net/images/2019/09/13/base64.png" alt="此处输入图片的描述"></p>
-<p>这里是一段关键代码，再点击byte_414E40这个函数</p>
-<p><img src="https://www.z4a.net/images/2019/09/13/16bf2a37b522f4cc551934fd2feb3f58.png" alt="此处输入图片的描述"></p>
-<p>现在可以判断使用了base64解码，所以将刚刚得到的字符串进行编码就可得到falg：</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">XEpQek5LSlJ6TUpSelFKeldASEpTQHpPUEtOekZKQUA=</span><br></pre></td></tr></table></figure>
+<p>IMAGE_TLS_DIRECTORY结构体有两种版本，分别为32位与64位。使用工具查看IMAGE_TLS_DIRECTORY结构体，如图所示。<br><img src="https://s1.ax1x.com/2020/04/06/G6nE4O.png" alt="G6nE4O.png"><br>3、回调函数地址数组<br><img src="https://s1.ax1x.com/2020/04/06/G6Ksc4.png" alt="G6Ksc4.png"><br>该数组中实际存储的就是TLS回调函数的地址。进程启动时，系统会逐一调用存储在该数组中的函数。</p>
+<h3 id="3、TLS回调函数"><a href="#3、TLS回调函数" class="headerlink" title="3、TLS回调函数"></a>3、TLS回调函数</h3><p>创建或终止某线程时，TLS回调函数都会自动调用执行，前后共两次。<br>TLS回调函数的定义代码如下。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">typedef VOID</span><br><span class="line">(NTAPI *PIMAGE_TLS_CALLBACK) (</span><br><span class="line">    PVOID DllHandle,</span><br><span class="line">    DWORD Reason,</span><br><span class="line">    PVOID Reserved</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
 
 
       
@@ -380,8 +377,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/13/基础知识/" rel="next" title="一些Windows基础知识">
-                <i class="fa fa-chevron-left"></i> 一些Windows基础知识
+              <a href="/2020/04/04/x64处理器/" rel="next" title="x64处理器">
+                <i class="fa fa-chevron-left"></i> x64处理器
               </a>
             
           </div>
@@ -389,10 +386,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/15/RC4算法学习/" rel="prev" title="RC4算法学习">
-                RC4算法学习 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -545,7 +538,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、题目内容"><span class="nav-number">1.</span> <span class="nav-text">1、题目内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、解题过程"><span class="nav-number">2.</span> <span class="nav-text">2、解题过程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、程序：HelloTls-exe"><span class="nav-number">1.</span> <span class="nav-text">1、程序：HelloTls.exe</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、TLS"><span class="nav-number">2.</span> <span class="nav-text">2、TLS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、TLS回调函数"><span class="nav-number">3.</span> <span class="nav-text">3、TLS回调函数</span></a></li></ol></div>
             
 
           </div>

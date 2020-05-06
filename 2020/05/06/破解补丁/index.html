@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、程序实例Cosh.1.exe破解前：破解后： 2、查找打补丁地址通过字符串搜索，可以定位到关键点。 12地址            硬编码           汇编代码0040138C    0F84 F3000000   je Cosh.1.00401485  如果比较结果为相等，则跳转，输出字符串“Well done，Cracker”。将跳转指令je改成jmp，实现无条件跳转，输出“Wel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="破解补丁">
+<meta property="og:url" content="http://yoursite.com/2020/05/06/破解补丁/index.html">
+<meta property="og:site_name" content="Pangaea">
+<meta property="og:description" content="1、程序实例Cosh.1.exe破解前：破解后： 2、查找打补丁地址通过字符串搜索，可以定位到关键点。 12地址            硬编码           汇编代码0040138C    0F84 F3000000   je Cosh.1.00401485  如果比较结果为相等，则跳转，输出字符串“Well done，Cracker”。将跳转指令je改成jmp，实现无条件跳转，输出“Wel">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/06/YViAL6.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/06/YVi6TU.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/06/YVFHuq.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/06/YVAfpQ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/06/YVeh5V.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/06/YViFQ1.png">
+<meta property="og:updated_time" content="2020-05-06T14:21:51.290Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="破解补丁">
+<meta name="twitter:description" content="1、程序实例Cosh.1.exe破解前：破解后： 2、查找打补丁地址通过字符串搜索，可以定位到关键点。 12地址            硬编码           汇编代码0040138C    0F84 F3000000   je Cosh.1.00401485  如果比较结果为相等，则跳转，输出字符串“Well done，Cracker”。将跳转指令je改成jmp，实现无条件跳转，输出“Wel">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/05/06/YViAL6.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/05/06/破解补丁/">
+
+
+
+
+
+  <title>破解补丁 | Pangaea</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pangaea</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/06/破解补丁/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Slipslop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pangaea">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">破解补丁</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-06T22:20:47+08:00">
+                2020-05-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1、程序实例"><a href="#1、程序实例" class="headerlink" title="1、程序实例"></a>1、程序实例</h2><p>Cosh.1.exe<br>破解前：<br><img src="https://s1.ax1x.com/2020/05/06/YViAL6.png" alt="YViAL6.png"><br>破解后：<br><img src="https://s1.ax1x.com/2020/05/06/YVi6TU.png" alt="YVi6TU.png"></p>
+<h2 id="2、查找打补丁地址"><a href="#2、查找打补丁地址" class="headerlink" title="2、查找打补丁地址"></a>2、查找打补丁地址</h2><p>通过字符串搜索，可以定位到关键点。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">地址            硬编码           汇编代码</span><br><span class="line">0040138C    0F84 F3000000   je Cosh.1.00401485</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s1.ax1x.com/2020/05/06/YVFHuq.png" alt="YVFHuq.png"><br>如果比较结果为相等，则跳转，输出字符串“Well done，Cracker”。将跳转指令je改成jmp，实现无条件跳转，输出“Well done，Cracker”。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">地址            硬编码           汇编代码</span><br><span class="line">0040138C    E9 F4000000   jmp Cosh.1.00401485</span><br><span class="line">00401391    90            nop</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s1.ax1x.com/2020/05/06/YVAfpQ.png" alt="YVAfpQ.png"><br>通过上面过程可以看出只要将内存地址0x0040138C处的6个字节0F 84 F3 00 00 00改成E9 F4 00 00 00 90就能达到破解目的。</p>
+<h2 id="3、代码实现"><a href="#3、代码实现" class="headerlink" title="3、代码实现"></a>3、代码实现</h2><h3 id="1、实现这个功能首先我们需要了解几个API。"><a href="#1、实现这个功能首先我们需要了解几个API。" class="headerlink" title="1、实现这个功能首先我们需要了解几个API。"></a>1、实现这个功能首先我们需要了解几个API。</h3><p>1、CreateToolhelp32Snapshot()能获得系统进程快照的句柄。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HANDLE</span><br><span class="line">WINAPI</span><br><span class="line">CreateToolhelp32Snapshot(</span><br><span class="line">    DWORD dwFlags,</span><br><span class="line">    DWORD th32ProcessID</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+
+<p>2、Heap32ListFirst()查找系统进程快照中的第一个进程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">BOOL</span><br><span class="line">WINAPI</span><br><span class="line">Heap32ListFirst(</span><br><span class="line">    HANDLE hSnapshot,</span><br><span class="line">    LPHEAPLIST32 lphl</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+
+<p>3、Process32Next()获得下一个进程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">BOOL</span><br><span class="line">WINAPI</span><br><span class="line">Process32Next(</span><br><span class="line">    HANDLE hSnapshot,</span><br><span class="line">    LPROCESSENTRY32 lppe</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+
+<p>4、tagPROCESSENTRY32结构体能够保存进程的信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">typedef struct tagPROCESSENTRY32</span><br><span class="line">&#123;</span><br><span class="line">    DWORD   dwSize;</span><br><span class="line">    DWORD   cntUsage;</span><br><span class="line">    DWORD   th32ProcessID;          // this process</span><br><span class="line">    ULONG_PTR th32DefaultHeapID;</span><br><span class="line">    DWORD   th32ModuleID;           // associated exe</span><br><span class="line">    DWORD   cntThreads;</span><br><span class="line">    DWORD   th32ParentProcessID;    // this process&apos;s parent process</span><br><span class="line">    LONG    pcPriClassBase;         // Base priority of process&apos;s threads</span><br><span class="line">    DWORD   dwFlags;</span><br><span class="line">    CHAR    szExeFile[MAX_PATH];    // Path</span><br><span class="line">&#125; PROCESSENTRY32;</span><br><span class="line">typedef PROCESSENTRY32 *  PPROCESSENTRY32;</span><br><span class="line">typedef PROCESSENTRY32 *  LPPROCESSENTRY32;</span><br></pre></td></tr></table></figure>
+
+<p>4、OpenProcess()用来打开一个已存在的进程对象，并返回进程的句柄。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">WINBASEAPI</span><br><span class="line">HANDLE</span><br><span class="line">WINAPI</span><br><span class="line">OpenProcess(</span><br><span class="line">    _In_ DWORD dwDesiredAccess,</span><br><span class="line">    _In_ BOOL bInheritHandle,</span><br><span class="line">    _In_ DWORD dwProcessId</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+
+<p>5、WriteProcessMemory()对内存区域进行读写。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">WINBASEAPI</span><br><span class="line">_Success_(return != FALSE)</span><br><span class="line">BOOL</span><br><span class="line">WINAPI</span><br><span class="line">WriteProcessMemory(</span><br><span class="line">    _In_ HANDLE hProcess,</span><br><span class="line">    _In_ LPVOID lpBaseAddress,</span><br><span class="line">    _In_reads_bytes_(nSize) LPCVOID lpBuffer,</span><br><span class="line">    _In_ SIZE_T nSize,</span><br><span class="line">    _Out_opt_ SIZE_T* lpNumberOfBytesWritten</span><br><span class="line">    );</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、代码"><a href="#2、代码" class="headerlink" title="2、代码"></a>2、代码</h3><p>先在系统中查找需要打补丁程序的进程名与进程ID，然后通过WriteProcessMemory()函数对内存进行读写，将内存地址0x0040138C处的6个字节0F 84 F3 00 00 00改成E9 F4 00 00 00 90。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;Windows.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;TlHelp32.h&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	HANDLE hProceessnap = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);//创建进程快照</span><br><span class="line">	if (hProceessnap == INVALID_HANDLE_VALUE)</span><br><span class="line">	&#123;</span><br><span class="line">		printf(&quot;创建进行快照失败\n&quot;);</span><br><span class="line">		return -1;</span><br><span class="line">	&#125;</span><br><span class="line">	else</span><br><span class="line">	&#123;</span><br><span class="line">		PROCESSENTRY32 pe32;</span><br><span class="line">		byte Patch[] = &#123; 0xE9, 0xF4, 0x00, 0x00, 0x00, 0x90 &#125;;//补丁数据</span><br><span class="line">		pe32.dwSize = sizeof(pe32);</span><br><span class="line">		BOOL hProcess = Process32First(hProceessnap, &amp;pe32);</span><br><span class="line">		char buff[1024];</span><br><span class="line">		char name[26] = &quot;Cosh.1.exe&quot;;//要打补丁程序的进程名</span><br><span class="line">		while (hProcess)</span><br><span class="line">		&#123;</span><br><span class="line">			if (_stricmp(pe32.szExeFile, name) == 0)//进行比较</span><br><span class="line">			&#123;</span><br><span class="line">				HANDLE hHandle = OpenProcess(PROCESS_ALL_ACCESS, TRUE, pe32.th32ProcessID);//获得进程句柄</span><br><span class="line">				WriteProcessMemory(hHandle, (LPVOID)0x0040138C, Patch, 6, NULL);//写入内存</span><br><span class="line">				MessageBoxA(0, &quot;成功！&quot;, &quot;补丁&quot;, 0);</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">			memset(buff, 0x00, 1024);</span><br><span class="line">			hProcess = Process32Next(hProceessnap, &amp;pe32);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	CloseHandle(hProceessnap);</span><br><span class="line">	system(&quot;pause&quot;);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将程序Cosh.1.exe运行，再运行编译成功的补丁程序。<br><img src="https://s1.ax1x.com/2020/05/06/YVeh5V.png" alt="YVeh5V.png"><br>通过Windbg的附加功能，我们可以看到，地址0x0040138C处的六个字节代码已经呗更改，破解成功。<br><img src="https://s1.ax1x.com/2020/05/06/YViFQ1.png" alt="YViFQ1.png"></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/09/脱壳技术——寻找OEP/" rel="next" title="脱壳技术——寻找OEP">
+                <i class="fa fa-chevron-left"></i> 脱壳技术——寻找OEP
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Slipslop">
+            
+              <p class="site-author-name" itemprop="name">Slipslop</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/yourname" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="skype:yourname?call|chat" target="_blank" title="Skype">
+                      
+                        <i class="fa fa-fw fa-skype"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、程序实例"><span class="nav-number">1.</span> <span class="nav-text">1、程序实例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、查找打补丁地址"><span class="nav-number">2.</span> <span class="nav-text">2、查找打补丁地址</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、代码实现"><span class="nav-number">3.</span> <span class="nav-text">3、代码实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、实现这个功能首先我们需要了解几个API。"><span class="nav-number">3.1.</span> <span class="nav-text">1、实现这个功能首先我们需要了解几个API。</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、代码"><span class="nav-number">3.2.</span> <span class="nav-text">2、代码</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Slipslop</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/ioufev/love.js"></script>
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>

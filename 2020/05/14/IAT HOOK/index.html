@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、IAT钩取工作原理进程的IAT中保存着程序中调用的API的地址，IAT钩取通过修改IAT中保存的API地址来钩取某个API。图中描述的是计算器（calc.exe）进程正常调用user32.SetWindowTextW()API的情形。地址01001110属于IAT区域，程序开始运行时，PE装载器会将user32.SetWindowTextW()API地址（77D0960E）记录到该地址（010">
+<meta property="og:type" content="article">
+<meta property="og:title" content="IAT HOOK">
+<meta property="og:url" content="http://yoursite.com/2020/05/14/IAT HOOK/index.html">
+<meta property="og:site_name" content="Pangaea">
+<meta property="og:description" content="1、IAT钩取工作原理进程的IAT中保存着程序中调用的API的地址，IAT钩取通过修改IAT中保存的API地址来钩取某个API。图中描述的是计算器（calc.exe）进程正常调用user32.SetWindowTextW()API的情形。地址01001110属于IAT区域，程序开始运行时，PE装载器会将user32.SetWindowTextW()API地址（77D0960E）记录到该地址（010">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/14/YDaMdO.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/14/YDdOvn.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/14/YDrwT0.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/05/14/YDygd1.png">
+<meta property="og:updated_time" content="2020-05-14T15:23:18.517Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="IAT HOOK">
+<meta name="twitter:description" content="1、IAT钩取工作原理进程的IAT中保存着程序中调用的API的地址，IAT钩取通过修改IAT中保存的API地址来钩取某个API。图中描述的是计算器（calc.exe）进程正常调用user32.SetWindowTextW()API的情形。地址01001110属于IAT区域，程序开始运行时，PE装载器会将user32.SetWindowTextW()API地址（77D0960E）记录到该地址（010">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/05/14/YDaMdO.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/05/14/IAT HOOK/">
+
+
+
+
+
+  <title>IAT HOOK | Pangaea</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pangaea</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/14/IAT HOOK/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Slipslop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pangaea">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">IAT HOOK</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-14T23:22:19+08:00">
+                2020-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1、IAT钩取工作原理"><a href="#1、IAT钩取工作原理" class="headerlink" title="1、IAT钩取工作原理"></a>1、IAT钩取工作原理</h2><p>进程的IAT中保存着程序中调用的API的地址，IAT钩取通过修改IAT中保存的API地址来钩取某个API。<br><a href="https://imgchr.com/i/YDaMdO" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/05/14/YDaMdO.png" alt="YDaMdO.png"></a><br>图中描述的是计算器（calc.exe）进程正常调用user32.SetWindowTextW()API的情形。地址01001110属于IAT区域，程序开始运行时，PE装载器会将user32.SetWindowTextW()API地址（77D0960E）记录到该地址（01001110）。01002628地址处的CALL DWORD PTR [01001110]指令最终会调用保存在01001110地址（77D0960E）处的函数，直接等同于CALL 77D0960E命令。<br>执行完地址01002628处的CALL命令后，运行将转移到user32.SetWindowTextW()函数的起始地址（77D0960E）处，执行完user32.SetWindowTextW()后返回。<br>下图是IAT被钩取后计算器进程的运行过程。<br><a href="https://imgchr.com/i/YDdOvn" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/05/14/YDdOvn.png" alt="YDdOvn.png"></a><br>hookiat.dll文件中通过了了名为MySetWindowTextW()的钩取函数（10001000）。地址01002628处的CALL指令执行后，会跟踪进入10001000，而不是01001110。经过一系列的处理后，执行1000107D处的CALL命令，转到原user32.SetWindowTextW()函数的起始地址。user32.SetWindowTextW()API执行完毕后，执行会返回到hookiat.dll的1000107D地址的下雨天指令，然后返回到01002628地址的下一条指令继续执行。</p>
+<h2 id="2、演示示例"><a href="#2、演示示例" class="headerlink" title="2、演示示例"></a>2、演示示例</h2><p>（1）calc.exe<br>（2）hookiat.dll<br>（3）InjectDll.exe</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">InjectDll.exe i pID hookiat.dll //钩取命令</span><br><span class="line">InjectDll.exe e pID hookiat.dll //脱钩命令</span><br></pre></td></tr></table></figure>
+
+<p>钩取后程序运行的样子：<br><img src="https://s1.ax1x.com/2020/05/14/YDrwT0.png" alt="YDrwT0.png"></p>
+<h2 id="3、源代码分析"><a href="#3、源代码分析" class="headerlink" title="3、源代码分析"></a>3、源代码分析</h2><h3 id="1、DllMain"><a href="#1、DllMain" class="headerlink" title="1、DllMain()"></a>1、DllMain()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)</span><br><span class="line">&#123;</span><br><span class="line">	switch( fdwReason )</span><br><span class="line">	&#123;</span><br><span class="line">		case DLL_PROCESS_ATTACH : </span><br><span class="line">		    // 保存原始API地址</span><br><span class="line">           	g_pOrgFunc = GetProcAddress(GetModuleHandle(L&quot;user32.dll&quot;), </span><br><span class="line">                                        &quot;SetWindowTextW&quot;);</span><br><span class="line"></span><br><span class="line">            // # hook</span><br><span class="line">            // 用hookiat.MySetWindowText()钩取user32.SetWindowTextW()</span><br><span class="line">			hook_iat(&quot;user32.dll&quot;, g_pOrgFunc, (PROC)MySetWindowTextW);</span><br><span class="line">			break;</span><br><span class="line"></span><br><span class="line">		case DLL_PROCESS_DETACH :</span><br><span class="line">            // # unhook</span><br><span class="line">            // 将IAT恢复</span><br><span class="line">            hook_iat(&quot;user32.dll&quot;, (PROC)MySetWindowTextW, g_pOrgFunc);</span><br><span class="line">			break;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	return TRUE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、MySetWindowTextW"><a href="#2、MySetWindowTextW" class="headerlink" title="2、MySetWindowTextW()"></a>2、MySetWindowTextW()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">BOOL WINAPI MySetWindowTextW(HWND hWnd, LPWSTR lpString)</span><br><span class="line">&#123;</span><br><span class="line">    wchar_t* pNum = L&quot;零一二三四五六七八九&quot;;</span><br><span class="line">    wchar_t temp[2] = &#123;0,&#125;;</span><br><span class="line">    int i = 0, nLen = 0, nIndex = 0;</span><br><span class="line"></span><br><span class="line">    nLen = wcslen(lpString);</span><br><span class="line">    for(i = 0; i &lt; nLen; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        // 将阿拉伯数字转换为中文数字</span><br><span class="line">        if( L&apos;0&apos; &lt;= lpString[i] &amp;&amp; lpString[i] &lt;= L&apos;9&apos; )</span><br><span class="line">        &#123;</span><br><span class="line">            temp[0] = lpString[i];</span><br><span class="line">            nIndex = _wtoi(temp);</span><br><span class="line">            lpString[i] = pNum[nIndex];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    // 调用user32.SetWindowTextW()API</span><br><span class="line">    return ((PFSETWINDOWTEXTW)g_pOrgFunc)(hWnd, lpString);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>SetWindowTextW()API定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">BOOL SetWindowTextW(</span><br><span class="line">    HWND hwnd,</span><br><span class="line">    LPCTSTR lpString</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>它有两个参数，第一个为窗口句柄（hWnd），第二个参数为字符串指针（lpString）。<br>阿拉伯数字字符串转换为中文数字字符串情形如下：<br><img src="https://s1.ax1x.com/2020/05/14/YDygd1.png" alt="YDygd1.png"></p>
+<h3 id="3、hook-iat"><a href="#3、hook-iat" class="headerlink" title="3、hook_iat()"></a>3、hook_iat()</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">BOOL hook_iat(LPCSTR szDllName, PROC pfnOrg, PROC pfnNew)</span><br><span class="line">&#123;</span><br><span class="line">	HMODULE hMod;</span><br><span class="line">	LPCSTR szLibName;</span><br><span class="line">	PIMAGE_IMPORT_DESCRIPTOR pImportDesc; </span><br><span class="line">	PIMAGE_THUNK_DATA pThunk;</span><br><span class="line">	DWORD dwOldProtect, dwRVA;</span><br><span class="line">	PBYTE pAddr;</span><br><span class="line"></span><br><span class="line">    // hMod, pAddr = ImageBase of calc.exe</span><br><span class="line">    //             = VA to MZ signature (IMAGE_DOS_HEADER)</span><br><span class="line">	hMod = GetModuleHandle(NULL);</span><br><span class="line">	pAddr = (PBYTE)hMod;</span><br><span class="line"></span><br><span class="line">    // pAddr = VA to PE signature (IMAGE_NT_HEADERS)</span><br><span class="line">	pAddr += *((DWORD*)&amp;pAddr[0x3C]);</span><br><span class="line"></span><br><span class="line">    // dwRVA = RVA to IMAGE_IMPORT_DESCRIPTOR Table</span><br><span class="line">	dwRVA = *((DWORD*)&amp;pAddr[0x80]);</span><br><span class="line"></span><br><span class="line">    // pImportDesc = VA to IMAGE_IMPORT_DESCRIPTOR Table</span><br><span class="line">	pImportDesc = (PIMAGE_IMPORT_DESCRIPTOR)((DWORD)hMod+dwRVA);</span><br><span class="line"></span><br><span class="line">	for( ; pImportDesc-&gt;Name; pImportDesc++ )</span><br><span class="line">	&#123;</span><br><span class="line">        // szLibName = VA to IMAGE_IMPORT_DESCRIPTOR.Name</span><br><span class="line">		szLibName = (LPCSTR)((DWORD)hMod + pImportDesc-&gt;Name);</span><br><span class="line">		if( !_stricmp(szLibName, szDllName) )</span><br><span class="line">		&#123;</span><br><span class="line">            // pThunk = IMAGE_IMPORT_DESCRIPTOR.FirstThunk</span><br><span class="line">            //        = VA to IAT(Import Address Table)</span><br><span class="line">			pThunk = (PIMAGE_THUNK_DATA)((DWORD)hMod + </span><br><span class="line">                                         pImportDesc-&gt;FirstThunk);</span><br><span class="line"></span><br><span class="line">            // pThunk-&gt;u1.Function = VA to API</span><br><span class="line">			for( ; pThunk-&gt;u1.Function; pThunk++ )</span><br><span class="line">			&#123;</span><br><span class="line">				if( pThunk-&gt;u1.Function == (DWORD)pfnOrg )</span><br><span class="line">				&#123;</span><br><span class="line">					VirtualProtect((LPVOID)&amp;pThunk-&gt;u1.Function, </span><br><span class="line">                                   4, </span><br><span class="line">                                   PAGE_EXECUTE_READWRITE, </span><br><span class="line">                                   &amp;dwOldProtect);</span><br><span class="line"></span><br><span class="line">                    pThunk-&gt;u1.Function = (DWORD)pfnNew;</span><br><span class="line">					</span><br><span class="line">                    VirtualProtect((LPVOID)&amp;pThunk-&gt;u1.Function, </span><br><span class="line">                                   4, </span><br><span class="line">                                   dwOldProtect, </span><br><span class="line">                                   &amp;dwOldProtect);						</span><br><span class="line"></span><br><span class="line">					return TRUE;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	return FALSE;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>hook_iat()函数的前半部分用来读取PE文件头信息，并查找IAT的位置。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">hMod = GetModuleHandle(NULL); // hMod = ImageBase</span><br><span class="line">	pAddr = (PBYTE)hMod; // pAddr = IMAGE_NT_HEADERS</span><br><span class="line">	pAddr += *((DWORD*)&amp;pAddr[0x3C]); // pAddr = &quot;PE&quot; signature</span><br><span class="line">	dwRVA = *((DWORD*)&amp;pAddr[0x80]); // dwRVA = VA to IMAGE_IMPORT_DESCRIPTOR Table</span><br><span class="line">	pImportDesc = (PIMAGE_IMPORT_DESCRIPTOR)((DWORD)hMod+dwRVA);</span><br></pre></td></tr></table></figure>
+
+<p>找到IMAGE_IMPORT_DESCRIPTOR表后，用for循环遍历，查找user32.dll的IAT。pImportDesc-&gt;FirstThunk成员所指的就是IAT。然后再循环遍历，查找SetWindowTextW的位置。找到后，修改为MySetWindowTextW的地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pThunk-&gt;u1.Function = (DWORD)pfnNew;</span><br></pre></td></tr></table></figure>
+
+<p>这样，计算器代码调用user32.SetWindowTextW()API时，实际会先调用hookiat.MySetWindowTextW()函数。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/05/06/破解补丁/" rel="next" title="破解补丁">
+                <i class="fa fa-chevron-left"></i> 破解补丁
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Slipslop">
+            
+              <p class="site-author-name" itemprop="name">Slipslop</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">19</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/yourname" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="skype:yourname?call|chat" target="_blank" title="Skype">
+                      
+                        <i class="fa fa-fw fa-skype"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、IAT钩取工作原理"><span class="nav-number">1.</span> <span class="nav-text">1、IAT钩取工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、演示示例"><span class="nav-number">2.</span> <span class="nav-text">2、演示示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、源代码分析"><span class="nav-number">3.</span> <span class="nav-text">3、源代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、DllMain"><span class="nav-number">3.1.</span> <span class="nav-text">1、DllMain()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、MySetWindowTextW"><span class="nav-number">3.2.</span> <span class="nav-text">2、MySetWindowTextW()</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、hook-iat"><span class="nav-number">3.3.</span> <span class="nav-text">3、hook_iat()</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Slipslop</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/ioufev/love.js"></script>
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>

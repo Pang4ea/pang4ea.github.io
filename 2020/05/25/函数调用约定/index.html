@@ -79,13 +79,17 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Pangaea">
-<meta property="og:url" content="http://yoursite.com/page/5/index.html">
+<meta name="description" content="1、cdeclcdecl是主要在C语言中使用的方式，使用ADD ESP，X的方式整理堆栈。 2、stdcallstdcall方式常用于Win32 API，栈清理由RETN X进行。 3、fastcallfastcall与stdcall类似，但是它会用到ecx、edx进行传参。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="函数调用约定">
+<meta property="og:url" content="http://yoursite.com/2020/05/25/函数调用约定/index.html">
 <meta property="og:site_name" content="Pangaea">
+<meta property="og:description" content="1、cdeclcdecl是主要在C语言中使用的方式，使用ADD ESP，X的方式整理堆栈。 2、stdcallstdcall方式常用于Win32 API，栈清理由RETN X进行。 3、fastcallfastcall与stdcall类似，但是它会用到ecx、edx进行传参。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2020-05-25T02:08:15.535Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pangaea">
+<meta name="twitter:title" content="函数调用约定">
+<meta name="twitter:description" content="1、cdeclcdecl是主要在C语言中使用的方式，使用ADD ESP，X的方式整理堆栈。 2、stdcallstdcall方式常用于Win32 API，栈清理由RETN X进行。 3、fastcallfastcall与stdcall类似，但是它会用到ecx、edx进行传参。">
 
 
 
@@ -115,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/page/5/">
+  <link rel="canonical" href="http://yoursite.com/2020/05/25/函数调用约定/">
 
 
 
 
 
-  <title>Pangaea</title>
+  <title>函数调用约定 | Pangaea</title>
   
 
 
@@ -140,8 +144,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -254,9 +257,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -269,7 +272,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/12/Windows 内核函数/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/25/函数调用约定/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Slipslop">
@@ -286,9 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/12/Windows 内核函数/" itemprop="url">Windows内核函数</a></h1>
+          <h1 class="post-title" itemprop="name headline">函数调用约定</h1>
         
 
         <div class="post-meta">
@@ -300,8 +301,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-12T23:00:00+08:00">
-                2019-09-12
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-25T10:07:46+08:00">
+                2020-05-25
               </time>
             
 
@@ -338,18 +339,10 @@
       
 
       
-        
-          
-          Windows 内核函数Windows 内核部分会调用一些内核层的函数。这些函数都以固定的开始前缀，分别属于内核中不同的管理模块。通过函数名就可以大致知道这个函数所属的层次和模块。这些主要的前缀如下：
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/12/Windows 内核函数/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <h3 id="1、cdecl"><a href="#1、cdecl" class="headerlink" title="1、cdecl"></a>1、cdecl</h3><p>cdecl是主要在C语言中使用的方式，使用ADD ESP，X的方式整理堆栈。</p>
+<h3 id="2、stdcall"><a href="#2、stdcall" class="headerlink" title="2、stdcall"></a>2、stdcall</h3><p>stdcall方式常用于Win32 API，栈清理由RETN X进行。</p>
+<h3 id="3、fastcall"><a href="#3、fastcall" class="headerlink" title="3、fastcall"></a>3、fastcall</h3><p>fastcall与stdcall类似，但是它会用到ecx、edx进行传参。</p>
+
       
     </div>
     
@@ -366,139 +359,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/Python正则表达式的学习/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Slipslop">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pangaea">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/10/Python正则表达式的学习/" itemprop="url">Python正则表达式的学习</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T17:48:03+08:00">
-                2019-09-10
-              </time>
+              <a href="/2020/05/14/IAT HOOK/" rel="next" title="IAT HOOK">
+                <i class="fa fa-chevron-left"></i> IAT HOOK
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-          1、re.match函数re.match尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。
-函数语法：1、re.match(pattren, string
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/10/Python正则表达式的学习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -508,267 +390,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/MD5算法学习/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Slipslop">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pangaea">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/10/MD5算法学习/" itemprop="url">MD5算法学习</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T17:48:03+08:00">
-                2019-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          1、题目内容    这里有一段丢失的md5密文 e9032???da???08????911513?0???a2要求你还原出他并且加上nctf{}提交 已知线索 明文为：TASC?O3RJMV?WDJ
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/10/MD5算法学习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/IgniteMe逆向算法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Slipslop">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pangaea">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/10/IgniteMe逆向算法/" itemprop="url">一道RE学习：IngiteMe</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T17:48:03+08:00">
-                2019-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          1、RE-IgniteMe这道题来自XCTF社区，比较简单。
-题目链接：https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/10/IgniteMe逆向算法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/4/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span>
-  </nav>
-
 
 
           </div>
@@ -776,6 +402,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -796,8 +426,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -878,6 +517,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、cdecl"><span class="nav-number">1.</span> <span class="nav-text">1、cdecl</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、stdcall"><span class="nav-number">2.</span> <span class="nav-text">2、stdcall</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、fastcall"><span class="nav-number">3.</span> <span class="nav-text">3、fastcall</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1024,6 +679,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Windows,">
+  <meta name="keywords" content="Hexo, NexT">
 
 
 
@@ -79,28 +79,17 @@
 
 
 
-<meta name="description" content="1、单位转换bit 位(指的是 0 or 1) byte 字节 1byte = 8 bit word 字 1 word = 2 byte dword (double word) 1KB=1024B 1MB=1024KB 1GB=1024MB 1TB=1024GB2、字节序大端序（Big endain）   ：内存地址低位储存数据的高位， 小端序（Little endain）：内存地址高位储存数据的">
-<meta name="keywords" content="Windows">
+<meta name="description" content="1、创建线程123456789101112BOOL CreateProcess(    LPCTSTR lpApplicationName,                  // pointer to name of executable module    LPTSTR lpCommandLine,                       // pointer to command lin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="一些Windows基础知识">
-<meta property="og:url" content="http://yoursite.com/2019/09/13/基础知识/index.html">
+<meta property="og:title" content="线程与进程">
+<meta property="og:url" content="http://yoursite.com/2020/05/31/线程与进程/index.html">
 <meta property="og:site_name" content="Pangaea">
-<meta property="og:description" content="1、单位转换bit 位(指的是 0 or 1) byte 字节 1byte = 8 bit word 字 1 word = 2 byte dword (double word) 1KB=1024B 1MB=1024KB 1GB=1024MB 1TB=1024GB2、字节序大端序（Big endain）   ：内存地址低位储存数据的高位， 小端序（Little endain）：内存地址高位储存数据的">
+<meta property="og:description" content="1、创建线程123456789101112BOOL CreateProcess(    LPCTSTR lpApplicationName,                  // pointer to name of executable module    LPTSTR lpCommandLine,                       // pointer to command lin">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/2d7bab50b6c88ba15ecb5e201d555a6b.png">
-<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/ad1fd22070bcd62a7d5a241f38224951.png">
-<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/8693e6cecda5b53c3b7cb55b2470db0b.png">
-<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/SendMessage.png">
-<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/WM_COMMANFD.png">
-<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/WM_COMMAND.png">
-<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/VM_GETTEXT.png">
-<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/WM_QUIT.png">
-<meta property="og:image" content="https://www.z4a.net/images/2019/09/13/WM_LBUTTONDOWN.png">
-<meta property="og:updated_time" content="2019-09-13T00:51:42.918Z">
+<meta property="og:updated_time" content="2020-05-31T08:21:12.382Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="一些Windows基础知识">
-<meta name="twitter:description" content="1、单位转换bit 位(指的是 0 or 1) byte 字节 1byte = 8 bit word 字 1 word = 2 byte dword (double word) 1KB=1024B 1MB=1024KB 1GB=1024MB 1TB=1024GB2、字节序大端序（Big endain）   ：内存地址低位储存数据的高位， 小端序（Little endain）：内存地址高位储存数据的">
-<meta name="twitter:image" content="https://www.z4a.net/images/2019/09/13/2d7bab50b6c88ba15ecb5e201d555a6b.png">
+<meta name="twitter:title" content="线程与进程">
+<meta name="twitter:description" content="1、创建线程123456789101112BOOL CreateProcess(    LPCTSTR lpApplicationName,                  // pointer to name of executable module    LPTSTR lpCommandLine,                       // pointer to command lin">
 
 
 
@@ -130,13 +119,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/09/13/基础知识/">
+  <link rel="canonical" href="http://yoursite.com/2020/05/31/线程与进程/">
 
 
 
 
 
-  <title>一些Windows基础知识 | Pangaea</title>
+  <title>线程与进程 | Pangaea</title>
   
 
 
@@ -283,7 +272,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/13/基础知识/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/31/线程与进程/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Slipslop">
@@ -300,7 +289,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">一些Windows基础知识</h1>
+          <h1 class="post-title" itemprop="name headline">线程与进程</h1>
         
 
         <div class="post-meta">
@@ -312,8 +301,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-13T08:51:03+08:00">
-                2019-09-13
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-31T16:20:35+08:00">
+                2020-05-31
               </time>
             
 
@@ -350,40 +339,44 @@
       
 
       
-        <h3 id="1、单位转换"><a href="#1、单位转换" class="headerlink" title="1、单位转换"></a>1、单位转换</h3><pre><code>bit 位(指的是 0 or 1)
-byte 字节 1byte = 8 bit
-word 字 1 word = 2 byte
-dword (double word)
-1KB=1024B
-1MB=1024KB
-1GB=1024MB
-1TB=1024GB</code></pre><h3 id="2、字节序"><a href="#2、字节序" class="headerlink" title="2、字节序"></a>2、字节序</h3><pre><code>大端序（Big endain）   ：内存地址低位储存数据的高位，
-小端序（Little endain）：内存地址高位储存数据的高位（x86是基于Intel8086处理器的小端体系结构）</code></pre><p><img src="https://www.z4a.net/images/2019/09/13/2d7bab50b6c88ba15ecb5e201d555a6b.png" alt="此处输入图片的描述"></p>
-<h3 id="3、ASCII码"><a href="#3、ASCII码" class="headerlink" title="3、ASCII码"></a>3、ASCII码</h3><p><img src="https://www.z4a.net/images/2019/09/13/ad1fd22070bcd62a7d5a241f38224951.png" alt="此处输入图片的描述"></p>
-<h3 id="4、Win-API"><a href="#4、Win-API" class="headerlink" title="4、Win API"></a>4、Win API</h3><pre><code>API全名（Application Programming Interface  应用程序编程接口）
-用于16位Windows的API（Windows1.0-Windows3.1）称作“Win16”，用于32位Windows的API（Windows 9x/NT/2000/XP/7/10）叫作“Win32”。64位WindowsAPI的名称和功能基本没有变化，还是使用Win32的函数名，只不过是用64位代码实现的。API函数调用从Win16到Win32的转变中保持兼容，并且数量和功能上不断增强——Windows10 1.0只支持不到450个函数调用，现在已有几千个函数了。
-Windows运转的核心是动态链接。Windows提供了丰富的应用程序可利用的函数调用，这些函数采用动态链接库（DLL）实现。在Windows 9x 中，DLL通常位于\WINDOWS\SYSTEM子目录中。在Windows NT/2000/XP/7中，DLL通常位于系统安装目录的\SYSTEM和\SYSTEM32子目录中。
-在早期，Windows的主要部分只需要在3个动态链接库中实现，它们分别代表Windows的三个主要子系统，叫做Kernel、User和GDI。
-    Kernel （由16位的KRNL386.EXE和32位KERNEL32.DLL实现）：操作系统核心功能服务，包括进程与线程控制、内存管理、文件访问等；
-    User    （由16位的KRNL386.EXE和32位KERNEL32.DLL实现）：负责处理用户接口，包括键盘和鼠标输入、窗口和菜单管理等；
-    GUI    （由16位的KRNL386.EXE和32位KERNEL32.DLL实现）：图形设备接口，允许程序在屏幕和打印机上显示文本和图形。</code></pre><p><img src="https://www.z4a.net/images/2019/09/13/8693e6cecda5b53c3b7cb55b2470db0b.png" alt="此处输入图片的描述"></p>
-<pre><code>除了上述模块，Windows提供了其他DLL以支持更多功能，包括对象安全性、注册表操作（ADVAPI32.DLL）、通用控件（COMCTL32.DLL）、公共对话框（COMDLG32.DLL）、用户界面外壳（SHELL32.DLL）和网络（NETAPTI32.DLL）。</code></pre><h3 id="5、WOW64"><a href="#5、WOW64" class="headerlink" title="5、WOW64"></a>5、WOW64</h3><pre><code>WOW64（Windows-on-Windows64-bit）是64位Windows操作系统的子系统，可以使大多数32位应用程序在不进行修改的情况下运行在64位操作系统上。
-64位的Windows，除了带有64位操作系统应有的系统文件，还带有32位操作系统应有的系统文件。Windows的64位系统应有的系统文件，还带有32位操作系统应有的系统文件。Windows的64位系统文件都放在一个叫做“System32“的文件夹中，\Windows\System32文件夹中包含原生的64位映像文件。为了兼容32位操作系统，还增加了\Windows\SysWOW64文件夹，其中存储了32位的操作系统。
-64位应用程序会加载System32目录下64位的kernel32.dll、user32.dll和ntdll.dll。当32位应用程序加载时，WOW64建立32位ntdll.dll所要求的启动环境，将CPU模式切换至32位，并开始执行32位加载器，就如同该进程在原生32位系统上一样。WOW64会对32位ntdll.dll的调用重定向ntdll.dll（64位），而不是发出原生的32位系统调用指令。WOW64转换到原生的64位模式，捕获于系统调用有关的参数，发出对应的原生64位系统调用。当原生的系统调用返回时，WOW64在返回32位模式之前将所有输出参数从64位转换成32位。
-WOW64既不支持16位应用程序的执行（32位Windows支持16位应用程序的执行），也不支持加载32位内核模式的设备驱动。WOW64进程只能加载32位的DLL，不能加载原生的64位DLL。类似的，原生的64位进程不能加载32位的DLL。</code></pre><h3 id="6、Windows消息机制"><a href="#6、Windows消息机制" class="headerlink" title="6、Windows消息机制"></a>6、Windows消息机制</h3><pre><code>Windows是一个消息（Message）驱动式系统。Windows消息提供在应用程序于应用程序之间、应用程序于Windows系统之间进行通信的手段。应用程序想要实现的功能由消息触发，通过对消息的相应和处理完成。
-Windows系统中有两种消息队列：一种是系统消息队列；另一种是应用程序消息队列。计算机的所有输入设备由Windows监控。当一个事件发生时，WIindows先将输入的消息放入系统消息队列，再将输入的消息复制到相应的应用程序队列中，应用程序中的消息循环在它的消息队列中检索每个消息并发送给相应的函数窗口。</code></pre><p>（1）SendMessage函数<br><img src="https://www.z4a.net/images/2019/09/13/SendMessage.png" alt="此处输入图片的描述"></p>
-<p>（2）WM_COMMANFD消息<br><img src="https://www.z4a.net/images/2019/09/13/WM_COMMANFD.png" alt="此处输入图片的描述"></p>
-<p>（3）WM_COMMAND消息<br><img src="https://www.z4a.net/images/2019/09/13/WM_COMMAND.png" alt="此处输入图片的描述"></p>
-<p>（4）WM_GETTEXT消息<br><img src="https://www.z4a.net/images/2019/09/13/VM_GETTEXT.png" alt="此处输入图片的描述"></p>
-<p>（5）WM_QUIT消息<br><img src="https://www.z4a.net/images/2019/09/13/WM_QUIT.png" alt="此处输入图片的描述"></p>
-<p>（6）WM_LBUTTONDOWN消息<br><img src="https://www.z4a.net/images/2019/09/13/WM_LBUTTONDOWN.png" alt="此处输入图片的描述"></p>
-<h3 id="7、虚拟内存"><a href="#7、虚拟内存" class="headerlink" title="7、虚拟内存"></a>7、虚拟内存</h3><pre><code>在默认情况下，32位Windows操作系统的地址空间是在4GB以内。Win32的平坦内存模式使每个进程都拥有自己的虚拟空间。对32位进程来说，这个地址空间是4GB，因为32位指针拥有00000000h-FFFFFFFFh的任何值。此时，进程的代码和数据都放在同一地址空间中，不必区分代码段和数据段。
-虚拟内存（Virtual Memory）不是真正的内存，它通过映射（Map）的方法使可用的虚拟地址（Virtual Address）达到4GB，每个应用程序可以获得2GB的虚拟地址，剩下的2GB留给操作系统自用。在Windows NT中，应用程序甚至可以获得3GB的虚拟地址。
-Windows是一个分时的多任务操作系统，CPU时间在被分成一个个时间片后分配给不同的应用程序。在一个时间片里，与这个程序的执行无关的内容不会映射到线性地址中。因此，每个程序都有自己的4GB寻址空间，互不干扰。在物理内存中，操作系统和系统DLL代码需要供每个应用程序调用，所以他们在任意时刻必须被映射。用户的exe程序只在自己所属的时间片内被映射，用户dll则有选择地被映射。
-实现方法和过程如下：
-1、当一个应用程序启动时，操作系统就创建一个进程，并给该进程分配2GB的虚拟地址（不是内存，只是地址）。
-2、虚拟内存管理器将应用程序的代码映射到那个应用程序的虚拟地址中的某个位置，并把当前需要的代码读入物理地址（注意：虚拟地址与应用程序代码在物理内存中的位置是没有关系的）。
-3、如果使用DLL，DLL也会被映射到进程的虚拟地址空间中。然后，虚拟内存管理器把每次内存访问映射到物理地址。</code></pre>
+        <h2 id="1、创建线程"><a href="#1、创建线程" class="headerlink" title="1、创建线程"></a>1、创建线程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">BOOL CreateProcess(</span><br><span class="line">    LPCTSTR lpApplicationName,                  // pointer to name of executable module</span><br><span class="line">    LPTSTR lpCommandLine,                       // pointer to command line string</span><br><span class="line">    LPSECURITY_ATTRIBUTES lpProcessAttributes,  // pointer to process security attributes</span><br><span class="line">    LPSECURITY_ATTRIBUTES lpThreadAttributes,   // pointer to thread security attributes</span><br><span class="line">    BOOL bInheritHandles,                       // handle inheritance flag</span><br><span class="line">    DWORD dwCreationFlags,                      // creation flags</span><br><span class="line">    LPVOID lpEnvironment,                       // pointer to new environment block</span><br><span class="line">    LPCTSTR lpCurrentDirectory,                 // pointer to current directory name</span><br><span class="line">    LPSTARTUPINFO lpStartupInfo,                // pointer to STARTUPINFO</span><br><span class="line">    LPPROCESS_INFORMATION lpProcessInformation  // pointer to PROCESS_INFORMATION</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<pre><code>lpApplicationName: 指向一个NULL结尾的、用来指定可执行模块的字符串。这个字符串可以是可执行模块的绝对路径，也可以是相对路径，在后一种情况下，函数使用当前驱动器和目录建立可执行模块的路径。这个参数可以被设为NULL，在这种情况下，可执行模块的名字必须处于 lpCommandLine 参数最前面并由空格符与后面的字符分开。
+lpCommandLine: 指向一个以NULL结尾的字符串，该字符串指定要执行的命令行。这个参数可以为空，那么函数将使用lpApplicationName参数指定的字符串当做要运行的程序的命令行。
+lpProcessAttributes: 指向一个SECURITY_ATTRIBUTES结构体，这个结构体决定是否返回的句柄可以被子进程继承。如果lpProcessAttributes参数为空（NULL），那么句柄不能被继承。
+lpThreadAttributes: 同lpProcessAttribute,不过这个参数决定的是线程是否被继承.通常置为NULL.
+bInheritHandles: 指示新进程是否从调用进程处继承了句柄。如果参数的值为真，调用进程中的每一个可继承的打开句柄都将被子进程继承。被继承的句柄与原进程拥有完全相同的值和访问权限。
+dwCreationFlags：指定附加的、用来控制优先类和进程的创建的标志。以下的创建标志可以以除下面列出的方式外的任何方式组合后指定。
+⑴值：CREATE_DEFAULT_ERROR_MODE：新的进程不继承调用进程的错误模式。
+⑵值：CREATE_NEW_CONSOLE：新的进程将使用一个新的控制台，而不是继承父进程的控制台。这个标志不能与DETACHED_PROCESS标志一起使用。
+⑶值：CREATE_NEW_PROCESS_GROUP：新进程将是一个进程树的根进程。
+⑷值：CREATE_SEPARATE_WOW_VDM： 如果被设置，新进程将会在一个私有的虚拟DOS机（VDM）中运行。
+⑸值：CREATE_SHARED_WOW_VDM： 如果WIN.INI中的Windows段的DefaultSeparateVDM选项被设置为真，这个标识使得CreateProcess函数越过这个选项并在共享的虚拟DOS机中运行新进程。
+⑹值：CREATE_SUSPENDED：新进程的主线程会以暂停的状态被创建，直到调用ResumeThread函数被调用时才运行。
+⑺值：CREATE_UNICODE_ENVIRONMENT：如果被设置，由lpEnvironment参数指定的环境块使用Unicode字符，如果为空，环境块使用ANSI字符。
+⑻值：DEBUG_PROCESS：如果这个标志被设置，调用进程将被当做一个调试程序，并且新进程会被当做被调试的进程。系统把被调试程序发生的所有调试事件通知给调试器。
+⑼值：DEBUG_ONLY_THIS_PROCESS：如果此标志没有被设置且调用进程正在被调试，新进程将成为调试调用进程的调试器的另一个调试对象。如果调用进程没有被调试，有关调试的行为就不会产生。
+⑽值：DETACHED_PROCESS：对于控制台进程，新进程没有访问父进程控制台的权限。新进程可以通过AllocConsole函数自己创建一个新的控制台。这个标志不可以与CREATE_NEW_CONSOLE标志一起使用。
+(11)值：CREATE_NO_WINDOW：系统不为新进程创建CUI窗口，使用该标志可以创建不含窗口的CUI程序。
+dwCreationFlags参数：用来控制新进程的优先类，优先类用来决定此进程的线程调度的优先级。
+可以选择下面的标志中的一个：
+优先级：HIGH_PRIORITY_CLASS：指示这个进程将执行时间临界的任务，所以它必须被立即运行以保证正确。这个优先级的程序优先于正常优先级或空闲优先级的程序。
+优先级：IDLE_PRIORITY_CLASS：指示这个进程的线程只有在系统空闲时才会运行并且可以被任何高优先级的任务打断。例如屏幕保护程序。空闲优先级会被子进程继承。
+优先级：NORMAL_PRIORITY_CLASS：指示这个进程没有特殊的任务调度要求。
+优先级：REALTIME_PRIORITY_CLASS：指示这个进程拥有可用的最高优先级。一个拥有实时优先级的进程的线程可以打断所有其他进程线程的执行，包括正在执行重要任务的系统进程。
+lpEnvironment：指向一个新进程的环境块。如果此参数为空，新进程使用调用进程的环境。
+lpCurrentDirectory：指向一个以NULL结尾的字符串，这个字符串用来指定子进程的工作路径。这个字符串必须是一个包含驱动器名的绝对路径。如果这个参数为空，新进程将使用与调用进程相同的驱动器和目录。
+lpStartupInfo：指向一个用于决定新进程的主窗体如何显示的STARTUPINFO结构体。
+lpProcessInformation：指向一个用来接收新进程的识别信息的PROCESS_INFORMATION结构体。</code></pre><h2 id="2、创建进程"><a href="#2、创建进程" class="headerlink" title="2、创建进程"></a>2、创建进程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HANDLE CreateThread(</span><br><span class="line">    LPSECURITY_ATTRIBUTES lpThreadAttributes,   // pointer to thread security attributes</span><br><span class="line">    DWORD dwStackSize,                          // initial thread stack size, in bytes</span><br><span class="line">    LPTHREAD_START_ROUTINE lpStartAddress,      // pointer to thread function</span><br><span class="line">    LPVOID lpParameter,                         // argument for new thread</span><br><span class="line">    DWORD dwCreationFlags,                      // creation flags</span><br><span class="line">    LPDWORD lpThreadId                          // pointer to returned thread identifier</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<pre><code>lpThreadAttrivutes：指向SECURITY_ATTRIBUTES的指针，用于定义新线程的安全属性，一般设置成NULL；
+dwStackSize：分配以字节数表示的线程堆栈的大小，默认值是0；
+lpStartAddress：指向一个线程函数地址。每个线程都有自己的线程函数，线程函数是线程具体的执行代码；
+lpParameter：传递给线程函数的参数；
+dwCreationFlags：表示创建线程的运行状态，其中CREATE_SUSPEND表示挂起当前创建的线程，而0表示立即执行当前创建的进程；
+lpThreadID：返回新创建的线程的ID编号；</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;Windows.h&gt;</span><br><span class="line"></span><br><span class="line">DWORD WINAPI ThreadProc(LPVOID lpParameter)</span><br><span class="line">&#123;</span><br><span class="line">	int i;</span><br><span class="line">	for(i = 0; i &lt; 100; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		Sleep(500);</span><br><span class="line">		printf(&quot;++++++++++++++++%d \n&quot;, i);</span><br><span class="line">	&#125;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int i;</span><br><span class="line">	HANDLE hThread;</span><br><span class="line">	hThread = CreateThread(NULL, 0, ThreadProc, NULL, 0, NULL);</span><br><span class="line">	CloseHandle(hThread);</span><br><span class="line"></span><br><span class="line">	for(i = 0; i &lt; 100; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		Sleep(500);</span><br><span class="line">		printf(&quot;----------------%d \n&quot;, i);</span><br><span class="line">	&#125;</span><br><span class="line">	return</span><br></pre></td></tr></table></figure>
+
+
       
     </div>
     
@@ -398,12 +391,6 @@ Windows是一个分时的多任务操作系统，CPU时间在被分成一个个�
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/Windows/" rel="tag"># Windows</a>
-          
-        </div>
-      
 
       
       
@@ -413,8 +400,8 @@ Windows是一个分时的多任务操作系统，CPU时间在被分成一个个�
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/09/12/Windows 内核函数/" rel="next" title="Windows内核函数">
-                <i class="fa fa-chevron-left"></i> Windows内核函数
+              <a href="/2020/05/25/函数调用约定/" rel="next" title="函数调用约定">
+                <i class="fa fa-chevron-left"></i> 函数调用约定
               </a>
             
           </div>
@@ -422,10 +409,6 @@ Windows是一个分时的多任务操作系统，CPU时间在被分成一个个�
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/09/13/一道BASE64编码算法CTF/" rel="prev" title="一道base64算法CTF">
-                一道base64算法CTF <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -578,7 +561,7 @@ Windows是一个分时的多任务操作系统，CPU时间在被分成一个个�
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、单位转换"><span class="nav-number">1.</span> <span class="nav-text">1、单位转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、字节序"><span class="nav-number">2.</span> <span class="nav-text">2、字节序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、ASCII码"><span class="nav-number">3.</span> <span class="nav-text">3、ASCII码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、Win-API"><span class="nav-number">4.</span> <span class="nav-text">4、Win API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、WOW64"><span class="nav-number">5.</span> <span class="nav-text">5、WOW64</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、Windows消息机制"><span class="nav-number">6.</span> <span class="nav-text">6、Windows消息机制</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、虚拟内存"><span class="nav-number">7.</span> <span class="nav-text">7、虚拟内存</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、创建线程"><span class="nav-number">1.</span> <span class="nav-text">1、创建线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、创建进程"><span class="nav-number">2.</span> <span class="nav-text">2、创建进程</span></a></li></ol></div>
             
 
           </div>

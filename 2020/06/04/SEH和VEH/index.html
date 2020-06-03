@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="SEH（Structured Exception Handling，结构化异常处理）是window操作系统默认的异常处理机制，逆向分析中，SEH除了基本的异常处理功能外，还大量用于反调试程序。 1、SEH的相关数据结构1、TIB结构TIB（Thread Information Block，线程信息块）是保存线程基本信息的数据结构。在用户模式下，它位于TEB（Thread Environment B">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SEH和VEH">
+<meta property="og:url" content="http://yoursite.com/2020/06/04/SEH和VEH/index.html">
+<meta property="og:site_name" content="Pangaea">
+<meta property="og:description" content="SEH（Structured Exception Handling，结构化异常处理）是window操作系统默认的异常处理机制，逆向分析中，SEH除了基本的异常处理功能外，还大量用于反调试程序。 1、SEH的相关数据结构1、TIB结构TIB（Thread Information Block，线程信息块）是保存线程基本信息的数据结构。在用户模式下，它位于TEB（Thread Environment B">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/06/03/twKlvV.png">
+<meta property="og:updated_time" content="2020-06-03T16:38:11.543Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SEH和VEH">
+<meta name="twitter:description" content="SEH（Structured Exception Handling，结构化异常处理）是window操作系统默认的异常处理机制，逆向分析中，SEH除了基本的异常处理功能外，还大量用于反调试程序。 1、SEH的相关数据结构1、TIB结构TIB（Thread Information Block，线程信息块）是保存线程基本信息的数据结构。在用户模式下，它位于TEB（Thread Environment B">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/06/03/twKlvV.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/06/04/SEH和VEH/">
+
+
+
+
+
+  <title>SEH和VEH | Pangaea</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pangaea</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/06/04/SEH和VEH/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Slipslop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pangaea">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SEH和VEH</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-06-04T00:37:40+08:00">
+                2020-06-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>SEH（Structured Exception Handling，结构化异常处理）是window操作系统默认的异常处理机制，逆向分析中，SEH除了基本的异常处理功能外，还大量用于反调试程序。</p>
+<h2 id="1、SEH的相关数据结构"><a href="#1、SEH的相关数据结构" class="headerlink" title="1、SEH的相关数据结构"></a>1、SEH的相关数据结构</h2><h3 id="1、TIB结构"><a href="#1、TIB结构" class="headerlink" title="1、TIB结构"></a>1、TIB结构</h3><p><strong>TIB</strong>（Thread Information Block，线程信息块）是保存线程基本信息的数据结构。在用户模式下，它位于TEB（Thread Environment Block，线程环境块）的头部，而TEB是操作系统为了保存每个线程的私有数据创建的，每个线程都有自己的TEB。TIB定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">typedef struct	_NT_TIB&#123;</span><br><span class="line">	 struct	_EXCEPTION_REGISTRATION_RECORD *ExceptionList;//指向异常处理链表</span><br><span class="line">	 PVOID StackBase;//当前线程所使用的栈的栈底</span><br><span class="line">	 PVOID StackLimit;//当前线程所使用的栈的栈顶</span><br><span class="line">	 PVOID SubSystemTib; </span><br><span class="line">	 union &#123;</span><br><span class="line">		PVOID FiberData; </span><br><span class="line">		DWORD Version;</span><br><span class="line">	 &#125;; </span><br><span class="line">	 PVOID ArbitraryUserPointer;</span><br><span class="line"> 	 struct	_NT_TIB *Self;//指向TIB结构自身</span><br><span class="line">&#125; NT_TIB;</span><br><span class="line">typedef NT_TIB *PNT_TIB;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、-EXCEPTION-REGISTRATION-RECORD结构"><a href="#2、-EXCEPTION-REGISTRATION-RECORD结构" class="headerlink" title="2、_EXCEPTION_REGISTRATION_RECORD结构"></a>2、_EXCEPTION_REGISTRATION_RECORD结构</h3><p>TEB偏移量为0的_EXCEPTION_REGISTRATION_RECORD主要用于描述线程异常处理过程的地址，多个该结构体的链表描述了多个线程异常处理过程的嵌套层次关系，定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">struct EXCEPTION_REGISTRATION_RECORD</span><br><span class="line">typedef struct _EXCEPTION_REGISTRATION_RECORD</span><br><span class="line">&#123;</span><br><span class="line">     PEXCEPTION_REGISTRATION_RECORD Next;//指向下一个结构的指针</span><br><span class="line">     PEXCEPTION_DISPOSITION Handler;//当前异常处理回调函数的地址</span><br><span class="line">&#125; EXCEPTION_REGISTRATION_RECORD, *PEXCEPTION_REGISTRATION_RECORD;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s1.ax1x.com/2020/06/03/twKlvV.png" alt="twKlvV.png"></p>
+<h3 id="3、EXCEPTION-DISPOSITION结构"><a href="#3、EXCEPTION-DISPOSITION结构" class="headerlink" title="3、EXCEPTION_DISPOSITION结构"></a>3、EXCEPTION_DISPOSITION结构</h3><p>由系统调用，是一个回调函数，第一个参数是一个指向EXCEPTION_RECORD结构体的指针</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">EXCEPTION_DISPOSITION __cdecl _except_handler (</span><br><span class="line">    EXCEPTION_RECORD      *pRecord,</span><br><span class="line">    EXCEPTION_REGISTRATION_RECORD *pFrame,</span><br><span class="line">    CONTEXT        *pContext,</span><br><span class="line">    PVOID          pValue</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h3 id="4、EXCEPTION-RECORD结构"><a href="#4、EXCEPTION-RECORD结构" class="headerlink" title="4、EXCEPTION_RECORD结构"></a>4、EXCEPTION_RECORD结构</h3><p>异常处理函数的第三个参数是指向CONTEXT结构体的指针，CONTEXT结构体用来备份CPU的值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">typedef struct _EXCEPTION_RECORD &#123;</span><br><span class="line">    DWORD ExceptionCode;   //异常代码</span><br><span class="line">    DWORD ExceptionFlags;</span><br><span class="line">    struct _EXCEPTION_RECORD *ExceptionRecord;</span><br><span class="line">    PVOID ExceptionAddress;   //异常发生地址</span><br><span class="line">    DWORD NumberParameters;</span><br><span class="line">    ULONG_PTR ExceptionInformation[EXCEPTION_MAXIMUM_PARAMETERS];</span><br><span class="line">&#125; EXCEPTION_RECORD;</span><br></pre></td></tr></table></figure>
+
+<p>异常发生的时候，执行异常代码的线程就会发生中断，转而运行SEH，此时操作系统会把线程CONTEXT结构体的指针传递给异常处理函数的相应参数。里面有个eip成员，在异常处理函数中将参数传递过来的CONTEXT.eip设置为其他地址，然后返回处理函数。这样之前暂停的线程会执行新的EIP地址处的代码。  </p>
+<h3 id="2、VEH"><a href="#2、VEH" class="headerlink" title="2、VEH"></a>2、VEH</h3><p>向量化异常处理的基本概念和SEH相同，也是注册一个回调函数，当发生异常时会被系统的异常处理过程调用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">WINBASEAPI PVOID WINAPI AddVectoreExceptionHandler (</span><br><span class="line">    ULONG FirstHandler;</span><br><span class="line">    PVECTORED_EXCEPTION_HANDLER VectoreHandler//回调函数地址</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">//回调函数原型</span><br><span class="line">LONG CALLBACK VectoredHandler (</span><br><span class="line">    PEXCEPTION_POINTERS ExceptionInfo</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>VEH回调函数也形成一个链表。若参数FirstHandler的值为0，则回调函数位于VEH链表的尾部；若参数FirstHandler为非零值，则置于VEH链表的头部。<br>VEH回调函数所在的模块被卸载之后，系统不能自动将回调函数从VEH链表上移除，需要程序在退出前自己完成卸载工作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ULONG RemoveVectoreExceptionHandler (</span><br><span class="line">    POVID VectoreHandlerHandle</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>VectoreHandlerHandle为AddVectoreExceptionHandler的返回值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line"></span><br><span class="line">#define _WIN32_WINNT 0x502</span><br><span class="line">#include &lt;windows.h&gt;</span><br><span class="line"></span><br><span class="line">char szTit[]=&quot;design : achillis XP+&quot;;</span><br><span class="line">DWORD validADDR;</span><br><span class="line"></span><br><span class="line">LONG WINAPI VectExceptionHandler(PEXCEPTION_POINTERS ExceptionInfo)</span><br><span class="line">&#123;</span><br><span class="line">    PCONTEXT pContext=ExceptionInfo-&gt;ContextRecord;</span><br><span class="line">    pContext-&gt;Eax=(DWORD)&amp;validADDR;</span><br><span class="line">    return  EXCEPTION_CONTINUE_EXECUTION;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int APIENTRY WinMain(HINSTANCE hInstance,HINSTANCE hPrevInstance,LPSTR CmdLine,int nCmdShow)</span><br><span class="line">&#123;</span><br><span class="line">    PVOID handle = AddVectoredExceptionHandler(TRUE, VectExceptionHandler);</span><br><span class="line">	</span><br><span class="line">	__asm</span><br><span class="line">	&#123;</span><br><span class="line">		xor eax,eax</span><br><span class="line">		mov [eax],5 //向0地址写入数据，引发内存访问异常</span><br><span class="line">	&#125;</span><br><span class="line">    </span><br><span class="line">    MessageBox(0,&quot;We SUC recovering from Write Acess!&quot;,szTit,MB_ICONINFORMATION);</span><br><span class="line">    RemoveVectoredExceptionHandler(handle);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/06/02/APK文件结构/" rel="next" title="APK文件结构">
+                <i class="fa fa-chevron-left"></i> APK文件结构
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Slipslop">
+            
+              <p class="site-author-name" itemprop="name">Slipslop</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">23</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/yourname" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="skype:yourname?call|chat" target="_blank" title="Skype">
+                      
+                        <i class="fa fa-fw fa-skype"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、SEH的相关数据结构"><span class="nav-number">1.</span> <span class="nav-text">1、SEH的相关数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、TIB结构"><span class="nav-number">1.1.</span> <span class="nav-text">1、TIB结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、-EXCEPTION-REGISTRATION-RECORD结构"><span class="nav-number">1.2.</span> <span class="nav-text">2、_EXCEPTION_REGISTRATION_RECORD结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、EXCEPTION-DISPOSITION结构"><span class="nav-number">1.3.</span> <span class="nav-text">3、EXCEPTION_DISPOSITION结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、EXCEPTION-RECORD结构"><span class="nav-number">1.4.</span> <span class="nav-text">4、EXCEPTION_RECORD结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、VEH"><span class="nav-number">1.5.</span> <span class="nav-text">2、VEH</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Slipslop</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/ioufev/love.js"></script>
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>

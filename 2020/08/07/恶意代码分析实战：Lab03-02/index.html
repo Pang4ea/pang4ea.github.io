@@ -79,13 +79,25 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="Pangaea">
-<meta property="og:url" content="http://yoursite.com/page/7/index.html">
+<meta name="description" content="Lab 3-2使用动态分析技术来分析在Lab03-03.dll文件中发现的恶意代码 问题首先用PEID查看一下实验文件的导出表：可以发现，一共有5个导出函数，第二个和第三个从名称上看与服务相关。利用strings进行字符串查看：可以看到这里出现了svchost这个程序，它是一个宿主程序。DLL文件自身是不能够运行的，因此我们系统中的很多DLL就会依附svchost.exe这个程序上面。 1、你怎样">
+<meta property="og:type" content="article">
+<meta property="og:title" content="恶意代码分析实战：Lab03-02">
+<meta property="og:url" content="http://yoursite.com/2020/08/07/恶意代码分析实战：Lab03-02/index.html">
 <meta property="og:site_name" content="Pangaea">
+<meta property="og:description" content="Lab 3-2使用动态分析技术来分析在Lab03-03.dll文件中发现的恶意代码 问题首先用PEID查看一下实验文件的导出表：可以发现，一共有5个导出函数，第二个和第三个从名称上看与服务相关。利用strings进行字符串查看：可以看到这里出现了svchost这个程序，它是一个宿主程序。DLL文件自身是不能够运行的，因此我们系统中的很多DLL就会依附svchost.exe这个程序上面。 1、你怎样">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/06/a2aW1H.md.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/06/a2dzxH.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/07/ahmuad.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/07/ahnrtA.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/07/ahKnZF.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/07/ahMeSI.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/07/ahlAxI.png">
+<meta property="og:updated_time" content="2020-08-07T14:00:08.175Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Pangaea">
+<meta name="twitter:title" content="恶意代码分析实战：Lab03-02">
+<meta name="twitter:description" content="Lab 3-2使用动态分析技术来分析在Lab03-03.dll文件中发现的恶意代码 问题首先用PEID查看一下实验文件的导出表：可以发现，一共有5个导出函数，第二个和第三个从名称上看与服务相关。利用strings进行字符串查看：可以看到这里出现了svchost这个程序，它是一个宿主程序。DLL文件自身是不能够运行的，因此我们系统中的很多DLL就会依附svchost.exe这个程序上面。 1、你怎样">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/08/06/a2aW1H.md.png">
 
 
 
@@ -115,13 +127,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/page/7/">
+  <link rel="canonical" href="http://yoursite.com/2020/08/07/恶意代码分析实战：Lab03-02/">
 
 
 
 
 
-  <title>Pangaea</title>
+  <title>恶意代码分析实战：Lab03-02 | Pangaea</title>
   
 
 
@@ -140,8 +152,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -254,9 +265,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   
 
@@ -269,7 +280,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/MD5算法学习/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/07/恶意代码分析实战：Lab03-02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Slipslop">
@@ -286,9 +297,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/10/MD5算法学习/" itemprop="url">MD5算法学习</a></h1>
+          <h1 class="post-title" itemprop="name headline">恶意代码分析实战：Lab03-02</h1>
         
 
         <div class="post-meta">
@@ -300,8 +309,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T17:48:03+08:00">
-                2019-09-10
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-07T19:02:17+08:00">
+                2020-08-07
               </time>
             
 
@@ -338,18 +347,18 @@
       
 
       
-        
-          
-          1、题目内容    这里有一段丢失的md5密文 e9032???da???08????911513?0???a2要求你还原出他并且加上nctf{}提交 已知线索 明文为：TASC?O3RJMV?WDJ
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/10/MD5算法学习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+        <h2 id="Lab-3-2"><a href="#Lab-3-2" class="headerlink" title="Lab 3-2"></a>Lab 3-2</h2><p>使用动态分析技术来分析在Lab03-03.dll文件中发现的恶意代码</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>首先用PEID查看一下实验文件的导出表：<br><a href="https://imgchr.com/i/a2aW1H" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/08/06/a2aW1H.md.png" alt="a2aW1H.md.png"></a><br>可以发现，一共有5个导出函数，第二个和第三个从名称上看与服务相关。<br>利用strings进行字符串查看：<br><a href="https://imgchr.com/i/a2dzxH" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/08/06/a2dzxH.png" alt="a2dzxH.png"></a><br>可以看到这里出现了svchost这个程序，它是一个宿主程序。DLL文件自身是不能够运行的，因此我们系统中的很多DLL就会依附svchost.exe这个程序上面。</p>
+<h3 id="1、你怎样才能让这个恶意代码自行安装？"><a href="#1、你怎样才能让这个恶意代码自行安装？" class="headerlink" title="1、你怎样才能让这个恶意代码自行安装？"></a>1、你怎样才能让这个恶意代码自行安装？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\&gt; rundll32.exe Lab03-02.dll,installA</span><br></pre></td></tr></table></figure>
+
+<p>可以发现，Lab03-02.dll会添加一个名为IPRIP的服务；ImagePath后有一个svchost，说明恶意程序会在svchhost实现启动。<br><a href="https://imgchr.com/i/ahmuad" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/08/07/ahmuad.png" alt="ahmuad.png"></a></p>
+<h3 id="2、在安装之后，你如何让这个恶意代码运行起来？"><a href="#2、在安装之后，你如何让这个恶意代码运行起来？" class="headerlink" title="2、在安装之后，你如何让这个恶意代码运行起来？"></a>2、在安装之后，你如何让这个恶意代码运行起来？</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\&gt; net start IPRIP</span><br></pre></td></tr></table></figure>
+
+<h3 id="3、你怎么能找到这个恶意代码是在哪个进程下运行的？"><a href="#3、你怎么能找到这个恶意代码是在哪个进程下运行的？" class="headerlink" title="3、你怎么能找到这个恶意代码是在哪个进程下运行的？"></a>3、你怎么能找到这个恶意代码是在哪个进程下运行的？</h3><p>可以发现，Lab03-02.dll依附在了PID为1024的svchost.exe上。<br><a href="https://imgchr.com/i/ahnrtA" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/08/07/ahnrtA.png" alt="ahnrtA.png"></a></p>
+<h3 id="4、你可以在procmon工具中设置什么样的过滤器，才能收集这个恶意代码的信息？"><a href="#4、你可以在procmon工具中设置什么样的过滤器，才能收集这个恶意代码的信息？" class="headerlink" title="4、你可以在procmon工具中设置什么样的过滤器，才能收集这个恶意代码的信息？"></a>4、你可以在procmon工具中设置什么样的过滤器，才能收集这个恶意代码的信息？</h3><p>在procmon中打开筛选器，然后添加PID为980的筛选条件。<br><a href="https://imgchr.com/i/ahKnZF" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/08/07/ahKnZF.png" alt="ahKnZF.png"></a></p>
+<h3 id="5、这个恶意代码在主机上的感染迹象特征是什么？"><a href="#5、这个恶意代码在主机上的感染迹象特征是什么？" class="headerlink" title="5、这个恶意代码在主机上的感染迹象特征是什么？"></a>5、这个恶意代码在主机上的感染迹象特征是什么？</h3><p>创建一个名为IPRIP的服务。</p>
+<h3 id="6、这个恶意代码是否存在一下有用的网络特征码？"><a href="#6、这个恶意代码是否存在一下有用的网络特征码？" class="headerlink" title="6、这个恶意代码是否存在一下有用的网络特征码？"></a>6、这个恶意代码是否存在一下有用的网络特征码？</h3><p><a href="https://imgchr.com/i/ahMeSI" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/08/07/ahMeSI.png" alt="ahMeSI.png"></a><br><a href="https://imgchr.com/i/ahlAxI" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/08/07/ahlAxI.png" alt="ahlAxI.png"></a></p>
+
       
     </div>
     
@@ -366,139 +375,28 @@
       
 
       
-
-      
-
       
       
-        <div class="post-eof"></div>
+
       
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/Python正则表达式的学习/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Slipslop">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pangaea">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/10/Python正则表达式的学习/" itemprop="url">Python正则表达式的学习</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T17:48:03+08:00">
-                2019-09-10
-              </time>
+              <a href="/2020/08/05/恶意代码分析实战：Lab03-01/" rel="next" title="恶意代码分析实战：Lab03-01">
+                <i class="fa fa-chevron-left"></i> 恶意代码分析实战：Lab03-01
+              </a>
             
+          </div>
 
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
             
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
       
 
       
-        
-          
-          1、re.match函数re.match尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。
-函数语法：1、re.match(pattren, string
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/10/Python正则表达式的学习/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -508,141 +406,11 @@
   </article>
 
 
-    
-      
 
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/IgniteMe逆向算法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Slipslop">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pangaea">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2019/09/10/IgniteMe逆向算法/" itemprop="url">一道RE学习：IngiteMe</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T17:48:03+08:00">
-                2019-09-10
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          1、RE-IgniteMe这道题来自XCTF社区，比较简单。
-题目链接：https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2019/09/10/IgniteMe逆向算法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
+    <div class="post-spread">
       
     </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
   </div>
-  
-  
-  
-  </article>
-
-
-    
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span>
-  </nav>
-
 
 
           </div>
@@ -650,6 +418,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -670,8 +442,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -752,6 +533,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Lab-3-2"><span class="nav-number">1.</span> <span class="nav-text">Lab 3-2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">2.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、你怎样才能让这个恶意代码自行安装？"><span class="nav-number">2.1.</span> <span class="nav-text">1、你怎样才能让这个恶意代码自行安装？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、在安装之后，你如何让这个恶意代码运行起来？"><span class="nav-number">2.2.</span> <span class="nav-text">2、在安装之后，你如何让这个恶意代码运行起来？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、你怎么能找到这个恶意代码是在哪个进程下运行的？"><span class="nav-number">2.3.</span> <span class="nav-text">3、你怎么能找到这个恶意代码是在哪个进程下运行的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、你可以在procmon工具中设置什么样的过滤器，才能收集这个恶意代码的信息？"><span class="nav-number">2.4.</span> <span class="nav-text">4、你可以在procmon工具中设置什么样的过滤器，才能收集这个恶意代码的信息？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、这个恶意代码在主机上的感染迹象特征是什么？"><span class="nav-number">2.5.</span> <span class="nav-text">5、这个恶意代码在主机上的感染迹象特征是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、这个恶意代码是否存在一下有用的网络特征码？"><span class="nav-number">2.6.</span> <span class="nav-text">6、这个恶意代码是否存在一下有用的网络特征码？</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -898,6 +695,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

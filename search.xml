@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[恶意代码分析实战：Lab03-03]]></title>
+    <url>%2F2020%2F08%2F10%2F%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98%EF%BC%9ALab03-03%2F</url>
+    <content type="text"><![CDATA[问题1、当你使用Process Explorer工具进行监视时，你注意到了什么？打开Process Explorer，再运行Lab03-03.exe，创建了应该名为svchost.exe的程序，然后Lab03-03.exe就消失了。 2、你可以找出任何的内存修改行为吗？可以发现它会创建一个日志文件，并且有abcdefghijklmnopqrstuvwxyz、ABCDEFGHIJKLMNOPQRSTUVWXYZ以及[SHIFT]、[ENTER]等字符串，可以判断这是一个键盘记录器。 3、这个恶意代码在主机上的感染迹象特征是什么？可以看到，恶意代码在不断地调用CreateFile与WriteFile这两个函数，并且将键盘操作记录在日志文件中。 4、这个恶意代码的目的是什么？创建一个键盘记录器。]]></content>
+  </entry>
+  <entry>
     <title><![CDATA[恶意代码分析实战：Lab03-02]]></title>
     <url>%2F2020%2F08%2F07%2F%E6%81%B6%E6%84%8F%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E5%AE%9E%E6%88%98%EF%BC%9ALab03-02%2F</url>
     <content type="text"><![CDATA[Lab 3-2使用动态分析技术来分析在Lab03-03.dll文件中发现的恶意代码 问题首先用PEID查看一下实验文件的导出表：可以发现，一共有5个导出函数，第二个和第三个从名称上看与服务相关。利用strings进行字符串查看：可以看到这里出现了svchost这个程序，它是一个宿主程序。DLL文件自身是不能够运行的，因此我们系统中的很多DLL就会依附svchost.exe这个程序上面。 1、你怎样才能让这个恶意代码自行安装？1C:\&gt; rundll32.exe Lab03-02.dll,installA 可以发现，Lab03-02.dll会添加一个名为IPRIP的服务；ImagePath后有一个svchost，说明恶意程序会在svchhost实现启动。 2、在安装之后，你如何让这个恶意代码运行起来？1C:\&gt; net start IPRIP 3、你怎么能找到这个恶意代码是在哪个进程下运行的？可以发现，Lab03-02.dll依附在了PID为1024的svchost.exe上。 4、你可以在procmon工具中设置什么样的过滤器，才能收集这个恶意代码的信息？在procmon中打开筛选器，然后添加PID为980的筛选条件。 5、这个恶意代码在主机上的感染迹象特征是什么？创建一个名为IPRIP的服务。 6、这个恶意代码是否存在一下有用的网络特征码？]]></content>

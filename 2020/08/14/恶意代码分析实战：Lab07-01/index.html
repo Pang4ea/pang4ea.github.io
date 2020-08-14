@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="问题首先使用PEiD来查看一下程序的导入表：在导入表的ADVAPI32.dll这个动态链接库中，可以看到CreateServiceA以及OpenSCManagerA这两个API函数，说明这个恶意程序很可能会创建一个服务，来保证它会在系统被重启后运行。WININET.dll这个动态链接库中的InternetOpenUrlA以及InternetOpenA说明这个程序可能会连接到一个网站。首先看一下这个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="恶意代码分析实战：Lab07-01">
+<meta property="og:url" content="http://yoursite.com/2020/08/14/恶意代码分析实战：Lab07-01/index.html">
+<meta property="og:site_name" content="Pangaea">
+<meta property="og:description" content="问题首先使用PEiD来查看一下程序的导入表：在导入表的ADVAPI32.dll这个动态链接库中，可以看到CreateServiceA以及OpenSCManagerA这两个API函数，说明这个恶意程序很可能会创建一个服务，来保证它会在系统被重启后运行。WININET.dll这个动态链接库中的InternetOpenUrlA以及InternetOpenA说明这个程序可能会连接到一个网站。首先看一下这个">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/14/dPl7FI.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/14/dPljOg.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/14/dPJ8PA.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/14/dPJ2rT.png">
+<meta property="og:updated_time" content="2020-08-14T09:58:43.580Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="恶意代码分析实战：Lab07-01">
+<meta name="twitter:description" content="问题首先使用PEiD来查看一下程序的导入表：在导入表的ADVAPI32.dll这个动态链接库中，可以看到CreateServiceA以及OpenSCManagerA这两个API函数，说明这个恶意程序很可能会创建一个服务，来保证它会在系统被重启后运行。WININET.dll这个动态链接库中的InternetOpenUrlA以及InternetOpenA说明这个程序可能会连接到一个网站。首先看一下这个">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/08/14/dPl7FI.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/08/14/恶意代码分析实战：Lab07-01/">
+
+
+
+
+
+  <title>恶意代码分析实战：Lab07-01 | Pangaea</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pangaea</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/14/恶意代码分析实战：Lab07-01/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Slipslop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pangaea">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">恶意代码分析实战：Lab07-01</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-14T17:58:12+08:00">
+                2020-08-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>首先使用PEiD来查看一下程序的导入表：<br><img src="https://s1.ax1x.com/2020/08/14/dPl7FI.png" alt="dPl7FI.png"><br>在导入表的ADVAPI32.dll这个动态链接库中，可以看到CreateServiceA以及OpenSCManagerA这两个API函数，说明这个恶意程序很可能会创建一个服务，来保证它会在系统被重启后运行。<br><img src="https://s1.ax1x.com/2020/08/14/dPljOg.png" alt="dPljOg.png"><br>WININET.dll这个动态链接库中的InternetOpenUrlA以及InternetOpenA说明这个程序可能会连接到一个网站。<br>首先看一下这个恶意程序的main函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">; int __cdecl main(int argc, const char **argv, const char **envp)</span><br><span class="line">_main proc near</span><br><span class="line"></span><br><span class="line">ServiceStartTable= SERVICE_TABLE_ENTRYA ptr -10h</span><br><span class="line">var_8= dword ptr -8</span><br><span class="line">var_4= dword ptr -4</span><br><span class="line">argc= dword ptr  4</span><br><span class="line">argv= dword ptr  8</span><br><span class="line">envp= dword ptr  0Ch</span><br><span class="line"></span><br><span class="line">sub     esp, 10h</span><br><span class="line">lea     eax, [esp+10h+ServiceStartTable]</span><br><span class="line">mov     [esp+10h+ServiceStartTable.lpServiceName], offset aMalservice ; &quot;MalService&quot;</span><br><span class="line">push    eax             ; lpServiceStartTable</span><br><span class="line">mov     [esp+14h+ServiceStartTable.lpServiceProc], offset sub_401040</span><br><span class="line">mov     [esp+14h+var_8], 0</span><br><span class="line">mov     [esp+14h+var_4], 0</span><br><span class="line">call    ds:StartServiceCtrlDispatcherA</span><br><span class="line">push    0</span><br><span class="line">push    0</span><br><span class="line">call    sub_401040</span><br><span class="line">add     esp, 18h</span><br><span class="line">retn</span><br><span class="line">_main endp</span><br></pre></td></tr></table></figure>
+
+<p>这个main函数出现了StartServiceCtrlDispatcherA这个函数，它主要用来实现一个服务。这个函数指定了服务控制管理器所要调用的服务控制函数。这里它所指定的函数就是sub_401040，这个函数会在调用StartServiceCtrlDispatcherA之后被调用。<br>我们进入sub_401040看看。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sub_401040 proc near</span><br><span class="line"></span><br><span class="line">SystemTime= SYSTEMTIME ptr -400h</span><br><span class="line">FileTime= _FILETIME ptr -3F0h</span><br><span class="line">Filename= byte ptr -3E8h</span><br><span class="line"></span><br><span class="line">sub     esp, 400h</span><br><span class="line">push    offset Name     ; &quot;HGL345&quot;</span><br><span class="line">push    0               ; bInheritHandle</span><br><span class="line">push    1F0001h         ; dwDesiredAccess</span><br><span class="line">call    ds:OpenMutexA</span><br><span class="line">test    eax, eax</span><br><span class="line">jz      short loc_401064</span><br></pre></td></tr></table></figure>
+
+<p>函数首先调用了OpenMutexA函数，这个函数会试图获取一个名为“HGL345”的互斥量的句柄，如果这个互斥量存在，那么程序就调用ExitProcess来结束程序。如果这个互斥量不存在，那就会执行右边的流程。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">push    esi</span><br><span class="line">push    offset Name     ; &quot;HGL345&quot;</span><br><span class="line">push    0               ; bInitialOwner</span><br><span class="line">push    0               ; lpMutexAttributes</span><br><span class="line">call    ds:CreateMutexA</span><br></pre></td></tr></table></figure>
+
+<p>因为互斥量不存在，所以这里就调用CreateMutexA来创建一个名为HGL345的互斥量。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">push    3               ; dwDesiredAccess</span><br><span class="line">push    0               ; lpDatabaseName</span><br><span class="line">push    0               ; lpMachineName</span><br><span class="line">call    ds:OpenSCManagerA</span><br><span class="line">mov     esi, eax</span><br><span class="line">call    ds:GetCurrentProcess</span><br><span class="line">lea     eax, [esp+404h+Filename]</span><br><span class="line">push    3E8h            ; nSize</span><br><span class="line">push    eax             ; lpFilename</span><br><span class="line">push    0               ; hModule</span><br><span class="line">call    ds:GetModuleFileNameA</span><br><span class="line">push    0               ; lpPassword</span><br><span class="line">push    0               ; lpServiceStartName</span><br><span class="line">push    0               ; lpDependencies</span><br><span class="line">push    0               ; lpdwTagId</span><br><span class="line">lea     ecx, [esp+414h+Filename]</span><br><span class="line">push    0               ; lpLoadOrderGroup</span><br><span class="line">push    ecx             ; lpBinaryPathName</span><br><span class="line">push    0               ; dwErrorControl</span><br><span class="line">push    2               ; dwStartType</span><br><span class="line">push    10h             ; dwServiceType</span><br><span class="line">push    2               ; dwDesiredAccess</span><br><span class="line">push    offset DisplayName ; &quot;Malservice&quot;</span><br><span class="line">push    offset DisplayName ; &quot;Malservice&quot;</span><br><span class="line">push    esi             ; hSCManager</span><br><span class="line">call    ds:CreateServiceA</span><br></pre></td></tr></table></figure>
+
+<p>之后通过OpenSCManagerA这个函数打开一个服务控制管理器的句柄，以便这个恶意程序可以添加或修改服务。接下来使用GetCurrentProcess来获取当前进程的伪句柄。然后调用GetModuleFileNameA获取当前所运行程序的完整路径。当获取到完整的路径以后，这个路径就会被CreateServiceA用来创建一个新的服务。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">xor     edx, edx</span><br><span class="line">lea     eax, [esp+404h+FileTime]</span><br><span class="line">mov     dword ptr [esp+404h+SystemTime.wYear], edx</span><br><span class="line">lea     ecx, [esp+404h+SystemTime]</span><br><span class="line">mov     dword ptr [esp+404h+SystemTime.wDayOfWeek], edx</span><br><span class="line">push    eax             ; lpFileTime</span><br><span class="line">mov     dword ptr [esp+408h+SystemTime.wHour], edx</span><br><span class="line">push    ecx             ; lpSystemTime</span><br><span class="line">mov     dword ptr [esp+40Ch+SystemTime.wSecond], edx</span><br><span class="line">mov     [esp+40Ch+SystemTime.wYear], 2100</span><br><span class="line">call    ds:SystemTimeToFileTime</span><br><span class="line">push    0               ; lpTimerName</span><br><span class="line">push    0               ; bManualReset</span><br><span class="line">push    0               ; lpTimerAttributes</span><br><span class="line">call    ds:CreateWaitableTimerA</span><br><span class="line">push    0               ; fResume</span><br><span class="line">push    0               ; lpArgToCompletionRoutine</span><br><span class="line">push    0               ; pfnCompletionRoutine</span><br><span class="line">lea     edx, [esp+410h+FileTime]</span><br><span class="line">mov     esi, eax</span><br><span class="line">push    0               ; lPeriod</span><br><span class="line">push    edx             ; lpDueTime</span><br><span class="line">push    esi             ; hTimer</span><br><span class="line">call    ds:SetWaitableTimer</span><br><span class="line">push    0FFFFFFFFh      ; dwMilliseconds</span><br><span class="line">push    esi             ; hHandle</span><br><span class="line">call    ds:WaitForSingleObject</span><br><span class="line">test    eax, eax</span><br><span class="line">jnz     short loc_40113B</span><br></pre></td></tr></table></figure>
+
+<p>接下来程序使用了SYSTEMTIME的结构体，这是Windows的一个关于时间的结构体。可以看到，程序首先将wYear（年）、wDayOfWeek（星期）、wHour（时）以及wSecond（秒）设置为了零，下面又将wYear（年）设置为了0x834，也就是十进制的2100，这个时间是2100年。之后调用SystemTimeToFileTime来将系统时间转换为文件时间。这里又调用了CreateWaitableTimer、SetWaitableTimer以及WaitForSingleObject。对于我们来说最重要的是SetWaitableTimer的lpDueTime这个参数。它是SystemTimeToFileTime所返回的文件时间，之后利用WaitForSingleObject进入等待，直到2100年1月1日的午夜。 如果等到了2100年1月1日，那么就会执行以下代码：<br><img src="https://s1.ax1x.com/2020/08/14/dPJ8PA.png" alt="dPJ8PA.png"><br>这段代码会创建14h个线程去执行线程中的代码，我们进入StartAddress中看看。<br><img src="https://s1.ax1x.com/2020/08/14/dPJ2rT.png" alt="dPJ2rT.png"><br>可以看到，程序首先使用InternetOpenA来初始化一个网络连接，下面在一个循环中调用InternetOpenUrlA。这是一个死循环，它会不断地调用InternetOpenUrlA来访问<a href="http://www.malwareanalysisbook.com这个网页。而且由于CreateThread被调用了20次，所以会有20个线程不断地调用InternetOpenUrlA来访问这个网站。显然这是一个DDoS（分布式拒绝服务）攻击。" target="_blank" rel="noopener">www.malwareanalysisbook.com这个网页。而且由于CreateThread被调用了20次，所以会有20个线程不断地调用InternetOpenUrlA来访问这个网站。显然这是一个DDoS（分布式拒绝服务）攻击。</a></p>
+<h3 id="1、当计算机重启后，这个程序如何确保它继续运行（达到持久化驻留）？"><a href="#1、当计算机重启后，这个程序如何确保它继续运行（达到持久化驻留）？" class="headerlink" title="1、当计算机重启后，这个程序如何确保它继续运行（达到持久化驻留）？"></a>1、当计算机重启后，这个程序如何确保它继续运行（达到持久化驻留）？</h3><p>这个程序会创建一个名为MalService的服务，来保证它会在每次系统启动后运行。</p>
+<h3 id="2、为什么这个程序会使用一个互斥量？"><a href="#2、为什么这个程序会使用一个互斥量？" class="headerlink" title="2、为什么这个程序会使用一个互斥量？"></a>2、为什么这个程序会使用一个互斥量？</h3><p>保证同一时间只有一份实例在运行。</p>
+<h3 id="3、可以用来检测这个程序的基于主机特征是什么？"><a href="#3、可以用来检测这个程序的基于主机特征是什么？" class="headerlink" title="3、可以用来检测这个程序的基于主机特征是什么？"></a>3、可以用来检测这个程序的基于主机特征是什么？</h3><p>一个是名为HGL345的互斥量，另一个是名为Malservice的服务。</p>
+<h3 id="4、检测这个恶意代码的基于网络特征是什么？"><a href="#4、检测这个恶意代码的基于网络特征是什么？" class="headerlink" title="4、检测这个恶意代码的基于网络特征是什么？"></a>4、检测这个恶意代码的基于网络特征是什么？</h3><p>这个恶意程序使用了用户代理Internet Explorer 8.0，以及不断地访问<a href="http://www.malwareanalysisbook.com这个网页。" target="_blank" rel="noopener">www.malwareanalysisbook.com这个网页。</a></p>
+<h3 id="5、这个程序的目的是什么？"><a href="#5、这个程序的目的是什么？" class="headerlink" title="5、这个程序的目的是什么？"></a>5、这个程序的目的是什么？</h3><p>这个程序运行后，会等待到2100年1月1日的半夜，然后发送很多访问请求到<a href="http://www.malwareanalysisbook.com这个网页，以实现对这个网站的DDoS攻击。" target="_blank" rel="noopener">www.malwareanalysisbook.com这个网页，以实现对这个网站的DDoS攻击。</a></p>
+<h3 id="6、这个程序什么时候完成执行？"><a href="#6、这个程序什么时候完成执行？" class="headerlink" title="6、这个程序什么时候完成执行？"></a>6、这个程序什么时候完成执行？</h3><p>这个程序永远不会完成，程序就会进入一个无限循环。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/10/恶意代码分析实战：Lab03-03/" rel="next" title="恶意代码分析实战：Lab03-03">
+                <i class="fa fa-chevron-left"></i> 恶意代码分析实战：Lab03-03
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Slipslop">
+            
+              <p class="site-author-name" itemprop="name">Slipslop</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/yourname" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="skype:yourname?call|chat" target="_blank" title="Skype">
+                      
+                        <i class="fa fa-fw fa-skype"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、当计算机重启后，这个程序如何确保它继续运行（达到持久化驻留）？"><span class="nav-number">1.1.</span> <span class="nav-text">1、当计算机重启后，这个程序如何确保它继续运行（达到持久化驻留）？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、为什么这个程序会使用一个互斥量？"><span class="nav-number">1.2.</span> <span class="nav-text">2、为什么这个程序会使用一个互斥量？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、可以用来检测这个程序的基于主机特征是什么？"><span class="nav-number">1.3.</span> <span class="nav-text">3、可以用来检测这个程序的基于主机特征是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、检测这个恶意代码的基于网络特征是什么？"><span class="nav-number">1.4.</span> <span class="nav-text">4、检测这个恶意代码的基于网络特征是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、这个程序的目的是什么？"><span class="nav-number">1.5.</span> <span class="nav-text">5、这个程序的目的是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、这个程序什么时候完成执行？"><span class="nav-number">1.6.</span> <span class="nav-text">6、这个程序什么时候完成执行？</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Slipslop</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/ioufev/love.js"></script>
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>

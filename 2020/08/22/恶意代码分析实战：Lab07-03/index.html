@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="问题首先用PEID查看一下Lab07-03.exe的导入表信息。在这里我们发现了CreateFileA、CreateFileMappingA以及MapViewOfFile，说明这个程序很可能会打开一个文件，并将其映射到内存中。而FindFirstFileA以及FindNextFileA函数，说明这个程序会在计算机中搜索文件或目录。CopyFileA说明这个程序会进行文件的拷贝。打开ida，查看一下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="恶意代码分析实战：Lab07-03">
+<meta property="og:url" content="http://yoursite.com/2020/08/22/恶意代码分析实战：Lab07-03/index.html">
+<meta property="og:site_name" content="Pangaea">
+<meta property="og:description" content="问题首先用PEID查看一下Lab07-03.exe的导入表信息。在这里我们发现了CreateFileA、CreateFileMappingA以及MapViewOfFile，说明这个程序很可能会打开一个文件，并将其映射到内存中。而FindFirstFileA以及FindNextFileA函数，说明这个程序会在计算机中搜索文件或目录。CopyFileA说明这个程序会进行文件的拷贝。打开ida，查看一下">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/daHzxs.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/daHM4g.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/dabgQs.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/daqAmt.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/daLM4O.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/daOEi8.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/daOYz4.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/daO0dx.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/dajFC8.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/dajM5V.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/davaLj.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/davhwR.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/davTfK.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/dax8B9.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/daxd1O.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/daxhjg.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/08/22/daxzDJ.png">
+<meta property="og:updated_time" content="2020-08-22T15:15:02.271Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="恶意代码分析实战：Lab07-03">
+<meta name="twitter:description" content="问题首先用PEID查看一下Lab07-03.exe的导入表信息。在这里我们发现了CreateFileA、CreateFileMappingA以及MapViewOfFile，说明这个程序很可能会打开一个文件，并将其映射到内存中。而FindFirstFileA以及FindNextFileA函数，说明这个程序会在计算机中搜索文件或目录。CopyFileA说明这个程序会进行文件的拷贝。打开ida，查看一下">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/08/22/daHzxs.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/08/22/恶意代码分析实战：Lab07-03/">
+
+
+
+
+
+  <title>恶意代码分析实战：Lab07-03 | Pangaea</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pangaea</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/22/恶意代码分析实战：Lab07-03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Slipslop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pangaea">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">恶意代码分析实战：Lab07-03</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-22T23:14:23+08:00">
+                2020-08-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>首先用PEID查看一下Lab07-03.exe的导入表信息。<br><img src="https://s1.ax1x.com/2020/08/22/daHzxs.png" alt="daHzxs.png"><br>在这里我们发现了CreateFileA、CreateFileMappingA以及MapViewOfFile，说明这个程序很可能会打开一个文件，并将其映射到内存中。而FindFirstFileA以及FindNextFileA函数，说明这个程序会在计算机中搜索文件或目录。CopyFileA说明这个程序会进行文件的拷贝。<br>打开ida，查看一下字符串。<br><img src="https://s1.ax1x.com/2020/08/22/daHM4g.png" alt="daHM4g.png"><br>我们可以看到，两个非常相像的字符串“kerne132.dll”以及“kernel32.dll”。我们可以猜测这个程序会在C:\windows\system32目录下创建一个kerne132.dll文件。<br>接下来可以利用ida来检查一下Lab07-03.dll这个文件：<br><img src="https://s1.ax1x.com/2020/08/22/dabgQs.png" alt="dabgQs.png"><br>这里出现了一个IP地址，说明这个恶意程序很可能会连接到这个地址。<br><img src="https://s1.ax1x.com/2020/08/22/daqAmt.png" alt="daqAmt.png"><br>同时，查看一下导出函数，可以发现，在ws2_32.dll中发现了通过网络发送和接收数据所需要的所有函数。并且在kernel32.dll中，发现这里出现了与互斥量相关的函数，还有一个CreateProcessA函数，说明它很可能会创建一个进程。</p>
+<h3 id="分析DLL："><a href="#分析DLL：" class="headerlink" title="分析DLL："></a>分析DLL：</h3><p>我们首先来到DllMain的位置，打开FunctionsCallView，通过查看函数调用来阅读代码。<br><img src="https://s1.ax1x.com/2020/08/22/daLM4O.png" alt="daLM4O.png"><br>第一个调用的是库函数__alloca_probe，用于分配空间。接着调用的是OpenMutexA与CreateMutexA，主要用于保证在同一时间只有这个恶意程序的一个实例在运行。接下来的一系列函数运用的socket套接字来建立远程的连接，并且要传输与接收数据。这个函数最终会调用Sleep或者CreateProcess。在这里我们并不知道什么传输了哪些数据或者创建了哪些进程，但是依据上面的分析可以猜测这个dll的功能。由于它发送并且接收了数据，并且还创建了进程，那么对于它的功能的最好的解释就是它被设计用来从一个远程计算机接收命令。<br><img src="https://s1.ax1x.com/2020/08/22/daOEi8.png" alt="daOEi8.png"><br>可以看到在connect的上方，有一个inet_addr的函数调用，它使用了固定的IP地址“127.26.152.13”，说明程序会尝试连接到这个地址。<br><img src="https://s1.ax1x.com/2020/08/22/daOYz4.png" alt="daOYz4.png"><br>接下来可以看到在send的上方有一个buf，这个参数保存的就是将要通过网络发送的数据，并且ida也已经识别出，这个位置的字符串是“hello”。<br><img src="https://s1.ax1x.com/2020/08/22/daO0dx.png" alt="daO0dx.png"><br>接下来是一个recv函数的调用，然后调用了strncmp函数，用于比较收到的5个字符是不是“sleep”，如果是的话，执行sleep函数休眠60秒。比对4个字符，判定接收到的是不是“exec”，如果是，那么就会调用接下来的CreateProcess函数，通过lpCommandLine这个参数可以知道要创建的进程，我们发现了CommandLine的定义是0FFBh，这说明它会接收缓冲区中保存的任意5字节的东西。所以从远程服务器中接受到的字符串是exec FullPathOfProgramToRun。它会用FullPathOfProgramToRun来调用CreateProcessA。可以知道这个dll程序实现了后门功能，允许攻击者发送消息来启动本地系统上的可执行文件。</p>
+<h3 id="分析EXE："><a href="#分析EXE：" class="headerlink" title="分析EXE："></a>分析EXE：</h3><p>打开ida。<br><img src="https://s1.ax1x.com/2020/08/22/dajFC8.png" alt="dajFC8.png"><br>可以看到，程序首先会对main函数中的第一个参数argc的值进行判定，如果这个值不等于2，那么程序就会退出。接着程序会将argv[1]，也就是第二个参数具体的内容赋给eax，并将一段字符串赋给esi。接下来程序就会将eax以及esi中的内容进行比较，如果二者不同，那么程序就会退出，相同的情况下，才会继续执行。也就是说，为了使这个程序得到完整的执行，我们需要在命令提示符中输入以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lab07-03.exe WARNING_THIS_WILL_DESTROY_YOUR_MACHINE</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://s1.ax1x.com/2020/08/22/dajM5V.png" alt="dajM5V.png"><br>在IDA中可以看到，出现了一系列的CreateFile、CreateFileMapping以及MapViewOfFile的调用，分别将系统中的kernel32.dll以及恶意程序Lab07-03.dll映射到内存中。<br>接下来程序接连调用了sub_401040以及sub_401070。这些函数相对较短且没有相互调用。这些函数在比较内存，计算偏移，或者写入内存。我们暂且跳过。<br><img src="https://s1.ax1x.com/2020/08/22/davaLj.png" alt="davaLj.png"><br>可以看到这里调用了CloseHandle函数用于句柄的关闭，说明此时程序已经完成了两个文件在内存中的相关操作。然后调用了CopyFile函数，将Lab07-03.dll改为“kerne132.dll”并复制到system32目录中。<br><img src="https://s1.ax1x.com/2020/08/22/davhwR.png" alt="davhwR.png"><br>接下来出现了一个函数调用，并且使用“C:*”作为它的参数。我们可以双击进入这个sub_4011E0进行分析：<br><img src="https://s1.ax1x.com/2020/08/22/davTfK.png" alt="davTfK.png"><br>首先可以看到，这个函数的第一个参数被IDA标记为了lpFileName，它可能是一个文件名，因为接下来它被作为参数赋给了文件查找函数FindFirstFileA，这里是要搜索整个C盘目录。<br><img src="https://s1.ax1x.com/2020/08/22/dax8B9.png" alt="dax8B9.png"><br>这里出现了stricmp函数，用于比较两个字符串，而且不区分大小写。这里是在将字符串Str1和“.exe”进行比较，如果匹配成功，那么就执行sub_4010A0处的函数。那么很明显，这个程序其实就是在搜索C盘中的所有.exe程序，并且如果找到exe程序，那么就调用sub_4010A0来进行下一步的操作。<br>下面我们可以进入这个函数分析。<br><img src="https://s1.ax1x.com/2020/08/22/daxd1O.png" alt="daxd1O.png"><br>在这个函数中，我们看到它调用了CreateFile、CreateFileMapping以及MapViewOfFile来将找到的exe程序映射到内存中。接下来还有很多IsBadReadPtr函数，用来检查进程是否有权限访问指定的内存块。接下来可以看到一个stricmp函数，代码如下：<br><img src="https://s1.ax1x.com/2020/08/22/daxhjg.png" alt="daxhjg.png"><br><img src="https://s1.ax1x.com/2020/08/22/daxzDJ.png" alt="daxzDJ.png"><br>这里是将Str1和“kernel32.dll”进行比较。如果能够匹配，下面就出现了repne scasb以及rep movsd指令，这两个指令等价于strlen以及memcpy这两个函数。后者会将esi中的内容覆盖到edi中。这里可以看到，esi中的内容是dword_403010，而edi中的内容是stricmp的Str1参数的内容。<br>这里我们可以知道这个恶意程序其实会查找C盘中的所有exe程序，将这些程序的导入表中的kernel32.dll修改为kerne132.dll，这样一来，每当这些exe程序运行的时候，就会自动加载恶意DLL程序，实现后门的功能。</p>
+<h3 id="1、这个程序如何完成持久化驻留，来确保在计算机被重启后它能继续运行？"><a href="#1、这个程序如何完成持久化驻留，来确保在计算机被重启后它能继续运行？" class="headerlink" title="1、这个程序如何完成持久化驻留，来确保在计算机被重启后它能继续运行？"></a>1、这个程序如何完成持久化驻留，来确保在计算机被重启后它能继续运行？</h3><p>这个程序通过复制一个恶意dll文件到C:\Windows\System32目录，并修改C盘中的所有导入kernel32.dll的Exe程序，让这些程序导入该恶意dll程序，从而达到持久化的驻留。</p>
+<h3 id="2、这个恶意代码的两个明显的基于主机特征是什么？"><a href="#2、这个恶意代码的两个明显的基于主机特征是什么？" class="headerlink" title="2、这个恶意代码的两个明显的基于主机特征是什么？"></a>2、这个恶意代码的两个明显的基于主机特征是什么？</h3><p>一个是经过伪造的文件“kern132.dll”，另一个是名为SADFHUHF的互斥量。</p>
+<h3 id="3、这个程序的目的是什么？"><a href="#3、这个程序的目的是什么？" class="headerlink" title="3、这个程序的目的是什么？"></a>3、这个程序的目的是什么？</h3><p>这个程序的目的是创建一个难以删除的后门，来连接一个远程主机。这个后门一共有两个命令，一个用于执行指令创建进程，一个用来休眠。</p>
+<h3 id="4、一旦这个恶意代码被安装，你如何移除它？"><a href="#4、一旦这个恶意代码被安装，你如何移除它？" class="headerlink" title="4、一旦这个恶意代码被安装，你如何移除它？"></a>4、一旦这个恶意代码被安装，你如何移除它？</h3><p>这个程序很难被删除，因为它会感染C盘中的所有exe文件。最好的办法是写一个程序，用于修改所有被感染的文件，将它们导入表中伪造的dll文件名修改为真实的dll文件名称。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/19/恶意代码分析实战：Lab07-02/" rel="next" title="恶意代码分析实战：Lab07-02">
+                <i class="fa fa-chevron-left"></i> 恶意代码分析实战：Lab07-02
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Slipslop">
+            
+              <p class="site-author-name" itemprop="name">Slipslop</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/yourname" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="skype:yourname?call|chat" target="_blank" title="Skype">
+                      
+                        <i class="fa fa-fw fa-skype"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分析DLL："><span class="nav-number">1.1.</span> <span class="nav-text">分析DLL：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分析EXE："><span class="nav-number">1.2.</span> <span class="nav-text">分析EXE：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#1、这个程序如何完成持久化驻留，来确保在计算机被重启后它能继续运行？"><span class="nav-number">1.3.</span> <span class="nav-text">1、这个程序如何完成持久化驻留，来确保在计算机被重启后它能继续运行？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、这个恶意代码的两个明显的基于主机特征是什么？"><span class="nav-number">1.4.</span> <span class="nav-text">2、这个恶意代码的两个明显的基于主机特征是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、这个程序的目的是什么？"><span class="nav-number">1.5.</span> <span class="nav-text">3、这个程序的目的是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、一旦这个恶意代码被安装，你如何移除它？"><span class="nav-number">1.6.</span> <span class="nav-text">4、一旦这个恶意代码被安装，你如何移除它？</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Slipslop</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/ioufev/love.js"></script>
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>

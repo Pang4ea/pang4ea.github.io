@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、问题首先用strings.exe载入Lab09-02.exe，查看一下字符串。可以看到一系列的导入函数以及cmd这个字符串。接下来用IDA和OD将这个程序载入进行分析。根据IAD的main函数地址0x00401128，令OD跳转到mian函数的位置，下个断点，运行到这里。可以看到这段代码出现了一串mov指令将一系列字节压栈。利用IDA直接将这些字节转换。在OD中运行并跟踪这个栈空间。接下来调用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="恶意代码分析实战：Lab09-02">
+<meta property="og:url" content="http://yoursite.com/2020/09/11/恶意代码分析实战：Lab09-02/index.html">
+<meta property="og:site_name" content="Pangaea">
+<meta property="og:description" content="1、问题首先用strings.exe载入Lab09-02.exe，查看一下字符串。可以看到一系列的导入函数以及cmd这个字符串。接下来用IDA和OD将这个程序载入进行分析。根据IAD的main函数地址0x00401128，令OD跳转到mian函数的位置，下个断点，运行到这里。可以看到这段代码出现了一串mov指令将一系列字节压栈。利用IDA直接将这些字节转换。在OD中运行并跟踪这个栈空间。接下来调用">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/11/wNTTgO.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/11/wNHZeH.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/11/wNHOht.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/11/wNb141.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/11/wNqHJI.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/11/wNOFNd.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/11/wNORbD.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/11/wNXWQ0.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/11/wNvV3R.png">
+<meta property="og:updated_time" content="2020-09-11T13:21:42.830Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="恶意代码分析实战：Lab09-02">
+<meta name="twitter:description" content="1、问题首先用strings.exe载入Lab09-02.exe，查看一下字符串。可以看到一系列的导入函数以及cmd这个字符串。接下来用IDA和OD将这个程序载入进行分析。根据IAD的main函数地址0x00401128，令OD跳转到mian函数的位置，下个断点，运行到这里。可以看到这段代码出现了一串mov指令将一系列字节压栈。利用IDA直接将这些字节转换。在OD中运行并跟踪这个栈空间。接下来调用">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/09/11/wNTTgO.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/09/11/恶意代码分析实战：Lab09-02/">
+
+
+
+
+
+  <title>恶意代码分析实战：Lab09-02 | Pangaea</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pangaea</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/11/恶意代码分析实战：Lab09-02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Slipslop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pangaea">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">恶意代码分析实战：Lab09-02</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-11T21:21:10+08:00">
+                2020-09-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1、问题"><a href="#1、问题" class="headerlink" title="1、问题"></a>1、问题</h2><p>首先用strings.exe载入Lab09-02.exe，查看一下字符串。<br><img src="https://s1.ax1x.com/2020/09/11/wNTTgO.png" alt="wNTTgO.png"><br>可以看到一系列的导入函数以及cmd这个字符串。<br>接下来用IDA和OD将这个程序载入进行分析。根据IAD的main函数地址0x00401128，令OD跳转到mian函数的位置，下个断点，运行到这里。<br><img src="https://s1.ax1x.com/2020/09/11/wNHZeH.png" alt="wNHZeH.png"><br>可以看到这段代码出现了一串mov指令将一系列字节压栈。利用IDA直接将这些字节转换。<br><img src="https://s1.ax1x.com/2020/09/11/wNHOht.png" alt="wNHOht.png"><br>在OD中运行并跟踪这个栈空间。<br><img src="https://s1.ax1x.com/2020/09/11/wNb141.png" alt="wNb141.png"><br>接下来调用了GetModuleFileNameA这个函数，用于获得当前运行程序的完整路径。然后又调用了Lab09-02.00401550这个函数，在IDA中我们可以看到，这个函数被解析为_strrchr，并且将刚刚获取到的文件路径以及“\”作为函数参数压栈。这个函数用于获取当前的文件名称。接下来调用了_strcmp这个函数，将ocl.exe与Lab09-02.exe这两个字符串进行比较。<br><img src="https://s1.ax1x.com/2020/09/11/wNqHJI.png" alt="wNqHJI.png"><br>如果不相等，就结束程序。综合来看，为了让程序能够正常运行，我们应该将文件名该文ocl.exe。<br>将文件名修改后，程序可以成功执行，接下来调用了与套接字相关的函数，然后调用了sub_401089这个函数。我们在OD中直接跳转到这个函数。<br><img src="https://s1.ax1x.com/2020/09/11/wNOFNd.png" alt="wNOFNd.png"><br>通过观察栈空间中的内容可以知道，这个函数的一个参数就是最开始拷贝到栈上的“1qaz2wsx3edc”这段字符串，另一个参数是一个数据缓冲区，其中的内容目前还不能够识别。<br>接下来在IDA中进入这个函数，可以发现这是一个循环操作。按下F5键，将汇编代码转换为C语言代码。<br><img src="https://s1.ax1x.com/2020/09/11/wNORbD.png" alt="wNORbD.png"><br>通过分析可以看出，这段代码对压入的字符串“1qaz2wsx3edc”进行了一个异或操作，应该是解密的过程。我们在OD中0x0040110C位置下一个断点，然后按F9运行，对异或后的数据进行观察。<br><img src="https://s1.ax1x.com/2020/09/11/wNXWQ0.png" alt="wNXWQ0.png"><br>可以看到，这个恶意程序解析出了一个域名<a href="http://www.practicalmalwareanalysis.com。解析出的域名作为了函数gethostbyname的参数，这个函数会返回一个IP地址，并且填充sockaddr_in结构。如果该函数执行失败，则会休眠30秒，再跳回main函数开始的位置，不断重复这一过程。如果该函数执行成功，可以看到参数为0x270F的htons的函数调用，它用于将主机字节顺序转换为网络字节顺序。然后调用connect函数来尝试连接远程主机。不论连接的成功与否，最终都会休眠30秒，然后再跳回main函数开始的位置，不断循环。如果能够连接成功，那么在休眠前，会调用位于0x004013A9位置的sub_401000函数。" target="_blank" rel="noopener">www.practicalmalwareanalysis.com。解析出的域名作为了函数gethostbyname的参数，这个函数会返回一个IP地址，并且填充sockaddr_in结构。如果该函数执行失败，则会休眠30秒，再跳回main函数开始的位置，不断重复这一过程。如果该函数执行成功，可以看到参数为0x270F的htons的函数调用，它用于将主机字节顺序转换为网络字节顺序。然后调用connect函数来尝试连接远程主机。不论连接的成功与否，最终都会休眠30秒，然后再跳回main函数开始的位置，不断循环。如果能够连接成功，那么在休眠前，会调用位于0x004013A9位置的sub_401000函数。</a><br><img src="https://s1.ax1x.com/2020/09/11/wNvV3R.png" alt="wNvV3R.png"><br>这是一个反向的shell，它是一种往远程机器发送shell命令的技术。我们看到，在CreateProcessA这个函数被调用之前，传递给它的STARTUPINFO结构被修改了，而该结构用于指定新进程的主窗口特性。首先可以看到，StartupInfo.wShowWindow的值被设置为了0，表示它会以窗口隐藏的方式运行，而运行的对象就是cmd.exe，所以受害用户是看不到程序运行的。接着我们可以看到STARTUPINFO结构中的标准流被设置为一个套接字，这也就直接绑定了套接字和cmd.exe的标准流，所以cmd.exe被启动后，所有经过套接字的数据都将发送到cmd.exe，并且cmd.exe产生的所有输出都将通过套接字发出。</p>
+<h3 id="1、在二进制文件中，你看到的静态字符串是什么？"><a href="#1、在二进制文件中，你看到的静态字符串是什么？" class="headerlink" title="1、在二进制文件中，你看到的静态字符串是什么？"></a>1、在二进制文件中，你看到的静态字符串是什么？</h3><p>cmd</p>
+<h3 id="2、当你运行这个二进制文件时，会发生什么？"><a href="#2、当你运行这个二进制文件时，会发生什么？" class="headerlink" title="2、当你运行这个二进制文件时，会发生什么？"></a>2、当你运行这个二进制文件时，会发生什么？</h3><p>什么都没有发生，需要更改文件名。</p>
+<h3 id="3、怎样让恶意代码的攻击负载（payload）获得运行？"><a href="#3、怎样让恶意代码的攻击负载（payload）获得运行？" class="headerlink" title="3、怎样让恶意代码的攻击负载（payload）获得运行？"></a>3、怎样让恶意代码的攻击负载（payload）获得运行？</h3><p>将文件名改为ocl.exe。</p>
+<h3 id="4、在地址0x00401133处发生了什么？"><a href="#4、在地址0x00401133处发生了什么？" class="headerlink" title="4、在地址0x00401133处发生了什么？"></a>4、在地址0x00401133处发生了什么？</h3><p>将两段字符串拷贝到栈上。</p>
+<h3 id="5、传递给子例程（函数）0x00401089的参数是什么？"><a href="#5、传递给子例程（函数）0x00401089的参数是什么？" class="headerlink" title="5、传递给子例程（函数）0x00401089的参数是什么？"></a>5、传递给子例程（函数）0x00401089的参数是什么？</h3><p>一个参数就是最开始拷贝到栈上的“1qaz2wsx3edc”这段字符串，另一个参数是一个数据缓冲区.</p>
+<h3 id="6、恶意代码使用的域名是什么？"><a href="#6、恶意代码使用的域名是什么？" class="headerlink" title="6、恶意代码使用的域名是什么？"></a>6、恶意代码使用的域名是什么？</h3><p><a href="http://www.practicalmalwareanalysis.com" target="_blank" rel="noopener">www.practicalmalwareanalysis.com</a></p>
+<h3 id="7、恶意代码使用什么编码函数来混淆域名？"><a href="#7、恶意代码使用什么编码函数来混淆域名？" class="headerlink" title="7、恶意代码使用什么编码函数来混淆域名？"></a>7、恶意代码使用什么编码函数来混淆域名？</h3><p>异或</p>
+<h3 id="8、恶意代码在0x0040106E处调用CreateProcessA函数的意义是什么？"><a href="#8、恶意代码在0x0040106E处调用CreateProcessA函数的意义是什么？" class="headerlink" title="8、恶意代码在0x0040106E处调用CreateProcessA函数的意义是什么？"></a>8、恶意代码在0x0040106E处调用CreateProcessA函数的意义是什么？</h3><p>隐藏cmd.exe这个窗口运行shell。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/08/22/恶意代码分析实战：Lab07-03/" rel="next" title="恶意代码分析实战：Lab07-03">
+                <i class="fa fa-chevron-left"></i> 恶意代码分析实战：Lab07-03
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Slipslop">
+            
+              <p class="site-author-name" itemprop="name">Slipslop</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/yourname" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="skype:yourname?call|chat" target="_blank" title="Skype">
+                      
+                        <i class="fa fa-fw fa-skype"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、问题"><span class="nav-number">1.</span> <span class="nav-text">1、问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、在二进制文件中，你看到的静态字符串是什么？"><span class="nav-number">1.1.</span> <span class="nav-text">1、在二进制文件中，你看到的静态字符串是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、当你运行这个二进制文件时，会发生什么？"><span class="nav-number">1.2.</span> <span class="nav-text">2、当你运行这个二进制文件时，会发生什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、怎样让恶意代码的攻击负载（payload）获得运行？"><span class="nav-number">1.3.</span> <span class="nav-text">3、怎样让恶意代码的攻击负载（payload）获得运行？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、在地址0x00401133处发生了什么？"><span class="nav-number">1.4.</span> <span class="nav-text">4、在地址0x00401133处发生了什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、传递给子例程（函数）0x00401089的参数是什么？"><span class="nav-number">1.5.</span> <span class="nav-text">5、传递给子例程（函数）0x00401089的参数是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、恶意代码使用的域名是什么？"><span class="nav-number">1.6.</span> <span class="nav-text">6、恶意代码使用的域名是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、恶意代码使用什么编码函数来混淆域名？"><span class="nav-number">1.7.</span> <span class="nav-text">7、恶意代码使用什么编码函数来混淆域名？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、恶意代码在0x0040106E处调用CreateProcessA函数的意义是什么？"><span class="nav-number">1.8.</span> <span class="nav-text">8、恶意代码在0x0040106E处调用CreateProcessA函数的意义是什么？</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Slipslop</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/ioufev/love.js"></script>
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>

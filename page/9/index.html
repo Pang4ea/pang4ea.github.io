@@ -79,17 +79,13 @@
 
 
 
-<meta name="description" content="壳和病毒在某些方面类似，都需要比原程序代码更早地获取控制权。壳修改了原程序文件的组织结构，从而能够比原程序早获得控制权，而且不影响原程序的正常执行。 1、保存入口参数加载程序在初始化时会保存各寄存器的值，待外壳执行完毕，再恢复各寄存器的内容，最后跳转到原程序执行。通常用pushad/popad、pushfd/popfd指令对来保存与恢复现场环境。 2、获取壳本身需要的API地址在一般情况下，外壳的">
-<meta property="og:type" content="article">
-<meta property="og:title" content="脱壳技术——基础知识篇">
-<meta property="og:url" content="http://yoursite.com/2020/04/08/脱壳技术——基础知识篇/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pangaea">
+<meta property="og:url" content="http://yoursite.com/page/9/index.html">
 <meta property="og:site_name" content="Pangaea">
-<meta property="og:description" content="壳和病毒在某些方面类似，都需要比原程序代码更早地获取控制权。壳修改了原程序文件的组织结构，从而能够比原程序早获得控制权，而且不影响原程序的正常执行。 1、保存入口参数加载程序在初始化时会保存各寄存器的值，待外壳执行完毕，再恢复各寄存器的内容，最后跳转到原程序执行。通常用pushad/popad、pushfd/popfd指令对来保存与恢复现场环境。 2、获取壳本身需要的API地址在一般情况下，外壳的">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-04-08T14:56:04.261Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="脱壳技术——基础知识篇">
-<meta name="twitter:description" content="壳和病毒在某些方面类似，都需要比原程序代码更早地获取控制权。壳修改了原程序文件的组织结构，从而能够比原程序早获得控制权，而且不影响原程序的正常执行。 1、保存入口参数加载程序在初始化时会保存各寄存器的值，待外壳执行完毕，再恢复各寄存器的内容，最后跳转到原程序执行。通常用pushad/popad、pushfd/popfd指令对来保存与恢复现场环境。 2、获取壳本身需要的API地址在一般情况下，外壳的">
+<meta name="twitter:title" content="Pangaea">
 
 
 
@@ -119,13 +115,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/04/08/脱壳技术——基础知识篇/">
+  <link rel="canonical" href="http://yoursite.com/page/9/">
 
 
 
 
 
-  <title>脱壳技术——基础知识篇 | Pangaea</title>
+  <title>Pangaea</title>
   
 
 
@@ -144,7 +140,8 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left 
+  page-home">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -257,9 +254,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-
-  <div id="posts" class="posts-expand">
+  <section id="posts" class="posts-expand">
     
+      
 
   
 
@@ -272,7 +269,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/08/脱壳技术——基础知识篇/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/10/MD5算法学习/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Slipslop">
@@ -289,7 +286,9 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">脱壳技术——基础知识篇</h1>
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/09/10/MD5算法学习/" itemprop="url">MD5算法学习</a></h1>
         
 
         <div class="post-meta">
@@ -301,8 +300,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-08T22:55:24+08:00">
-                2020-04-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-09-10T17:48:03+08:00">
+                2019-09-10
               </time>
             
 
@@ -339,23 +338,18 @@
       
 
       
-        <p>壳和病毒在某些方面类似，都需要比原程序代码更早地获取控制权。壳修改了原程序文件的组织结构，从而能够比原程序早获得控制权，而且不影响原程序的正常执行。</p>
-<h3 id="1、保存入口参数"><a href="#1、保存入口参数" class="headerlink" title="1、保存入口参数"></a>1、保存入口参数</h3><p>加载程序在初始化时会保存各寄存器的值，待外壳执行完毕，再恢复各寄存器的内容，最后跳转到原程序执行。通常用pushad/popad、pushfd/popfd指令对来保存与恢复现场环境。</p>
-<h3 id="2、获取壳本身需要的API地址"><a href="#2、获取壳本身需要的API地址" class="headerlink" title="2、获取壳本身需要的API地址"></a>2、获取壳本身需要的API地址</h3><p>在一般情况下，外壳的输入表中只有GetProcAddress、GetModuleHandle和LoadLibrary这三个API函数，甚至只有kernel32.dll和GetProcAddress。如果需要使用其他API函数，可以通过函数LoadLibraryA(W)或LoadLibraryExA(W)将DLL文件映像映射到调用进程的地址空间中，函数返回的HINSTANCE值用于标识文件影响所映射的虚拟内存地址。<br>LoadLibrary函数的原型如下。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HINSTANCE LoadLibrary(</span><br><span class="line">    LPCTSTR lpLibFileName</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<p>如果DLL文件已经被映射到调用进程的地址空间中，可以调用GetModuleHandleA(W)函数获取DLL模块句柄。函数原型如下。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HINSTANCE GetModuleHandleA(W)(</span><br><span class="line">    LPCTSTR lpLibFileName</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<p>一旦DLL模块被加载，线程就可以调用GetProcAddress函数获取输入函数的地址了。函数原型如下。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FARPROC GetProcAddress(</span><br><span class="line">    HMODULE hModule,</span><br><span class="line">    LPCSTR lpProcName</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<h3 id="3、解密原程序各个区块的数据"><a href="#3、解密原程序各个区块的数据" class="headerlink" title="3、解密原程序各个区块的数据"></a>3、解密原程序各个区块的数据</h3><p>出于保护原程序代码和数据的目的，壳一般会加密原程序文件的各个区块。在执行程序时，外壳将解密这些区块，从而使程序能够正常运行。</p>
-<h3 id="4、IAT初始化"><a href="#4、IAT初始化" class="headerlink" title="4、IAT初始化"></a>4、IAT初始化</h3><p>IAT的填写本来由PE装载器实现，但由于在加壳时构造了一个自建输入表，并让PE文件头数据目录表中的输入表指针指向自建的输入表，PE装载器会对自建的输入表进行填写。程序的原始输入表被外壳变形后存储，IAT的填写会由外壳程序实现。外壳要做的就是将这个变形输入表的结构从头到尾扫描一遍，重新获取每一个DLL引入的所以函数的地址，并将其填写在IAT中。</p>
-<h3 id="5、重定位项的处理"><a href="#5、重定位项的处理" class="headerlink" title="5、重定位项的处理"></a>5、重定位项的处理</h3><p>因为Windows操作系统没办法保证在DLL每次运行时都提供相同的基地址，因此在壳中也要有用于“重定位”的代码，否则原程序中的代码无法正常运行。</p>
-<h3 id="6、Hook-API"><a href="#6、Hook-API" class="headerlink" title="6、Hook API"></a>6、Hook API</h3><p>在程序文件中，输入表的作用是让Windows操作系统在程序运行时将API的实际地址提供给程序使用。壳大都在修改原程序文件的输入表后自己模仿Windows操作系统的工作流程，向输入表中填充相关的数据。在填充过程中，外壳可以填充Hook API代码的地址，从而间接获得程序的控制权。</p>
-<h3 id="7、跳转到程序原入口点"><a href="#7、跳转到程序原入口点" class="headerlink" title="7、跳转到程序原入口点"></a>7、跳转到程序原入口点</h3><p>壳将控制权还给原程序。</p>
-
+        
+          
+          1、题目内容    这里有一段丢失的md5密文 e9032???da???08????911513?0???a2要求你还原出他并且加上nctf{}提交 已知线索 明文为：TASC?O3RJMV?WDJ
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/09/10/MD5算法学习/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
       
     </div>
     
@@ -372,32 +366,12 @@
       
 
       
-      
+
       
 
       
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2020/04/06/TLS回调函数/" rel="next" title="TLS回调函数">
-                <i class="fa fa-chevron-left"></i> TLS回调函数
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/04/09/脱壳技术——寻找OEP/" rel="prev" title="脱壳技术——寻找OEP">
-                脱壳技术——寻找OEP <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
       
-
-      
+        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -407,11 +381,14 @@
   </article>
 
 
+    
+  </section>
 
-    <div class="post-spread">
-      
-    </div>
-  </div>
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/page/8/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span>
+  </nav>
+
 
 
           </div>
@@ -419,10 +396,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -443,17 +416,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -534,22 +498,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、保存入口参数"><span class="nav-number">1.</span> <span class="nav-text">1、保存入口参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、获取壳本身需要的API地址"><span class="nav-number">2.</span> <span class="nav-text">2、获取壳本身需要的API地址</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、解密原程序各个区块的数据"><span class="nav-number">3.</span> <span class="nav-text">3、解密原程序各个区块的数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、IAT初始化"><span class="nav-number">4.</span> <span class="nav-text">4、IAT初始化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、重定位项的处理"><span class="nav-number">5.</span> <span class="nav-text">5、重定位项的处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、Hook-API"><span class="nav-number">6.</span> <span class="nav-text">6、Hook API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、跳转到程序原入口点"><span class="nav-number">7.</span> <span class="nav-text">7、跳转到程序原入口点</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -696,10 +644,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 

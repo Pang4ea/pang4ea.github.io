@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、问题首先用PEID查看恶意程序的导入表，可以发现，导入表中有四个dll被导入。再用IDA载入恶意程序，发现导入函数中存在对LoadLibraryA的调用，对其交叉引用，可以发现有两处地方调用了这个函数。  可以发现，LoadLibraryA导入了DLL3.dll以及user32.dll这两个dll。 1、Lab09-03.exe导入了哪些DLL？kernel32.dll、netapi32.dl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="恶意代码分析实战：Lab09-03">
+<meta property="og:url" content="http://yoursite.com/2020/09/13/恶意代码分析实战：Lab09-03/index.html">
+<meta property="og:site_name" content="Pangaea">
+<meta property="og:description" content="1、问题首先用PEID查看恶意程序的导入表，可以发现，导入表中有四个dll被导入。再用IDA载入恶意程序，发现导入函数中存在对LoadLibraryA的调用，对其交叉引用，可以发现有两处地方调用了这个函数。  可以发现，LoadLibraryA导入了DLL3.dll以及user32.dll这两个dll。 1、Lab09-03.exe导入了哪些DLL？kernel32.dll、netapi32.dl">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/wwkTPI.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/wwA0Qf.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/wwARWq.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/wwAJdH.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/wwVt2t.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/wwmYG9.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/wwmzoF.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/wwulh4.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/wwuogs.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/wwKib6.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/wwMQSJ.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/wwMJw6.jpg">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/wwQdEV.jpg">
+<meta property="og:updated_time" content="2020-09-13T02:51:47.967Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="恶意代码分析实战：Lab09-03">
+<meta name="twitter:description" content="1、问题首先用PEID查看恶意程序的导入表，可以发现，导入表中有四个dll被导入。再用IDA载入恶意程序，发现导入函数中存在对LoadLibraryA的调用，对其交叉引用，可以发现有两处地方调用了这个函数。  可以发现，LoadLibraryA导入了DLL3.dll以及user32.dll这两个dll。 1、Lab09-03.exe导入了哪些DLL？kernel32.dll、netapi32.dl">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/09/13/wwkTPI.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2020/09/13/恶意代码分析实战：Lab09-03/">
+
+
+
+
+
+  <title>恶意代码分析实战：Lab09-03 | Pangaea</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pangaea</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/09/13/恶意代码分析实战：Lab09-03/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Slipslop">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pangaea">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">恶意代码分析实战：Lab09-03</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-09-13T10:51:14+08:00">
+                2020-09-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1、问题"><a href="#1、问题" class="headerlink" title="1、问题"></a>1、问题</h2><p>首先用PEID查看恶意程序的导入表，可以发现，导入表中有四个dll被导入。<br><img src="https://s1.ax1x.com/2020/09/13/wwkTPI.jpg" alt="wwkTPI.jpg"><br>再用IDA载入恶意程序，发现导入函数中存在对LoadLibraryA的调用，对其交叉引用，可以发现有两处地方调用了这个函数。<br><img src="https://s1.ax1x.com/2020/09/13/wwA0Qf.jpg" alt="wwA0Qf.jpg"></p>
+<p><img src="https://s1.ax1x.com/2020/09/13/wwARWq.jpg" alt="wwARWq.jpg"></p>
+<p><img src="https://s1.ax1x.com/2020/09/13/wwAJdH.jpg" alt="wwAJdH.jpg"><br>可以发现，LoadLibraryA导入了DLL3.dll以及user32.dll这两个dll。</p>
+<h3 id="1、Lab09-03-exe导入了哪些DLL？"><a href="#1、Lab09-03-exe导入了哪些DLL？" class="headerlink" title="1、Lab09-03.exe导入了哪些DLL？"></a>1、Lab09-03.exe导入了哪些DLL？</h3><p>kernel32.dll、netapi32.dll、user32.dll、DLL1.dll、DLL2.dll、DLL3.dll</p>
+<h3 id="2、DLL1-dll、DLL2-dll、DLL3-dll要求的基地址是多少？"><a href="#2、DLL1-dll、DLL2-dll、DLL3-dll要求的基地址是多少？" class="headerlink" title="2、DLL1.dll、DLL2.dll、DLL3.dll要求的基地址是多少？"></a>2、DLL1.dll、DLL2.dll、DLL3.dll要求的基地址是多少？</h3><p>用PEID分别载入三个dll，可以发现他们要求的基地址都是0x10000000。</p>
+<h3 id="3、当使用OllDbg调试Lab09-03-exe时，为DLL1-dll、DLL2-dll、DLL3-dll分配的基址是什么？"><a href="#3、当使用OllDbg调试Lab09-03-exe时，为DLL1-dll、DLL2-dll、DLL3-dll分配的基址是什么？" class="headerlink" title="3、当使用OllDbg调试Lab09-03.exe时，为DLL1.dll、DLL2.dll、DLL3.dll分配的基址是什么？"></a>3、当使用OllDbg调试Lab09-03.exe时，为DLL1.dll、DLL2.dll、DLL3.dll分配的基址是什么？</h3><p><img src="https://s1.ax1x.com/2020/09/13/wwVt2t.jpg" alt="wwVt2t.jpg"><br>可以看到DLL1.dll的基地址是0x00390000，DLL2.dll的基地址是0x003A0000，DLL3.dll的基地址为0x00400000。</p>
+<h3 id="4、Lab09-03-exe调用DLL1-dll中的一个导入函数时，这个导入函数都做了什么？"><a href="#4、Lab09-03-exe调用DLL1-dll中的一个导入函数时，这个导入函数都做了什么？" class="headerlink" title="4、Lab09-03.exe调用DLL1.dll中的一个导入函数时，这个导入函数都做了什么？"></a>4、Lab09-03.exe调用DLL1.dll中的一个导入函数时，这个导入函数都做了什么？</h3><p>在Lab09-03.exe中我们可以看到，main函数调用了DLL1.dll中的DLL1Print这个函数。用IDA载入DLL1.dll，来到DLL1Print这个函数的位置。<br><img src="https://s1.ax1x.com/2020/09/13/wwmYG9.jpg" alt="wwmYG9.jpg"><br>可以发现这里有一个函数调用sub_10001038，它一共是有两个参数，第一个参数是一个字符串“DLL 1 mystery data %d\n”。可以认为sub_10001038是一个printf函数。<br>对第二个参数进行交叉引用，可以发现，在dllmain中对其进行了写的操作，可以发现，dword_10008030所保存的就是GetCurrentProcessId的返回值，说明它所保存的就是当前进程的id值。那么也就知道了，DLL1Print函数的功能就是打印出当前进程的id值。<br><img src="https://s1.ax1x.com/2020/09/13/wwmzoF.jpg" alt="wwmzoF.jpg"></p>
+<h3 id="5、当Lab09-03-exe使用WriteFile函数时，它写入的文件名是什么？"><a href="#5、当Lab09-03-exe使用WriteFile函数时，它写入的文件名是什么？" class="headerlink" title="5、当Lab09-03.exe使用WriteFile函数时，它写入的文件名是什么？"></a>5、当Lab09-03.exe使用WriteFile函数时，它写入的文件名是什么？</h3><p>ecx的值是由hObject决定的，而hObject是DLL2ReturnJ的返回值，那么我们这里就应当分析一下DLL2.dll这个文件。<br><img src="https://s1.ax1x.com/2020/09/13/wwulh4.jpg" alt="wwulh4.jpg"><br>用IDA载入DLL2.dll。找到DLL2ReturnJ这个函数，可以看到，这个函数仅仅是将dword_1000B078这个参数传递给eax然后返回。对dword_1000B078进行交叉引用。<br><img src="https://s1.ax1x.com/2020/09/13/wwuogs.jpg" alt="wwuogs.jpg"><br>可以发现，函数调用了CreateFileA，返回值赋给了dword_1000B078。这样我们就知道了，WriteFile的写入对象，其实就是temp.exe。</p>
+<h3 id="6、当Lab09-03-exe使用NetScheduleJobAdd创建一个job时，从哪里获取第二个参数的数据？"><a href="#6、当Lab09-03-exe使用NetScheduleJobAdd创建一个job时，从哪里获取第二个参数的数据？" class="headerlink" title="6、当Lab09-03.exe使用NetScheduleJobAdd创建一个job时，从哪里获取第二个参数的数据？"></a>6、当Lab09-03.exe使用NetScheduleJobAdd创建一个job时，从哪里获取第二个参数的数据？</h3><p><img src="https://s1.ax1x.com/2020/09/13/wwKib6.jpg" alt="wwKib6.jpg"><br>NetScheduleJobAdd这个函数的作用就在于制定一个工作任务，并且在未来的一个特定的时间来执行。这个函数的第二个参数Buffer，是一个指向AT_INFO结构的指针，该结构用于描述我们所提交的任务。程序首先调用了LoadLibrary来加载DLL3.dll，接着利用GetProcAddress获取了DLL3Print以及DLL3GetStructure这两个函数的地址。<br><img src="https://s1.ax1x.com/2020/09/13/wwMQSJ.jpg" alt="wwMQSJ.jpg"><br>可以看到，DLL3所打印的神秘数据是WideCharStr的内容，通过交叉引用可以发现，这个变量在DllMain中出现过。<br><img src="https://s1.ax1x.com/2020/09/13/wwMJw6.jpg" alt="wwMJw6.jpg"><br>可以发现，这里调用了MultiByteToWideChar，这个函数用于将多字节转换成宽字符的形式。在这里，它会将lpWideCharStr参数的内容进行转换，保存在WideCharStr中。而lpWideCharStr中的内容就是“ping <a href="http://www.malwareanalysisbook.com”这段字符串在内存中的地址。DLL3的神秘数据就是该字符串在内存中的地址。" target="_blank" rel="noopener">www.malwareanalysisbook.com”这段字符串在内存中的地址。DLL3的神秘数据就是该字符串在内存中的地址。</a><br>我们知道，NetScheduleJobAdd的第二个参数是一个AT_INFO结构，那么其实dword_1000B0A0中的内容就是一个结构体。为了显示出这个结构体，我们可以来到Structures窗口按下键盘上的Insert键，选择“添加标准的结构体”，添加AT_INFO结构。然后来到dword_1000B0A0在内存中的位置，选择菜单中的Edit下面的Struct Var，单击AT_INFO，就转换成功了：<br><img src="https://s1.ax1x.com/2020/09/13/wwQdEV.jpg" alt="wwQdEV.jpg"></p>
+<h3 id="7、在运行或调试Lab09-03-exe时，你会看到Lab09-03-exe打印出三块神秘数据。DLL1、DLL2、DLL3、的神秘数据分别是什么？"><a href="#7、在运行或调试Lab09-03-exe时，你会看到Lab09-03-exe打印出三块神秘数据。DLL1、DLL2、DLL3、的神秘数据分别是什么？" class="headerlink" title="7、在运行或调试Lab09-03.exe时，你会看到Lab09-03.exe打印出三块神秘数据。DLL1、DLL2、DLL3、的神秘数据分别是什么？"></a>7、在运行或调试Lab09-03.exe时，你会看到Lab09-03.exe打印出三块神秘数据。DLL1、DLL2、DLL3、的神秘数据分别是什么？</h3><p>DLL1的神秘数据就是当前进程的id值。DLL2的神秘数据是打开temp.txt文件的句柄。DLL3的神秘数据是字符串“ping <a href="http://www.malwareanalysisbook.com”在内存中的地址。" target="_blank" rel="noopener">www.malwareanalysisbook.com”在内存中的地址。</a></p>
+<h3 id="8、如何将DLL2-dll加载到IDA-Pro中，使得它与OllyDbg使用的加载地址匹配？"><a href="#8、如何将DLL2-dll加载到IDA-Pro中，使得它与OllyDbg使用的加载地址匹配？" class="headerlink" title="8、如何将DLL2.dll加载到IDA Pro中，使得它与OllyDbg使用的加载地址匹配？"></a>8、如何将DLL2.dll加载到IDA Pro中，使得它与OllyDbg使用的加载地址匹配？</h3><p>我们在IDA中载入DLL2.dll时，选择“Manual load”，再输入OD中相应的加载地址即可。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/09/11/恶意代码分析实战：Lab09-02/" rel="next" title="恶意代码分析实战：Lab09-02">
+                <i class="fa fa-chevron-left"></i> 恶意代码分析实战：Lab09-02
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Slipslop">
+            
+              <p class="site-author-name" itemprop="name">Slipslop</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/yourname" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="skype:yourname?call|chat" target="_blank" title="Skype">
+                      
+                        <i class="fa fa-fw fa-skype"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、问题"><span class="nav-number">1.</span> <span class="nav-text">1、问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、Lab09-03-exe导入了哪些DLL？"><span class="nav-number">1.1.</span> <span class="nav-text">1、Lab09-03.exe导入了哪些DLL？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、DLL1-dll、DLL2-dll、DLL3-dll要求的基地址是多少？"><span class="nav-number">1.2.</span> <span class="nav-text">2、DLL1.dll、DLL2.dll、DLL3.dll要求的基地址是多少？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、当使用OllDbg调试Lab09-03-exe时，为DLL1-dll、DLL2-dll、DLL3-dll分配的基址是什么？"><span class="nav-number">1.3.</span> <span class="nav-text">3、当使用OllDbg调试Lab09-03.exe时，为DLL1.dll、DLL2.dll、DLL3.dll分配的基址是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、Lab09-03-exe调用DLL1-dll中的一个导入函数时，这个导入函数都做了什么？"><span class="nav-number">1.4.</span> <span class="nav-text">4、Lab09-03.exe调用DLL1.dll中的一个导入函数时，这个导入函数都做了什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、当Lab09-03-exe使用WriteFile函数时，它写入的文件名是什么？"><span class="nav-number">1.5.</span> <span class="nav-text">5、当Lab09-03.exe使用WriteFile函数时，它写入的文件名是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6、当Lab09-03-exe使用NetScheduleJobAdd创建一个job时，从哪里获取第二个参数的数据？"><span class="nav-number">1.6.</span> <span class="nav-text">6、当Lab09-03.exe使用NetScheduleJobAdd创建一个job时，从哪里获取第二个参数的数据？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7、在运行或调试Lab09-03-exe时，你会看到Lab09-03-exe打印出三块神秘数据。DLL1、DLL2、DLL3、的神秘数据分别是什么？"><span class="nav-number">1.7.</span> <span class="nav-text">7、在运行或调试Lab09-03.exe时，你会看到Lab09-03.exe打印出三块神秘数据。DLL1、DLL2、DLL3、的神秘数据分别是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8、如何将DLL2-dll加载到IDA-Pro中，使得它与OllyDbg使用的加载地址匹配？"><span class="nav-number">1.8.</span> <span class="nav-text">8、如何将DLL2.dll加载到IDA Pro中，使得它与OllyDbg使用的加载地址匹配？</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Slipslop</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/ioufev/love.js"></script>
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>

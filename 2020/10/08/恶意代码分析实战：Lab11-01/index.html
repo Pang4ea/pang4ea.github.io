@@ -79,17 +79,26 @@
 
 
 
-<meta name="description" content="1、创建线程123456789101112BOOL CreateProcess(    LPCTSTR lpApplicationName,                  // pointer to name of executable module    LPTSTR lpCommandLine,                       // pointer to command lin">
+<meta name="description" content="1、问题首先用Strings查看一下字符串：我们可以看到字符串GinaDLL以及Winlogon这个注册表的位置。在Windows XP系统中，恶意程序可以使用微软图形识别和验证界面（GINA）拦截技术来窃取用户的登陆凭证。通过PEID我们可以看到很多关于资源的API函数。可以猜测它对资源进行了某些操作，接下来用Resource Hacker来查看一下这个程序的资源。用Resource Hacke">
 <meta property="og:type" content="article">
-<meta property="og:title" content="线程与进程">
-<meta property="og:url" content="http://yoursite.com/2020/05/31/线程与进程/index.html">
+<meta property="og:title" content="恶意代码分析实战：Lab11-01">
+<meta property="og:url" content="http://yoursite.com/2020/10/08/恶意代码分析实战：Lab11-01/index.html">
 <meta property="og:site_name" content="Pangaea">
-<meta property="og:description" content="1、创建线程123456789101112BOOL CreateProcess(    LPCTSTR lpApplicationName,                  // pointer to name of executable module    LPTSTR lpCommandLine,                       // pointer to command lin">
+<meta property="og:description" content="1、问题首先用Strings查看一下字符串：我们可以看到字符串GinaDLL以及Winlogon这个注册表的位置。在Windows XP系统中，恶意程序可以使用微软图形识别和验证界面（GINA）拦截技术来窃取用户的登陆凭证。通过PEID我们可以看到很多关于资源的API函数。可以猜测它对资源进行了某些操作，接下来用Resource Hacker来查看一下这个程序的资源。用Resource Hacke">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2020-05-31T08:21:12.382Z">
+<meta property="og:image" content="https://s1.ax1x.com/2020/09/13/w0GkKe.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/08/00nH91.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/08/00uM3q.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/08/00KDWn.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/08/00MEkQ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/08/00MzEF.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/08/00lHO0.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/08/001COx.png">
+<meta property="og:updated_time" content="2020-10-08T09:46:21.664Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="线程与进程">
-<meta name="twitter:description" content="1、创建线程123456789101112BOOL CreateProcess(    LPCTSTR lpApplicationName,                  // pointer to name of executable module    LPTSTR lpCommandLine,                       // pointer to command lin">
+<meta name="twitter:title" content="恶意代码分析实战：Lab11-01">
+<meta name="twitter:description" content="1、问题首先用Strings查看一下字符串：我们可以看到字符串GinaDLL以及Winlogon这个注册表的位置。在Windows XP系统中，恶意程序可以使用微软图形识别和验证界面（GINA）拦截技术来窃取用户的登陆凭证。通过PEID我们可以看到很多关于资源的API函数。可以猜测它对资源进行了某些操作，接下来用Resource Hacker来查看一下这个程序的资源。用Resource Hacke">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/09/13/w0GkKe.png">
 
 
 
@@ -119,13 +128,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/05/31/线程与进程/">
+  <link rel="canonical" href="http://yoursite.com/2020/10/08/恶意代码分析实战：Lab11-01/">
 
 
 
 
 
-  <title>线程与进程 | Pangaea</title>
+  <title>恶意代码分析实战：Lab11-01 | Pangaea</title>
   
 
 
@@ -272,7 +281,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/05/31/线程与进程/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/10/08/恶意代码分析实战：Lab11-01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Slipslop">
@@ -289,7 +298,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">线程与进程</h1>
+          <h1 class="post-title" itemprop="name headline">恶意代码分析实战：Lab11-01</h1>
         
 
         <div class="post-meta">
@@ -301,8 +310,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-31T16:20:35+08:00">
-                2020-05-31
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-08T17:45:54+08:00">
+                2020-10-08
               </time>
             
 
@@ -339,43 +348,12 @@
       
 
       
-        <h2 id="1、创建线程"><a href="#1、创建线程" class="headerlink" title="1、创建线程"></a>1、创建线程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">BOOL CreateProcess(</span><br><span class="line">    LPCTSTR lpApplicationName,                  // pointer to name of executable module</span><br><span class="line">    LPTSTR lpCommandLine,                       // pointer to command line string</span><br><span class="line">    LPSECURITY_ATTRIBUTES lpProcessAttributes,  // pointer to process security attributes</span><br><span class="line">    LPSECURITY_ATTRIBUTES lpThreadAttributes,   // pointer to thread security attributes</span><br><span class="line">    BOOL bInheritHandles,                       // handle inheritance flag</span><br><span class="line">    DWORD dwCreationFlags,                      // creation flags</span><br><span class="line">    LPVOID lpEnvironment,                       // pointer to new environment block</span><br><span class="line">    LPCTSTR lpCurrentDirectory,                 // pointer to current directory name</span><br><span class="line">    LPSTARTUPINFO lpStartupInfo,                // pointer to STARTUPINFO</span><br><span class="line">    LPPROCESS_INFORMATION lpProcessInformation  // pointer to PROCESS_INFORMATION</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<pre><code>lpApplicationName: 指向一个NULL结尾的、用来指定可执行模块的字符串。这个字符串可以是可执行模块的绝对路径，也可以是相对路径，在后一种情况下，函数使用当前驱动器和目录建立可执行模块的路径。这个参数可以被设为NULL，在这种情况下，可执行模块的名字必须处于 lpCommandLine 参数最前面并由空格符与后面的字符分开。
-lpCommandLine: 指向一个以NULL结尾的字符串，该字符串指定要执行的命令行。这个参数可以为空，那么函数将使用lpApplicationName参数指定的字符串当做要运行的程序的命令行。
-lpProcessAttributes: 指向一个SECURITY_ATTRIBUTES结构体，这个结构体决定是否返回的句柄可以被子进程继承。如果lpProcessAttributes参数为空（NULL），那么句柄不能被继承。
-lpThreadAttributes: 同lpProcessAttribute,不过这个参数决定的是线程是否被继承.通常置为NULL.
-bInheritHandles: 指示新进程是否从调用进程处继承了句柄。如果参数的值为真，调用进程中的每一个可继承的打开句柄都将被子进程继承。被继承的句柄与原进程拥有完全相同的值和访问权限。
-dwCreationFlags：指定附加的、用来控制优先类和进程的创建的标志。以下的创建标志可以以除下面列出的方式外的任何方式组合后指定。
-⑴值：CREATE_DEFAULT_ERROR_MODE：新的进程不继承调用进程的错误模式。
-⑵值：CREATE_NEW_CONSOLE：新的进程将使用一个新的控制台，而不是继承父进程的控制台。这个标志不能与DETACHED_PROCESS标志一起使用。
-⑶值：CREATE_NEW_PROCESS_GROUP：新进程将是一个进程树的根进程。
-⑷值：CREATE_SEPARATE_WOW_VDM： 如果被设置，新进程将会在一个私有的虚拟DOS机（VDM）中运行。
-⑸值：CREATE_SHARED_WOW_VDM： 如果WIN.INI中的Windows段的DefaultSeparateVDM选项被设置为真，这个标识使得CreateProcess函数越过这个选项并在共享的虚拟DOS机中运行新进程。
-⑹值：CREATE_SUSPENDED：新进程的主线程会以暂停的状态被创建，直到调用ResumeThread函数被调用时才运行。
-⑺值：CREATE_UNICODE_ENVIRONMENT：如果被设置，由lpEnvironment参数指定的环境块使用Unicode字符，如果为空，环境块使用ANSI字符。
-⑻值：DEBUG_PROCESS：如果这个标志被设置，调用进程将被当做一个调试程序，并且新进程会被当做被调试的进程。系统把被调试程序发生的所有调试事件通知给调试器。
-⑼值：DEBUG_ONLY_THIS_PROCESS：如果此标志没有被设置且调用进程正在被调试，新进程将成为调试调用进程的调试器的另一个调试对象。如果调用进程没有被调试，有关调试的行为就不会产生。
-⑽值：DETACHED_PROCESS：对于控制台进程，新进程没有访问父进程控制台的权限。新进程可以通过AllocConsole函数自己创建一个新的控制台。这个标志不可以与CREATE_NEW_CONSOLE标志一起使用。
-(11)值：CREATE_NO_WINDOW：系统不为新进程创建CUI窗口，使用该标志可以创建不含窗口的CUI程序。
-dwCreationFlags参数：用来控制新进程的优先类，优先类用来决定此进程的线程调度的优先级。
-可以选择下面的标志中的一个：
-优先级：HIGH_PRIORITY_CLASS：指示这个进程将执行时间临界的任务，所以它必须被立即运行以保证正确。这个优先级的程序优先于正常优先级或空闲优先级的程序。
-优先级：IDLE_PRIORITY_CLASS：指示这个进程的线程只有在系统空闲时才会运行并且可以被任何高优先级的任务打断。例如屏幕保护程序。空闲优先级会被子进程继承。
-优先级：NORMAL_PRIORITY_CLASS：指示这个进程没有特殊的任务调度要求。
-优先级：REALTIME_PRIORITY_CLASS：指示这个进程拥有可用的最高优先级。一个拥有实时优先级的进程的线程可以打断所有其他进程线程的执行，包括正在执行重要任务的系统进程。
-lpEnvironment：指向一个新进程的环境块。如果此参数为空，新进程使用调用进程的环境。
-lpCurrentDirectory：指向一个以NULL结尾的字符串，这个字符串用来指定子进程的工作路径。这个字符串必须是一个包含驱动器名的绝对路径。如果这个参数为空，新进程将使用与调用进程相同的驱动器和目录。
-lpStartupInfo：指向一个用于决定新进程的主窗体如何显示的STARTUPINFO结构体。
-lpProcessInformation：指向一个用来接收新进程的识别信息的PROCESS_INFORMATION结构体。</code></pre><h2 id="2、创建进程"><a href="#2、创建进程" class="headerlink" title="2、创建进程"></a>2、创建进程</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">HANDLE CreateThread(</span><br><span class="line">    LPSECURITY_ATTRIBUTES lpThreadAttributes,   // pointer to thread security attributes</span><br><span class="line">    DWORD dwStackSize,                          // initial thread stack size, in bytes</span><br><span class="line">    LPTHREAD_START_ROUTINE lpStartAddress,      // pointer to thread function</span><br><span class="line">    LPVOID lpParameter,                         // argument for new thread</span><br><span class="line">    DWORD dwCreationFlags,                      // creation flags</span><br><span class="line">    LPDWORD lpThreadId                          // pointer to returned thread identifier</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
-
-<pre><code>lpThreadAttrivutes：指向SECURITY_ATTRIBUTES的指针，用于定义新线程的安全属性，一般设置成NULL；
-dwStackSize：分配以字节数表示的线程堆栈的大小，默认值是0；
-lpStartAddress：指向一个线程函数地址。每个线程都有自己的线程函数，线程函数是线程具体的执行代码；
-lpParameter：传递给线程函数的参数；
-dwCreationFlags：表示创建线程的运行状态，其中CREATE_SUSPEND表示挂起当前创建的线程，而0表示立即执行当前创建的进程；
-lpThreadID：返回新创建的线程的ID编号；</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;Windows.h&gt;</span><br><span class="line"></span><br><span class="line">DWORD WINAPI ThreadProc(LPVOID lpParameter)</span><br><span class="line">&#123;</span><br><span class="line">	int i;</span><br><span class="line">	for(i = 0; i &lt; 100; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		Sleep(500);</span><br><span class="line">		printf(&quot;++++++++++++++++%d \n&quot;, i);</span><br><span class="line">	&#125;</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	int i;</span><br><span class="line">	HANDLE hThread;</span><br><span class="line">	hThread = CreateThread(NULL, 0, ThreadProc, NULL, 0, NULL);</span><br><span class="line">	CloseHandle(hThread);</span><br><span class="line"></span><br><span class="line">	for(i = 0; i &lt; 100; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		Sleep(500);</span><br><span class="line">		printf(&quot;----------------%d \n&quot;, i);</span><br><span class="line">	&#125;</span><br><span class="line">	return</span><br></pre></td></tr></table></figure>
-
+        <h2 id="1、问题"><a href="#1、问题" class="headerlink" title="1、问题"></a>1、问题</h2><p>首先用Strings查看一下字符串：<br><img src="https://s1.ax1x.com/2020/09/13/w0GkKe.png" alt="w0GkKe.png"><br>我们可以看到字符串GinaDLL以及Winlogon这个注册表的位置。在Windows XP系统中，恶意程序可以使用微软图形识别和验证界面（GINA）拦截技术来窃取用户的登陆凭证。<br>通过PEID我们可以看到很多关于资源的API函数。可以猜测它对资源进行了某些操作，接下来用Resource Hacker来查看一下这个程序的资源。<br><img src="https://s1.ax1x.com/2020/10/08/00nH91.png" alt="00nH91.png"><br>用Resource Hacker打开这个程序，可以发现程序的资源中隐藏着一个PE文件，我们将其提取出来，可以发现是一个dll文件。<br><img src="https://s1.ax1x.com/2020/10/08/00uM3q.png" alt="00uM3q.png"><br>运行该程序，使用promon对其行为进行监控，发现它释放了一个名为msgina32.dll的文件，通过md5码比对，可以看到从资源中提取出的dll与该dll文件md5码一致，说明它们是同一个文件。<br><img src="https://s1.ax1x.com/2020/10/08/00KDWn.png" alt="00KDWn.png"><br><img src="https://s1.ax1x.com/2020/10/08/00MEkQ.png" alt="00MEkQ.png"><br>我们再来分析一下msgina32.dll这个文件，利用Strings查看一下这个DLL文件：<br><img src="https://s1.ax1x.com/2020/10/08/00MzEF.png" alt="00MzEF.png"><br>在这里我们可以看到很多以“Wlx”为开头的函数。msgina32.dll这个恶意程序截获了Winlogon与msgina.dll之间的通信，为了让系统能够正常工作，它必须将登录凭证信息传递给msgina.dll。为了完成这项工作，恶意程序必须包含GINA要求的所有导出函数。<br>下面来分析一下导出函数，首先看一下WlxLoggedOnSAS。可以看到，这里现将字符串“WlxLoggedOnSAS”作为参数压栈，之后调用了sub_10001000这个函数。然后跳转到该函数的返回值的位置继续执行。可以进入这个函数来分析一下：<br><img src="https://s1.ax1x.com/2020/10/08/00lHO0.png" alt="00lHO0.png"><br>可以看到，这里使用了我们刚才所获取的msgina.dll的句柄以及WlxLoggedOnSAS这个字符串，并且调用了GetProcAddress来获取msgina.dll中的WlxLoggedOnSAS函数的地址。这样就能够实现该函数的正常调用。<br>WlxLoggedOutSAS这个函数在系统注销的时候被调用，并且包含一些额外的代码。<br><img src="https://s1.ax1x.com/2020/10/08/001COx.png" alt="001COx.png"><br>我们进入进入sub_10001570函数可以看到这段代码的目的是将日期、时间以及登陆凭证等信息写入到msutil32.sys这个文件里面。</p>
+<h3 id="1、这个恶意代码向磁盘释放了什么？"><a href="#1、这个恶意代码向磁盘释放了什么？" class="headerlink" title="1、这个恶意代码向磁盘释放了什么？"></a>1、这个恶意代码向磁盘释放了什么？</h3><p>恶意程序从资源节中提取出名为msgina32.dll的文件，将其释放到硬盘上。</p>
+<h3 id="2、这个恶意代码如何进行驻留？"><a href="#2、这个恶意代码如何进行驻留？" class="headerlink" title="2、这个恶意代码如何进行驻留？"></a>2、这个恶意代码如何进行驻留？</h3><p>恶意程序将自己添加进注册表：HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\GinaDLL中。这使得系统重启后，msgina32.dll将被加载。</p>
+<h3 id="3、这个恶意代码如何窃取用户登录凭证？"><a href="#3、这个恶意代码如何窃取用户登录凭证？" class="headerlink" title="3、这个恶意代码如何窃取用户登录凭证？"></a>3、这个恶意代码如何窃取用户登录凭证？</h3><p>恶意程序使用GINA拦截并窃取用户登陆凭证。</p>
+<h3 id="4、这个恶意代码对窃取的证书做了什么处理？"><a href="#4、这个恶意代码对窃取的证书做了什么处理？" class="headerlink" title="4、这个恶意代码对窃取的证书做了什么处理？"></a>4、这个恶意代码对窃取的证书做了什么处理？</h3><p>msgina32.dll能够拦截所有提交到系统的用户登陆凭证。而恶意程序会把存储登录情况的日志文件（msutil32.sys）保存到系统目录里面。</p>
+<h3 id="5、如何在你的测试环境让这个恶意代码获得用户登录凭证？"><a href="#5、如何在你的测试环境让这个恶意代码获得用户登录凭证？" class="headerlink" title="5、如何在你的测试环境让这个恶意代码获得用户登录凭证？"></a>5、如何在你的测试环境让这个恶意代码获得用户登录凭证？</h3><p>重启计算机，这样就能够找到这个存储着登录信息的文件。</p>
 
       
     </div>
@@ -400,8 +378,8 @@ lpThreadID：返回新创建的线程的ID编号；</code></pre><figure class="h
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/05/25/函数调用约定/" rel="next" title="函数调用约定">
-                <i class="fa fa-chevron-left"></i> 函数调用约定
+              <a href="/2020/09/13/恶意代码分析实战：Lab09-03/" rel="next" title="恶意代码分析实战：Lab09-03">
+                <i class="fa fa-chevron-left"></i> 恶意代码分析实战：Lab09-03
               </a>
             
           </div>
@@ -409,10 +387,6 @@ lpThreadID：返回新创建的线程的ID编号；</code></pre><figure class="h
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/06/02/APK文件结构/" rel="prev" title="APK文件结构">
-                APK文件结构 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -565,7 +539,7 @@ lpThreadID：返回新创建的线程的ID编号；</code></pre><figure class="h
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、创建线程"><span class="nav-number">1.</span> <span class="nav-text">1、创建线程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、创建进程"><span class="nav-number">2.</span> <span class="nav-text">2、创建进程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、问题"><span class="nav-number">1.</span> <span class="nav-text">1、问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、这个恶意代码向磁盘释放了什么？"><span class="nav-number">1.1.</span> <span class="nav-text">1、这个恶意代码向磁盘释放了什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、这个恶意代码如何进行驻留？"><span class="nav-number">1.2.</span> <span class="nav-text">2、这个恶意代码如何进行驻留？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、这个恶意代码如何窃取用户登录凭证？"><span class="nav-number">1.3.</span> <span class="nav-text">3、这个恶意代码如何窃取用户登录凭证？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、这个恶意代码对窃取的证书做了什么处理？"><span class="nav-number">1.4.</span> <span class="nav-text">4、这个恶意代码对窃取的证书做了什么处理？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、如何在你的测试环境让这个恶意代码获得用户登录凭证？"><span class="nav-number">1.5.</span> <span class="nav-text">5、如何在你的测试环境让这个恶意代码获得用户登录凭证？</span></a></li></ol></li></ol></div>
             
 
           </div>

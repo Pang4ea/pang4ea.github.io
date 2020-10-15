@@ -82,8 +82,8 @@
 <meta name="description" content="问题首先使用PEiD来查看一下程序的导入表：在导入表的ADVAPI32.dll这个动态链接库中，可以看到CreateServiceA以及OpenSCManagerA这两个API函数，说明这个恶意程序很可能会创建一个服务，来保证它会在系统被重启后运行。WININET.dll这个动态链接库中的InternetOpenUrlA以及InternetOpenA说明这个程序可能会连接到一个网站。首先看一下这个">
 <meta property="og:type" content="article">
 <meta property="og:title" content="恶意代码分析实战：Lab07-01">
-<meta property="og:url" content="http://yoursite.com/2020/08/14/恶意代码分析实战：Lab07-01/index.html">
-<meta property="og:site_name" content="Pangaea">
+<meta property="og:url" content="https://pang4ea.github.io/2020/08/14/恶意代码分析实战：Lab07-01/index.html">
+<meta property="og:site_name" content="Pang4ea">
 <meta property="og:description" content="问题首先使用PEiD来查看一下程序的导入表：在导入表的ADVAPI32.dll这个动态链接库中，可以看到CreateServiceA以及OpenSCManagerA这两个API函数，说明这个恶意程序很可能会创建一个服务，来保证它会在系统被重启后运行。WININET.dll这个动态链接库中的InternetOpenUrlA以及InternetOpenA说明这个程序可能会连接到一个网站。首先看一下这个">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/14/dPl7FI.png">
@@ -124,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/08/14/恶意代码分析实战：Lab07-01/">
+  <link rel="canonical" href="https://pang4ea.github.io/2020/08/14/恶意代码分析实战：Lab07-01/">
 
 
 
 
 
-  <title>恶意代码分析实战：Lab07-01 | Pangaea</title>
+  <title>恶意代码分析实战：Lab07-01 | Pang4ea</title>
   
 
 
@@ -160,7 +160,7 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Pangaea</span>
+        <span class="site-title">Pang4ea</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -277,16 +277,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/14/恶意代码分析实战：Lab07-01/">
+    <link itemprop="mainEntityOfPage" href="https://pang4ea.github.io/2020/08/14/恶意代码分析实战：Lab07-01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Slipslop">
+      <meta itemprop="name" content="pang4ea">
       <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pangaea">
+      <meta itemprop="name" content="Pang4ea">
     </span>
 
     
@@ -468,9 +468,9 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Slipslop">
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="pang4ea">
             
-              <p class="site-author-name" itemprop="name">Slipslop</p>
+              <p class="site-author-name" itemprop="name">pang4ea</p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -481,7 +481,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -579,7 +579,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Slipslop</span>
+  <span class="author" itemprop="copyrightHolder">pang4ea</span>
 
   
 </div>

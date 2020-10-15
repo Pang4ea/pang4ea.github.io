@@ -82,8 +82,8 @@
 <meta name="description" content="问题用ida打开Lab07-02.exe，查看恶意程序的导入表。可以发现，该样本的的函数导入表并没有文件、服务及注册表的操作。所以可以判断该样本没有持久化驻留的行为，运行一次便退出了。这个程序首先调用了OleInitialize用于初始化组件对象模型库，之后调用CoCreateInstance用于创建一个COM的对象。返回的COM对象被保存在栈上的一个变量中，IDA将它标记为ppv。为了判断这个程">
 <meta property="og:type" content="article">
 <meta property="og:title" content="恶意代码分析实战：Lab07-02">
-<meta property="og:url" content="http://yoursite.com/2020/08/19/恶意代码分析实战：Lab07-02/index.html">
-<meta property="og:site_name" content="Pangaea">
+<meta property="og:url" content="https://pang4ea.github.io/2020/08/19/恶意代码分析实战：Lab07-02/index.html">
+<meta property="og:site_name" content="Pang4ea">
 <meta property="og:description" content="问题用ida打开Lab07-02.exe，查看恶意程序的导入表。可以发现，该样本的的函数导入表并没有文件、服务及注册表的操作。所以可以判断该样本没有持久化驻留的行为，运行一次便退出了。这个程序首先调用了OleInitialize用于初始化组件对象模型库，之后调用CoCreateInstance用于创建一个COM的对象。返回的COM对象被保存在栈上的一个变量中，IDA将它标记为ppv。为了判断这个程">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/19/d3pPHO.png">
@@ -129,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2020/08/19/恶意代码分析实战：Lab07-02/">
+  <link rel="canonical" href="https://pang4ea.github.io/2020/08/19/恶意代码分析实战：Lab07-02/">
 
 
 
 
 
-  <title>恶意代码分析实战：Lab07-02 | Pangaea</title>
+  <title>恶意代码分析实战：Lab07-02 | Pang4ea</title>
   
 
 
@@ -165,7 +165,7 @@
     <div class="custom-logo-site-title">
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
-        <span class="site-title">Pangaea</span>
+        <span class="site-title">Pang4ea</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
@@ -282,16 +282,16 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/19/恶意代码分析实战：Lab07-02/">
+    <link itemprop="mainEntityOfPage" href="https://pang4ea.github.io/2020/08/19/恶意代码分析实战：Lab07-02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Slipslop">
+      <meta itemprop="name" content="pang4ea">
       <meta itemprop="description" content>
       <meta itemprop="image" content="/images/avatar.gif">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pangaea">
+      <meta itemprop="name" content="Pang4ea">
     </span>
 
     
@@ -455,9 +455,9 @@
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
-              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="Slipslop">
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="pang4ea">
             
-              <p class="site-author-name" itemprop="name">Slipslop</p>
+              <p class="site-author-name" itemprop="name">pang4ea</p>
               <p class="site-description motion-element" itemprop="description"></p>
           </div>
 
@@ -468,7 +468,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-count">35</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -566,7 +566,7 @@
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
-  <span class="author" itemprop="copyrightHolder">Slipslop</span>
+  <span class="author" itemprop="copyrightHolder">pang4ea</span>
 
   
 </div>

@@ -79,23 +79,24 @@
 
 
 
-<meta name="description" content="1、静态修改PE输入表法准备工作：一个自行编写的MsgDLL.dll，导出了一个Msg()。修改对象：系统（Windows XP）自带的“记事本”程序notepad.exe。修改目标：启动notepad.exe时能够加载MsgDLL.dll。MsgDLL.dll的主要功能是在DllMain中弹出一个MessageBox来展示自己的存在，代码如下。 1234567891011121314151617">
+<meta name="description" content="问题首先看一下它的导入函数。由CreateProcessA、GetThreadContext、SetThreadContext可以知道这个程序会创建新的进程，并且修改线程的上下文。ReadProcessMemory和WriteProcessMemory会对进程的内存空间进行读写操作。SizeofResource、LockResource、LoadResource会对资源进行操作。首先我们来看看ma">
 <meta property="og:type" content="article">
-<meta property="og:title" content="DLL注入方法（一）通过干预输入表处理过程加载目标DLL">
-<meta property="og:url" content="https://pang4ea.github.io/2020/03/19/DLL注入方法（一）静态修改PE输入表法/index.html">
+<meta property="og:title" content="恶意代码分析实战：Lab12-02">
+<meta property="og:url" content="https://pang4ea.github.io/2020/10/18/恶意代码分析实战：Lab12-02/index.html">
 <meta property="og:site_name" content="Pang4ea">
-<meta property="og:description" content="1、静态修改PE输入表法准备工作：一个自行编写的MsgDLL.dll，导出了一个Msg()。修改对象：系统（Windows XP）自带的“记事本”程序notepad.exe。修改目标：启动notepad.exe时能够加载MsgDLL.dll。MsgDLL.dll的主要功能是在DllMain中弹出一个MessageBox来展示自己的存在，代码如下。 1234567891011121314151617">
+<meta property="og:description" content="问题首先看一下它的导入函数。由CreateProcessA、GetThreadContext、SetThreadContext可以知道这个程序会创建新的进程，并且修改线程的上下文。ReadProcessMemory和WriteProcessMemory会对进程的内存空间进行读写操作。SizeofResource、LockResource、LoadResource会对资源进行操作。首先我们来看看ma">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/03/587bcf3439119a02.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/03/a150910b67761167.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/03/b85ed2c39f88b377.png">
-<meta property="og:image" content="https://ae01.alicdn.com/kf/Uac8676a886504790979ef51054c0784fS.jpg">
-<meta property="og:image" content="https://ae01.alicdn.com/kf/U1e796ce9dee94bdfad8277d5d22a2184i.jpg">
-<meta property="og:updated_time" content="2020-03-18T16:55:45.497Z">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/18/0XStHO.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/18/0XSjPJ.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/18/0XpFaD.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/18/0XphdO.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/18/0X9YkD.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/18/0X9jj1.png">
+<meta property="og:updated_time" content="2020-10-18T02:41:25.484Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="DLL注入方法（一）通过干预输入表处理过程加载目标DLL">
-<meta name="twitter:description" content="1、静态修改PE输入表法准备工作：一个自行编写的MsgDLL.dll，导出了一个Msg()。修改对象：系统（Windows XP）自带的“记事本”程序notepad.exe。修改目标：启动notepad.exe时能够加载MsgDLL.dll。MsgDLL.dll的主要功能是在DllMain中弹出一个MessageBox来展示自己的存在，代码如下。 1234567891011121314151617">
-<meta name="twitter:image" content="https://ftp.bmp.ovh/imgs/2020/03/587bcf3439119a02.png">
+<meta name="twitter:title" content="恶意代码分析实战：Lab12-02">
+<meta name="twitter:description" content="问题首先看一下它的导入函数。由CreateProcessA、GetThreadContext、SetThreadContext可以知道这个程序会创建新的进程，并且修改线程的上下文。ReadProcessMemory和WriteProcessMemory会对进程的内存空间进行读写操作。SizeofResource、LockResource、LoadResource会对资源进行操作。首先我们来看看ma">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/10/18/0XStHO.png">
 
 
 
@@ -125,13 +126,13 @@
 
 
 
-  <link rel="canonical" href="https://pang4ea.github.io/2020/03/19/DLL注入方法（一）静态修改PE输入表法/">
+  <link rel="canonical" href="https://pang4ea.github.io/2020/10/18/恶意代码分析实战：Lab12-02/">
 
 
 
 
 
-  <title>DLL注入方法（一）通过干预输入表处理过程加载目标DLL | Pang4ea</title>
+  <title>恶意代码分析实战：Lab12-02 | Pang4ea</title>
   
 
 
@@ -278,7 +279,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://pang4ea.github.io/2020/03/19/DLL注入方法（一）静态修改PE输入表法/">
+    <link itemprop="mainEntityOfPage" href="https://pang4ea.github.io/2020/10/18/恶意代码分析实战：Lab12-02/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="pang4ea">
@@ -295,7 +296,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">DLL注入方法（一）通过干预输入表处理过程加载目标DLL</h1>
+          <h1 class="post-title" itemprop="name headline">恶意代码分析实战：Lab12-02</h1>
         
 
         <div class="post-meta">
@@ -307,8 +308,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-03-19T00:00:00+08:00">
-                2020-03-19
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-18T10:40:45+08:00">
+                2020-10-18
               </time>
             
 
@@ -345,13 +346,12 @@
       
 
       
-        <h2 id="1、静态修改PE输入表法"><a href="#1、静态修改PE输入表法" class="headerlink" title="1、静态修改PE输入表法"></a>1、静态修改PE输入表法</h2><p><strong>准备工作：</strong>一个自行编写的MsgDLL.dll，导出了一个Msg()。<br><strong>修改对象：</strong>系统（Windows XP）自带的“记事本”程序notepad.exe。<br><strong>修改目标：</strong>启动notepad.exe时能够加载MsgDLL.dll。<br>MsgDLL.dll的主要功能是在DllMain中弹出一个MessageBox来展示自己的存在，代码如下。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdafx.h&quot;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">VOID Msg();</span><br><span class="line"></span><br><span class="line">DWORD WINAPI ThreadShow(LPVOID lpParameter);</span><br><span class="line">void WriteLog(char *info,char *logfilename);</span><br><span class="line"></span><br><span class="line">BOOL APIENTRY DllMain( HANDLE hModule, </span><br><span class="line">                       DWORD  ul_reason_for_call, </span><br><span class="line">                       LPVOID lpReserved</span><br><span class="line">					 )</span><br><span class="line">&#123;</span><br><span class="line">	if (ul_reason_for_call == DLL_PROCESS_ATTACH)</span><br><span class="line">	&#123;</span><br><span class="line">		CreateThread(NULL,0,ThreadShow,NULL,0,NULL);</span><br><span class="line">	&#125;</span><br><span class="line">    return TRUE;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">DWORD WINAPI ThreadShow(LPVOID lpParameter)</span><br><span class="line">&#123;</span><br><span class="line">	char szPath[MAX_PATH]=&#123;0&#125;;</span><br><span class="line">	char szBuf[1024]=&#123;0&#125;;</span><br><span class="line">	</span><br><span class="line">	GetModuleFileName(NULL,szPath,MAX_PATH);</span><br><span class="line">	sprintf(szBuf,&quot;Dll已注入到进程 %s [Pid = %d]\n&quot;,szPath,GetCurrentProcessId());</span><br><span class="line">	//以三种方式显示自己的存在</span><br><span class="line">	//1.控制台</span><br><span class="line">	//fprintf((FILE*)GetStdHandle(STD_ERROR_HANDLE),&quot;%s&quot;,szBuf);</span><br><span class="line">	printf(&quot;%s&quot;,szBuf);</span><br><span class="line">	//2.调试器</span><br><span class="line">	OutputDebugString(szBuf);</span><br><span class="line">	//3.Msgbox</span><br><span class="line">	Sleep(800);</span><br><span class="line">	MessageBox(NULL,szBuf,&quot;Dll Inject&quot;,MB_OK);</span><br><span class="line">	return 0 ;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void WriteLog(char *info,char *logfilename)</span><br><span class="line">&#123;</span><br><span class="line">	HANDLE	hFile;</span><br><span class="line">	static char	tmp[100];</span><br><span class="line">	DWORD	dwwritten=0;</span><br><span class="line">	static SYSTEMTIME systime;</span><br><span class="line">	GetLocalTime(&amp;systime);</span><br><span class="line">	sprintf(tmp,&quot;%04dd-%02d-%02d %02d:%02d:%02d  &quot;,systime.wYear,systime.wMonth,systime.wDay,systime.wHour,systime.wMinute,systime.wSecond);</span><br><span class="line">	hFile=CreateFile(logfilename,GENERIC_WRITE,0,NULL,OPEN_ALWAYS,FILE_ATTRIBUTE_NORMAL,NULL);</span><br><span class="line">	if(INVALID_HANDLE_VALUE!=hFile) </span><br><span class="line">	&#123;</span><br><span class="line">		SetFilePointer(hFile,0,0,SEEK_END);</span><br><span class="line">		WriteFile(hFile,tmp,lstrlen(tmp),&amp;dwwritten,NULL);</span><br><span class="line">		WriteFile(hFile,info,lstrlen(info),&amp;dwwritten,NULL);</span><br><span class="line">		WriteFile(hFile,&quot;\r\n&quot;,2,&amp;dwwritten,NULL);</span><br><span class="line">		CloseHandle(hFile);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">//导出函数</span><br><span class="line">VOID Msg()</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>（1）备份原IID结构<br>原输入表的RVA为0x7604，它的RawOffset为0x7604 - 0x1000 + 0x400 = 0x6A04，大小为0xC8。<br><img src="https://ftp.bmp.ovh/imgs/2020/03/587bcf3439119a02.png" alt><br>增加一个节，将IID数组复制到空白区域，偏移量是0x10400，如图所示。<br><img src="https://ftp.bmp.ovh/imgs/2020/03/a150910b67761167.png" alt></p>
-<p>（2）在原IID区域构建新IID的OriginalFirstThunk、Name和FirstThunk结构<br><img src="https://ftp.bmp.ovh/imgs/2020/03/b85ed2c39f88b377.png" alt></p>
-<p>（3）填充新输入表项的IID结构<br>根据刚才填充的两个结构和Name的偏移，填写新的IID项，如图所示。<br><img src="https://ae01.alicdn.com/kf/Uac8676a886504790979ef51054c0784fS.jpg" alt><br>TimeDateStamp这一项我们没有，所以填0。</p>
-<p>（4）修正PE文件头的信息<br>1、修改输入表指向的位置以及大小。<br>2、修改新区块的属性。<br>注入成功<br><img src="https://ae01.alicdn.com/kf/U1e796ce9dee94bdfad8277d5d22a2184i.jpg" alt></p>
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>首先看一下它的导入函数。<br><img src="https://s1.ax1x.com/2020/10/18/0XStHO.png" alt="0XStHO.png"><br>由CreateProcessA、GetThreadContext、SetThreadContext可以知道这个程序会创建新的进程，并且修改线程的上下文。ReadProcessMemory和WriteProcessMemory会对进程的内存空间进行读写操作。SizeofResource、LockResource、LoadResource会对资源进行操作。<br>首先我们来看看main函数中对sub_40149D调用，该函数的目的是组合成一个字符串，也就是系统目录中的svchost.exe的路径。<br><img src="https://s1.ax1x.com/2020/10/18/0XSjPJ.png" alt="0XSjPJ.png"><br>下一个函数调用是sub_40132C，可以发现，这里面出现了诸如FindResource、LoadResource、LockResource、SizeOfResource、VirtualAlloc以及memcpy这几个函数。也就是从当前可执行文件的资源段中复制数据到内存中。<br><img src="https://s1.ax1x.com/2020/10/18/0XpFaD.png" alt="0XpFaD.png"><br>对函数以及资源文件进行分析可以看出这里是被加密了的，通过观察我们可以看出，这里进行了异或操作，异或数为0x41。通过winhex对数据进行修改可以得到一个PE文件。<br><img src="https://s1.ax1x.com/2020/10/18/0XphdO.png" alt="0XphdO.png"><br>接下来调用了函数sub_4010EA，我们先看一下CreateProcessA函数的dwCreationFlags这个参数。这个程序里面，它的值是4，表示的是CREATE_SUSPENDED，也就是允许进程被创建，但是先不启动。还可以看到GetThreadContext这个函数，说明这个恶意程序正在访问一个线程的上下文。它的hThread参数与CreateProcessA函数的lpProcessInformation参数位于同一个缓冲区。这也就说明了，这个程序正在访问挂起的进程的上下文。接下来程序会调用位于0x004011E8处的GetProcAdderss，用于获取NtUnmapViewOfSection函数的地址。并且在0x004011FE的位置，将之前获取的ImageBase作为了NtUnmapViewOfSection函数的一个参数入栈。这样一来，NtUnmapViewOfSection就会将新创建的进程的内存空间释放掉，随后可以开始填充恶意代码了。<br><img src="https://s1.ax1x.com/2020/10/18/0X9YkD.png" alt="0X9YkD.png"><br>接下来是一个循环复制PE可执行段到这个挂起的进程。<br><img src="https://s1.ax1x.com/2020/10/18/0X9jj1.png" alt="0X9jj1.png"></p>
+<h3 id="1、这个程序的目的是什么？"><a href="#1、这个程序的目的是什么？" class="headerlink" title="1、这个程序的目的是什么？"></a>1、这个程序的目的是什么？</h3><p>这个程序的目的是秘密地创建另一个恶意程序。</p>
+<h3 id="2、启动器恶意代码是如何隐蔽运行的？"><a href="#2、启动器恶意代码是如何隐蔽运行的？" class="headerlink" title="2、启动器恶意代码是如何隐蔽运行的？"></a>2、启动器恶意代码是如何隐蔽运行的？</h3><p>进程的替换技术。</p>
+<h3 id="3、恶意代码负载存储在哪里？"><a href="#3、恶意代码负载存储在哪里？" class="headerlink" title="3、恶意代码负载存储在哪里？"></a>3、恶意代码负载存储在哪里？</h3><p>资源节中。</p>
+<h3 id="4、恶意负载是如何被保护的？"><a href="#4、恶意负载是如何被保护的？" class="headerlink" title="4、恶意负载是如何被保护的？"></a>4、恶意负载是如何被保护的？</h3><p>异或加密。</p>
+<h3 id="5、字符串列表是如何被保护的？"><a href="#5、字符串列表是如何被保护的？" class="headerlink" title="5、字符串列表是如何被保护的？"></a>5、字符串列表是如何被保护的？</h3><p>异或加密。</p>
 
       
     </div>
@@ -376,8 +376,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/12/10/CVE-2018-4878漏洞复现/" rel="next" title="CVE-2018-4878漏洞复现">
-                <i class="fa fa-chevron-left"></i> CVE-2018-4878漏洞复现
+              <a href="/2020/10/16/恶意代码常用API/" rel="next" title="恶意代码常用API">
+                <i class="fa fa-chevron-left"></i> 恶意代码常用API
               </a>
             
           </div>
@@ -385,10 +385,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/19/DLL注入方法（二）DLL劫持法/" rel="prev" title="DLL注入方法（二）DLL劫持法">
-                DLL注入方法（二）DLL劫持法 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -541,7 +537,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、静态修改PE输入表法"><span class="nav-number">1.</span> <span class="nav-text">1、静态修改PE输入表法</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、这个程序的目的是什么？"><span class="nav-number">1.1.</span> <span class="nav-text">1、这个程序的目的是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、启动器恶意代码是如何隐蔽运行的？"><span class="nav-number">1.2.</span> <span class="nav-text">2、启动器恶意代码是如何隐蔽运行的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、恶意代码负载存储在哪里？"><span class="nav-number">1.3.</span> <span class="nav-text">3、恶意代码负载存储在哪里？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4、恶意负载是如何被保护的？"><span class="nav-number">1.4.</span> <span class="nav-text">4、恶意负载是如何被保护的？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5、字符串列表是如何被保护的？"><span class="nav-number">1.5.</span> <span class="nav-text">5、字符串列表是如何被保护的？</span></a></li></ol></li></ol></div>
             
 
           </div>

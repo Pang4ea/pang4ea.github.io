@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、下载器和启动器下载器从互联网上下载其他的恶意代码，然后在本地系统中运行。下载器通常会与漏洞利用打包在一起。下载器常用Windows API函数URLDownloadtoFileA和WinExec，来下载并运行新的恶意代码。 1234567HRESULT URLDownloadToFile(     LPUNKNOWN pCaller, //控件的接口，如果不是控件则为0    LPCTSTR">
+<meta property="og:type" content="article">
+<meta property="og:title" content="恶意代码行为">
+<meta property="og:url" content="https://pang4ea.github.io/2020/10/20/恶意代码行为/index.html">
+<meta property="og:site_name" content="Pang4ea">
+<meta property="og:description" content="1、下载器和启动器下载器从互联网上下载其他的恶意代码，然后在本地系统中运行。下载器通常会与漏洞利用打包在一起。下载器常用Windows API函数URLDownloadtoFileA和WinExec，来下载并运行新的恶意代码。 1234567HRESULT URLDownloadToFile(     LPUNKNOWN pCaller, //控件的接口，如果不是控件则为0    LPCTSTR">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/20/BS7xQx.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/20/BSXpIU.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/20/BSxAMj.png">
+<meta property="og:updated_time" content="2020-10-20T09:59:04.685Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="恶意代码行为">
+<meta name="twitter:description" content="1、下载器和启动器下载器从互联网上下载其他的恶意代码，然后在本地系统中运行。下载器通常会与漏洞利用打包在一起。下载器常用Windows API函数URLDownloadtoFileA和WinExec，来下载并运行新的恶意代码。 1234567HRESULT URLDownloadToFile(     LPUNKNOWN pCaller, //控件的接口，如果不是控件则为0    LPCTSTR">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/10/20/BS7xQx.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://pang4ea.github.io/2020/10/20/恶意代码行为/">
+
+
+
+
+
+  <title>恶意代码行为 | Pang4ea</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pang4ea</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://pang4ea.github.io/2020/10/20/恶意代码行为/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pang4ea">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pang4ea">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">恶意代码行为</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-20T17:58:46+08:00">
+                2020-10-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1、下载器和启动器"><a href="#1、下载器和启动器" class="headerlink" title="1、下载器和启动器"></a>1、下载器和启动器</h2><p>下载器从互联网上下载其他的恶意代码，然后在本地系统中运行。下载器通常会与漏洞利用打包在一起。下载器常用Windows API函数URLDownloadtoFileA和WinExec，来下载并运行新的恶意代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HRESULT URLDownloadToFile( </span><br><span class="line">    LPUNKNOWN pCaller, //控件的接口，如果不是控件则为0</span><br><span class="line">    LPCTSTR szURL, //要下载的url地址,不能为空</span><br><span class="line">    LPCTSTR szFileName, //下载后保存的文件名</span><br><span class="line">    DWORD dwReserved, //保留字段,必需为0</span><br><span class="line">    LPBINDSTATUSCALLBACK lpfnCB //下载进度状态回调</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>启动器（加载器）是一类可执行文件，用来安装立即运行或者将来秘密执行的恶意代码。</p>
+<h2 id="2、后门"><a href="#2、后门" class="headerlink" title="2、后门"></a>2、后门</h2><p>后门是一种能让攻击者远程访问一个受害者的机器。后门拥有一套通用的功能，例如操作注册表、列举窗口、创建目录、搜索文件，等等。</p>
+<h3 id="1、反向shell"><a href="#1、反向shell" class="headerlink" title="1、反向shell"></a>1、反向shell</h3><p>反向shell是从被感染机器上发起一个连接，它提供攻击者shell访问被感染机器的权限。<br>1、Netcat反向shell<br>2、windows反向shell</p>
+<h3 id="2、远程控制工具"><a href="#2、远程控制工具" class="headerlink" title="2、远程控制工具"></a>2、远程控制工具</h3><p>远程控制工具（RAT）被用来远程管理一台或多台计算机。<br>服务器端运行在一个被植入恶意代码的受害者主机上。客户端作为攻击者远程操作运行命令和控制单元。远程控制工具通常通过如80、443等常用的通信端口。<br><a href="https://imgchr.com/i/BS7xQx" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/20/BS7xQx.png" alt="BS7xQx.png"></a></p>
+<h3 id="3、僵尸网络"><a href="#3、僵尸网络" class="headerlink" title="3、僵尸网络"></a>3、僵尸网络</h3><p>僵尸网络是被感染主机的一个集合。它们由单一实体控制，通常由一个称为僵尸控制器的机器作为服务器。僵尸网络的目标是尽可能地多感染机器，来构建一个更大的僵尸主机网络，从而使僵尸网络传播其他的恶意代码或蠕虫，或者执行分布式拒绝服务攻击。</p>
+<h2 id="3、登录凭证窃密器"><a href="#3、登录凭证窃密器" class="headerlink" title="3、登录凭证窃密器"></a>3、登录凭证窃密器</h2><p>1、等待用户登录以窃取登录凭证的程序<br>2、转储Windows系统中存放信息的程序，例如密码哈希值，程序直接使用它，或者对它进行离线破解。<br>3、击键记录程序</p>
+<h2 id="4、存活机制"><a href="#4、存活机制" class="headerlink" title="4、存活机制"></a>4、存活机制</h2><h3 id="1、Windows注册表"><a href="#1、Windows注册表" class="headerlink" title="1、Windows注册表"></a>1、Windows注册表</h3><p>恶意程序常用注册表存储它的配置信息、收集系统信息、永久得安装自己。<br>1、AppInit_DLL<br>恶意代码编写者可以通过一个名为AppInit_DLL特殊注册表项来让DLL获得加载。AppInit_DLL中的DLL程序会在进程加载User32.dll时加载。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Svchost</span><br></pre></td></tr></table></figure>
+
+<p>2、Winlogon Notify<br>恶意代码编写者可以挂钩一个特殊的winlogon事件，如登录、注销、关机以及锁屏，等等。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\</span><br></pre></td></tr></table></figure>
+
+<p>当winlogon.exe产生一个事件时，Windows系统会检查Notify注册表键来查找处理这个事件的DLL程序。<br>3、SvoHost DLL<br>恶意代码经常作为一个服务安装，但是更多时候作为一个可执行文件使用。安装的恶意代码作为svchost.exe的DLL来存活，这使得恶意代码可以与其他进程混淆，且更像标准的服务。<br>每个svchost.exe实例都包含一组服务，定义在下列注册表中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\SvoHost</span><br></pre></td></tr></table></figure>
+
+<p>服务被定义在下列注册表位置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_LOCAL_MACHINE\System\CurrentControlSet\Services\ServiceName</span><br></pre></td></tr></table></figure>
+
+<h3 id="2、特洛伊木马化系统二进制文件"><a href="#2、特洛伊木马化系统二进制文件" class="headerlink" title="2、特洛伊木马化系统二进制文件"></a>2、特洛伊木马化系统二进制文件</h3><p>利用这种技术，恶意代码能够修改系统的二进制文件，当被感染的二进制文件下次运行或者加载时，将会强制运行恶意代码。<br><a href="https://imgchr.com/i/BSXpIU" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/20/BSXpIU.png" alt="BSXpIU.png"></a></p>
+<h3 id="3、DLL加载顺序劫持"><a href="#3、DLL加载顺序劫持" class="headerlink" title="3、DLL加载顺序劫持"></a>3、DLL加载顺序劫持</h3><p>DLL加载顺序劫持是一种简单隐蔽的技术，它允许恶意代码编写者在不使用注册表或者特洛伊二进制文件的前提下创建一个存活的、恶意的DLL程序。<br>Windows XP中加载DLL的默认搜索顺序：<br>1、加载应用程序的目录。<br>2、当前目录<br>3、系统目录<br>4、16位子系统的系统目录<br>5、Windows目录<br>6、PATH环境变量里列出的目录</p>
+<h2 id="5、提权"><a href="#5、提权" class="headerlink" title="5、提权"></a>5、提权</h2><p>恶意代码获得访问这些函数的权限的唯一方法是通过设置访问令牌的权限来开启SeDebugPrivilege。在Windows系统中，访问令牌（access token）是一个包含进程安全描述符的对象。<br>SeDebugPrivilege特权作为一个系统级别调试的工具被创建，但是恶意代码编写者用它来获取系统进程拥有的所有权限。默认情况下，SeDebugPrivilege只赋给本地管理员账户，基本可以认为赋予用户SeDebugPrivilege权限就等同于给予他们本地系统账户权限。</p>
+<h2 id="6、隐藏它的踪迹————用户态的Rootkit"><a href="#6、隐藏它的踪迹————用户态的Rootkit" class="headerlink" title="6、隐藏它的踪迹————用户态的Rootkit"></a>6、隐藏它的踪迹————用户态的Rootkit</h2><p>常用来隐藏恶意代码行为的工具被称为RootKit。Rootkit有多种存在形式，但是大部分Rootkit通过修改操作系统内部的功能来工作。这种修改可以使恶意代码的文件、进程、网络连接以及其他资源对其他程序隐藏。</p>
+<h3 id="1、IAT-Hook"><a href="#1、IAT-Hook" class="headerlink" title="1、IAT Hook"></a>1、IAT Hook</h3><p>IAT Hook是用户空间中一种经典的Rootkit方法，它隐藏本地系统中的文件、进程以及网络连接。这种方式修改导入地址表（IAT）或者导出地址表（EAT）。<br><a href="https://imgchr.com/i/BSxAMj" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/20/BSxAMj.png" alt="BSxAMj.png"></a></p>
+<h3 id="2、Inline-Hook"><a href="#2、Inline-Hook" class="headerlink" title="2、Inline Hook"></a>2、Inline Hook</h3><p>Inline Hook是通过覆盖导入DLL中API函数的代码来实现的，所以它必须等到DLL被加载后才能执行。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/10/18/恶意代码分析实战：Lab12-02/" rel="next" title="恶意代码分析实战：Lab12-02">
+                <i class="fa fa-chevron-left"></i> 恶意代码分析实战：Lab12-02
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="pang4ea">
+            
+              <p class="site-author-name" itemprop="name">pang4ea</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/yourname" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="skype:yourname?call|chat" target="_blank" title="Skype">
+                      
+                        <i class="fa fa-fw fa-skype"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、下载器和启动器"><span class="nav-number">1.</span> <span class="nav-text">1、下载器和启动器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、后门"><span class="nav-number">2.</span> <span class="nav-text">2、后门</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、反向shell"><span class="nav-number">2.1.</span> <span class="nav-text">1、反向shell</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、远程控制工具"><span class="nav-number">2.2.</span> <span class="nav-text">2、远程控制工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、僵尸网络"><span class="nav-number">2.3.</span> <span class="nav-text">3、僵尸网络</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、登录凭证窃密器"><span class="nav-number">3.</span> <span class="nav-text">3、登录凭证窃密器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、存活机制"><span class="nav-number">4.</span> <span class="nav-text">4、存活机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、Windows注册表"><span class="nav-number">4.1.</span> <span class="nav-text">1、Windows注册表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、特洛伊木马化系统二进制文件"><span class="nav-number">4.2.</span> <span class="nav-text">2、特洛伊木马化系统二进制文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、DLL加载顺序劫持"><span class="nav-number">4.3.</span> <span class="nav-text">3、DLL加载顺序劫持</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、提权"><span class="nav-number">5.</span> <span class="nav-text">5、提权</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、隐藏它的踪迹————用户态的Rootkit"><span class="nav-number">6.</span> <span class="nav-text">6、隐藏它的踪迹————用户态的Rootkit</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、IAT-Hook"><span class="nav-number">6.1.</span> <span class="nav-text">1、IAT Hook</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、Inline-Hook"><span class="nav-number">6.2.</span> <span class="nav-text">2、Inline Hook</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pang4ea</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/ioufev/love.js"></script>
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>

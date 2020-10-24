@@ -79,26 +79,34 @@
 
 
 
-<meta name="description" content="1、根据栈平衡原理寻找OEP在编写加壳软件时，必须保证外壳初始化的现场环境（各寄存器的值）与原程序的现场环境是相同的。加壳程序在初始化时保存各寄存器的值，待外壳执行完毕恢复各寄存器的内容，最后跳转到原程序执行。通常用pushad/popad，pushfd/popfd指令对来保存与恢复现场环境。下面我们来脱一下示例文件RebPE的壳。程序刚加载时的寄存器和堆栈。在执行pushad指令后，各寄存器的值">
+<meta name="description" content="问题用Dependency Walker查看这个可执行文件的导入表，可以看到CloseServiceHandle、CreateServiceA、OpenSCManager和StartServiceA，这说明程序会创建并启动一个服务。这个程序还调用了CreateFile和WriteFile，这说明这个程序会对文件进行读写操作。另外，我们还可以看到LoadResource和SizeOfResource">
 <meta property="og:type" content="article">
-<meta property="og:title" content="脱壳技术——寻找OEP">
-<meta property="og:url" content="https://pang4ea.github.io/2020/04/09/脱壳技术——寻找OEP/index.html">
+<meta property="og:title" content="Rootkit - SSDT Hook">
+<meta property="og:url" content="https://pang4ea.github.io/2020/10/24/Lab10-02 Rootkit - SSDT Hook/index.html">
 <meta property="og:site_name" content="Pang4ea">
-<meta property="og:description" content="1、根据栈平衡原理寻找OEP在编写加壳软件时，必须保证外壳初始化的现场环境（各寄存器的值）与原程序的现场环境是相同的。加壳程序在初始化时保存各寄存器的值，待外壳执行完毕恢复各寄存器的内容，最后跳转到原程序执行。通常用pushad/popad，pushfd/popfd指令对来保存与恢复现场环境。下面我们来脱一下示例文件RebPE的壳。程序刚加载时的寄存器和堆栈。在执行pushad指令后，各寄存器的值">
+<meta property="og:description" content="问题用Dependency Walker查看这个可执行文件的导入表，可以看到CloseServiceHandle、CreateServiceA、OpenSCManager和StartServiceA，这说明程序会创建并启动一个服务。这个程序还调用了CreateFile和WriteFile，这说明这个程序会对文件进行读写操作。另外，我们还可以看到LoadResource和SizeOfResource">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/04/2212a120fda0921f.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/04/6d1a2617c2914fe4.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/04/c1352c24de4280af.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/04/c288f4df9168a8fc.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/04/2c7a708c99df032b.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/04/09/GIQ59g.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/04/09/GIQocj.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/04/c1352c24de4280af.png">
-<meta property="og:updated_time" content="2020-04-09T15:20:10.664Z">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BVRRw6.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BVRxfg.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BVWimq.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BVWGtO.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BVh3WD.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BV5caq.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BVIjkq.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BVTp5t.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BVT8r4.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BVT6Zd.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BVTOJ0.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BV7PoR.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BV7spV.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BVbVqe.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BVbGqg.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/10/24/BVL4bD.png">
+<meta property="og:updated_time" content="2020-10-24T08:40:30.066Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="脱壳技术——寻找OEP">
-<meta name="twitter:description" content="1、根据栈平衡原理寻找OEP在编写加壳软件时，必须保证外壳初始化的现场环境（各寄存器的值）与原程序的现场环境是相同的。加壳程序在初始化时保存各寄存器的值，待外壳执行完毕恢复各寄存器的内容，最后跳转到原程序执行。通常用pushad/popad，pushfd/popfd指令对来保存与恢复现场环境。下面我们来脱一下示例文件RebPE的壳。程序刚加载时的寄存器和堆栈。在执行pushad指令后，各寄存器的值">
-<meta name="twitter:image" content="https://ftp.bmp.ovh/imgs/2020/04/2212a120fda0921f.png">
+<meta name="twitter:title" content="Rootkit - SSDT Hook">
+<meta name="twitter:description" content="问题用Dependency Walker查看这个可执行文件的导入表，可以看到CloseServiceHandle、CreateServiceA、OpenSCManager和StartServiceA，这说明程序会创建并启动一个服务。这个程序还调用了CreateFile和WriteFile，这说明这个程序会对文件进行读写操作。另外，我们还可以看到LoadResource和SizeOfResource">
+<meta name="twitter:image" content="https://s1.ax1x.com/2020/10/24/BVRRw6.png">
 
 
 
@@ -128,13 +136,13 @@
 
 
 
-  <link rel="canonical" href="https://pang4ea.github.io/2020/04/09/脱壳技术——寻找OEP/">
+  <link rel="canonical" href="https://pang4ea.github.io/2020/10/24/Lab10-02 Rootkit - SSDT Hook/">
 
 
 
 
 
-  <title>脱壳技术——寻找OEP | Pang4ea</title>
+  <title>Rootkit - SSDT Hook | Pang4ea</title>
   
 
 
@@ -281,7 +289,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://pang4ea.github.io/2020/04/09/脱壳技术——寻找OEP/">
+    <link itemprop="mainEntityOfPage" href="https://pang4ea.github.io/2020/10/24/Lab10-02 Rootkit - SSDT Hook/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="pang4ea">
@@ -298,7 +306,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">脱壳技术——寻找OEP</h1>
+          <h1 class="post-title" itemprop="name headline">Rootkit - SSDT Hook</h1>
         
 
         <div class="post-meta">
@@ -310,8 +318,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-09T23:19:36+08:00">
-                2020-04-09
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-10-24T16:39:47+08:00">
+                2020-10-24
               </time>
             
 
@@ -348,8 +356,16 @@
       
 
       
-        <h2 id="1、根据栈平衡原理寻找OEP"><a href="#1、根据栈平衡原理寻找OEP" class="headerlink" title="1、根据栈平衡原理寻找OEP"></a>1、根据栈平衡原理寻找OEP</h2><p>在编写加壳软件时，必须保证外壳初始化的现场环境（各寄存器的值）与原程序的现场环境是相同的。加壳程序在初始化时保存各寄存器的值，待外壳执行完毕恢复各寄存器的内容，最后跳转到原程序执行。通常用pushad/popad，pushfd/popfd指令对来保存与恢复现场环境。下面我们来脱一下示例文件RebPE的壳。<br>程序刚加载时的寄存器和堆栈。<br><img src="https://ftp.bmp.ovh/imgs/2020/04/2212a120fda0921f.png" alt><br>在执行pushad指令后，各寄存器的值将被压入19FF54h~19FF70h的栈中。<br><img src="https://ftp.bmp.ovh/imgs/2020/04/6d1a2617c2914fe4.png" alt><br>此时esp指向19FF54h。对这个地址设置硬件访问断点：hr 19FF54。<br>按“F9”键运行程序。外壳代码处理结束后，再调用popad指令恢复现场环境。<br><img src="https://ftp.bmp.ovh/imgs/2020/04/c1352c24de4280af.png" alt><br>在按“F8”单步来到401130h这一行，会发现寄存器恢复pushad前的状态。执行完retn指令后，跳转到OEP。<br><img src="https://ftp.bmp.ovh/imgs/2020/04/c288f4df9168a8fc.png" alt></p>
-<h2 id="2、用内存访问断点寻找OEP"><a href="#2、用内存访问断点寻找OEP" class="headerlink" title="2、用内存访问断点寻找OEP"></a>2、用内存访问断点寻找OEP</h2><p>外壳先将压缩的代码并释放到对应的区块上，处理完毕再跳转到代码段执行。当对代码段设置内存访问断点时，一定会中断在外壳对代码进行读取的那句指令上。<br>按“Alt+M”组合键打开内存模块，对代码段按F2键设置内存访问断点。<br><img src="https://ftp.bmp.ovh/imgs/2020/04/2c7a708c99df032b.png" alt><br>对.txt区块设置内存访问断点后，按“F9”键运行程序，程序将中断在如下代码处。<br><a href="https://imgchr.com/i/GIQ59g" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/04/09/GIQ59g.png" alt="GIQ59g.png"></a><br>上面这段代码是解压函数，走出这个函数，将来到外壳代码处，具体如下。<br><a href="https://imgchr.com/i/GIQocj" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/04/09/GIQocj.png" alt="GIQocj.png"></a><br>这段代码依次将区块解压并放到正确位置。将代码段全部解压后，对代码段（.txt区块）设置内存访问断点。按“F9”键执行程序，程序将在OEP处中断。<br><img src="https://ftp.bmp.ovh/imgs/2020/04/c1352c24de4280af.png" alt><br>还可以通过先在.rdata、.data等区块处设置内存访问断点，待程序中断，代码已解压，再对代码段设置内存访问断点，到达OEP。</p>
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>用Dependency Walker查看这个可执行文件的导入表，可以看到CloseServiceHandle、CreateServiceA、OpenSCManager和StartServiceA，这说明程序会创建并启动一个服务。这个程序还调用了CreateFile和WriteFile，这说明这个程序会对文件进行读写操作。另外，我们还可以看到LoadResource和SizeOfResource调用，说明这个程序对资源节进行了操作。<br>用Resource Hacker打开这个文件，我们可以看到在资源节中包含了另一个PE文件。<br><a href="https://imgchr.com/i/BVRRw6" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BVRRw6.png" alt="BVRRw6.png"></a><br>接下来我们打开IDA对这个程序进行静态分析。<br>首先我们可以看到，这个程序将资源节中的数据提取出来。<br><a href="https://imgchr.com/i/BVRxfg" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BVRxfg.png" alt="BVRxfg.png"></a><br>然后在C:\Windows\System32下创建了一个名为Mlwx486.sys的文件。将资源节中的数据写入文件中。<br><a href="https://imgchr.com/i/BVWimq" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BVWimq.png" alt="BVWimq.png"></a><br>接下来创建一个服务并启动。<br><a href="https://imgchr.com/i/BVWGtO" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BVWGtO.png" alt="BVWGtO.png"></a><br>在运行之前，我们先启动双机调试，看看虚拟机系统的情况，输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Kd&gt;dd KeServiceDescriptorTable</span><br></pre></td></tr></table></figure>
+
+<p>KeServiceDescriptorTable是一个指针，用于指向SSDT表。<br><a href="https://imgchr.com/i/BVh3WD" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BVh3WD.png" alt="BVh3WD.png"></a><br>第一行就是SSDT表，其中0x80502b8c是一个函数指针数组，该指针数组保存了所有原生API的函数地址，0x0000011c是数组的大小。最后的0x80503000里面保存的是一个参数个数的数组，与原生API相对应。输入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Kd&gt;dd 80502b8c</span><br></pre></td></tr></table></figure>
+
+<p>查看SSDT表。<br><a href="https://imgchr.com/i/BV5caq" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BV5caq.png" alt="BV5caq.png"></a><br>接下来运行程序，使用Promom对其进行监控。<br><a href="https://imgchr.com/i/BVIjkq" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BVIjkq.png" alt="BVIjkq.png"></a><br>可以看到程序在系统目录中创建了名为Mlwx486.sys的文件，并且下面还有对于这个文件的写和关闭的操作。<br>对C：盘进行搜索，没有发现这个文件。<br><a href="https://imgchr.com/i/BVTp5t" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BVTp5t.png" alt="BVTp5t.png"></a><br>我们打开命令提示符，使用sc命令查看一下系统中内核驱动程序的状态。<br><a href="https://imgchr.com/i/BVT8r4" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BVT8r4.png" alt="BVT8r4.png"></a><br>可以看到，程序创建的服务还在运行。<br><a href="https://imgchr.com/i/BVT6Zd" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BVT6Zd.png" alt="BVT6Zd.png"></a><br>接下来我们再查看一下SSDT表，看看恶意程序运行后，这个表是否被修改了。为了能够更好地识别被修改的地址，我们再看一下刚才使用lm命令所显示出来的内容。可以看到，正常内核（NT）的地址范围是0x804d8000到0x806d0480。<br><a href="https://imgchr.com/i/BVTOJ0" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BVTOJ0.png" alt="BVTOJ0.png"></a><br>经过对比可以知道，这个位置之前的值是0x80570074，我们使用u命令看看它是什么函数：<br><a href="https://imgchr.com/i/BV7PoR" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BV7PoR.png" alt="BV7PoR.png"></a><br>可以看到，被修改的函数是NtQueryDirectoryFile，它是一个提取文件和目录信息的通用函数，FindFirstFile以及FindNextFile都是调用它来遍历目录结构的。Windows的资源管理器也会利用它来显示文件和目录。如果恶意程序采用Rootkit技术钩取了这个函数，就可以实现文件隐藏的效果。<br>我们可以首先在恶意程序替换的地址，也就是0xf7c9b486的位置下一个断点。然后利用g指令执行到该位置，再单步运行几次。<br><a href="https://imgchr.com/i/BV7spV" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BV7spV.png" alt="BV7spV.png"></a><br>接下来我们使用Resource Hacker提取出资源文件，并且命名为Lab10-02.sys，然后用IDA载入这个文件。我们直接来看一下NtQueryDirectoryFile函数调用的位置。<br><a href="https://imgchr.com/i/BVbVqe" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BVbVqe.png" alt="BVbVqe.png"></a><br>可以看到，程序会对函数的两个参数信息进行比较，首先是FileInformationClass，程序会将其与3进行比较。3表示的是“FileBothDirectoryInformation”，用于目录的遍历，并会返回关于目录内容的详细信息，返回的信息是FILE_BOTH_DIR_INFORMATION结构的。如果不是3，那么程序什么都不会做。如果是3，则会接着判断ReturnSingleEntry是否为0值。只有在是0值的时候，才会执行恶意程序真实的操作，反之什么都不执行。<br><a href="https://imgchr.com/i/BVbGqg" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BVbGqg.png" alt="BVbGqg.png"></a><br>如果这两处的判断都能够通过，程序就会调用RtlCompareMemory函数来比较两个内存块的内容。其中的Source2是字符“Mlwx”，而Source1是“[esi+5Eh]”，查询FILE_BOTH_DIR_INFORMATION结构可以知道，它表示的是文件的名称（FileName）。那么就可以知道，程序其实是在对文件名称进行匹配，如果文件名称的前四个字符是“Mlwx”，那么也就匹配成功了，就会进行文件隐藏的操作。<br><a href="https://imgchr.com/i/BVL4bD" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/10/24/BVL4bD.png" alt="BVL4bD.png"></a></p>
+<h3 id="1、这个程序创建文件了吗？它创建了什么文件？"><a href="#1、这个程序创建文件了吗？它创建了什么文件？" class="headerlink" title="1、这个程序创建文件了吗？它创建了什么文件？"></a>1、这个程序创建文件了吗？它创建了什么文件？</h3><p>创建了名为Mlwx486.sys的文件。</p>
+<h3 id="2、这个程序有内核组件吗？"><a href="#2、这个程序有内核组件吗？" class="headerlink" title="2、这个程序有内核组件吗？"></a>2、这个程序有内核组件吗？</h3><p>有。</p>
+<h3 id="3、这个程序做了些什么？"><a href="#3、这个程序做了些什么？" class="headerlink" title="3、这个程序做了些什么？"></a>3、这个程序做了些什么？</h3><p>这个程序采用了Rootkit技术来隐藏指定的文件。它使用了SSDT钩子来钩取NtQueryDirectoryFile函数，并隐藏文件目录列表中所有以“Mlwx”为开头的文件。</p>
 
       
     </div>
@@ -374,8 +390,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/04/08/脱壳技术——基础知识篇/" rel="next" title="脱壳技术——基础知识篇">
-                <i class="fa fa-chevron-left"></i> 脱壳技术——基础知识篇
+              <a href="/2020/10/20/恶意代码行为/" rel="next" title="恶意代码行为">
+                <i class="fa fa-chevron-left"></i> 恶意代码行为
               </a>
             
           </div>
@@ -383,10 +399,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/05/06/破解补丁/" rel="prev" title="破解补丁">
-                破解补丁 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -539,7 +551,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、根据栈平衡原理寻找OEP"><span class="nav-number">1.</span> <span class="nav-text">1、根据栈平衡原理寻找OEP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、用内存访问断点寻找OEP"><span class="nav-number">2.</span> <span class="nav-text">2、用内存访问断点寻找OEP</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、这个程序创建文件了吗？它创建了什么文件？"><span class="nav-number">1.1.</span> <span class="nav-text">1、这个程序创建文件了吗？它创建了什么文件？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、这个程序有内核组件吗？"><span class="nav-number">1.2.</span> <span class="nav-text">2、这个程序有内核组件吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3、这个程序做了些什么？"><span class="nav-number">1.3.</span> <span class="nav-text">3、这个程序做了些什么？</span></a></li></ol></li></ol></div>
             
 
           </div>

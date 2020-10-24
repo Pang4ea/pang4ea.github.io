@@ -79,26 +79,13 @@
 
 
 
-<meta name="description" content="1、根据栈平衡原理寻找OEP在编写加壳软件时，必须保证外壳初始化的现场环境（各寄存器的值）与原程序的现场环境是相同的。加壳程序在初始化时保存各寄存器的值，待外壳执行完毕恢复各寄存器的内容，最后跳转到原程序执行。通常用pushad/popad，pushfd/popfd指令对来保存与恢复现场环境。下面我们来脱一下示例文件RebPE的壳。程序刚加载时的寄存器和堆栈。在执行pushad指令后，各寄存器的值">
-<meta property="og:type" content="article">
-<meta property="og:title" content="脱壳技术——寻找OEP">
-<meta property="og:url" content="https://pang4ea.github.io/2020/04/09/脱壳技术——寻找OEP/index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pang4ea">
+<meta property="og:url" content="https://pang4ea.github.io/archives/2020/page/7/index.html">
 <meta property="og:site_name" content="Pang4ea">
-<meta property="og:description" content="1、根据栈平衡原理寻找OEP在编写加壳软件时，必须保证外壳初始化的现场环境（各寄存器的值）与原程序的现场环境是相同的。加壳程序在初始化时保存各寄存器的值，待外壳执行完毕恢复各寄存器的内容，最后跳转到原程序执行。通常用pushad/popad，pushfd/popfd指令对来保存与恢复现场环境。下面我们来脱一下示例文件RebPE的壳。程序刚加载时的寄存器和堆栈。在执行pushad指令后，各寄存器的值">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/04/2212a120fda0921f.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/04/6d1a2617c2914fe4.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/04/c1352c24de4280af.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/04/c288f4df9168a8fc.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/04/2c7a708c99df032b.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/04/09/GIQ59g.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/04/09/GIQocj.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2020/04/c1352c24de4280af.png">
-<meta property="og:updated_time" content="2020-04-09T15:20:10.664Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="脱壳技术——寻找OEP">
-<meta name="twitter:description" content="1、根据栈平衡原理寻找OEP在编写加壳软件时，必须保证外壳初始化的现场环境（各寄存器的值）与原程序的现场环境是相同的。加壳程序在初始化时保存各寄存器的值，待外壳执行完毕恢复各寄存器的内容，最后跳转到原程序执行。通常用pushad/popad，pushfd/popfd指令对来保存与恢复现场环境。下面我们来脱一下示例文件RebPE的壳。程序刚加载时的寄存器和堆栈。在执行pushad指令后，各寄存器的值">
-<meta name="twitter:image" content="https://ftp.bmp.ovh/imgs/2020/04/2212a120fda0921f.png">
+<meta name="twitter:title" content="Pang4ea">
 
 
 
@@ -128,13 +115,13 @@
 
 
 
-  <link rel="canonical" href="https://pang4ea.github.io/2020/04/09/脱壳技术——寻找OEP/">
+  <link rel="canonical" href="https://pang4ea.github.io/archives/2020/page/7/">
 
 
 
 
 
-  <title>脱壳技术——寻找OEP | Pang4ea</title>
+  <title>归档 | Pang4ea</title>
   
 
 
@@ -153,7 +140,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <div class="container sidebar-position-left page-archive">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -267,146 +254,75 @@
           <div id="content" class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
+  
+  
+  
+  <div class="post-block archive">
+    <div id="posts" class="posts-collapse">
+      <span class="archive-move-on"></span>
 
-  
+      <span class="archive-page-counter">
+        
+        
+         
+        
+        OK! 目前共计 39 篇日志。 继续努力。
+      </span>
 
-  
-  
-  
+      
+
+        
+        
+        
+
+        
+          
+          <div class="collection-title">
+            <h1 class="archive-year" id="archive-year-2020">2020</h1>
+          </div>
+        
+        
+
+        
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://pang4ea.github.io/2020/04/09/脱壳技术——寻找OEP/">
+    <header class="post-header">
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="pang4ea">
-      <meta itemprop="description" content>
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Pang4ea">
-    </span>
-
-    
-      <header class="post-header">
-
+      <h2 class="post-title">
         
-        
-          <h1 class="post-title" itemprop="name headline">脱壳技术——寻找OEP</h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
+            <a class="post-title-link" href="/2020/03/19/DLL注入方法（一）静态修改PE输入表法/" itemprop="url">
               
-                <span class="post-meta-item-text">发表于</span>
+                <span itemprop="name">DLL注入方法（一）通过干预输入表处理过程加载目标DLL</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-04-09T23:19:36+08:00">
-                2020-04-09
-              </time>
-            
+            </a>
+        
+      </h2>
 
-            
+      <div class="post-meta">
+        <time class="post-time" itemprop="dateCreated" datetime="2020-03-19T00:00:00+08:00" content="2020-03-19">
+          03-19
+        </time>
+      </div>
 
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        <h2 id="1、根据栈平衡原理寻找OEP"><a href="#1、根据栈平衡原理寻找OEP" class="headerlink" title="1、根据栈平衡原理寻找OEP"></a>1、根据栈平衡原理寻找OEP</h2><p>在编写加壳软件时，必须保证外壳初始化的现场环境（各寄存器的值）与原程序的现场环境是相同的。加壳程序在初始化时保存各寄存器的值，待外壳执行完毕恢复各寄存器的内容，最后跳转到原程序执行。通常用pushad/popad，pushfd/popfd指令对来保存与恢复现场环境。下面我们来脱一下示例文件RebPE的壳。<br>程序刚加载时的寄存器和堆栈。<br><img src="https://ftp.bmp.ovh/imgs/2020/04/2212a120fda0921f.png" alt><br>在执行pushad指令后，各寄存器的值将被压入19FF54h~19FF70h的栈中。<br><img src="https://ftp.bmp.ovh/imgs/2020/04/6d1a2617c2914fe4.png" alt><br>此时esp指向19FF54h。对这个地址设置硬件访问断点：hr 19FF54。<br>按“F9”键运行程序。外壳代码处理结束后，再调用popad指令恢复现场环境。<br><img src="https://ftp.bmp.ovh/imgs/2020/04/c1352c24de4280af.png" alt><br>在按“F8”单步来到401130h这一行，会发现寄存器恢复pushad前的状态。执行完retn指令后，跳转到OEP。<br><img src="https://ftp.bmp.ovh/imgs/2020/04/c288f4df9168a8fc.png" alt></p>
-<h2 id="2、用内存访问断点寻找OEP"><a href="#2、用内存访问断点寻找OEP" class="headerlink" title="2、用内存访问断点寻找OEP"></a>2、用内存访问断点寻找OEP</h2><p>外壳先将压缩的代码并释放到对应的区块上，处理完毕再跳转到代码段执行。当对代码段设置内存访问断点时，一定会中断在外壳对代码进行读取的那句指令上。<br>按“Alt+M”组合键打开内存模块，对代码段按F2键设置内存访问断点。<br><img src="https://ftp.bmp.ovh/imgs/2020/04/2c7a708c99df032b.png" alt><br>对.txt区块设置内存访问断点后，按“F9”键运行程序，程序将中断在如下代码处。<br><a href="https://imgchr.com/i/GIQ59g" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/04/09/GIQ59g.png" alt="GIQ59g.png"></a><br>上面这段代码是解压函数，走出这个函数，将来到外壳代码处，具体如下。<br><a href="https://imgchr.com/i/GIQocj" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/04/09/GIQocj.png" alt="GIQocj.png"></a><br>这段代码依次将区块解压并放到正确位置。将代码段全部解压后，对代码段（.txt区块）设置内存访问断点。按“F9”键执行程序，程序将在OEP处中断。<br><img src="https://ftp.bmp.ovh/imgs/2020/04/c1352c24de4280af.png" alt><br>还可以通过先在.rdata、.data等区块处设置内存访问断点，待程序中断，代码已解压，再对代码段设置内存访问断点，到达OEP。</p>
-
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2020/04/08/脱壳技术——基础知识篇/" rel="next" title="脱壳技术——基础知识篇">
-                <i class="fa fa-chevron-left"></i> 脱壳技术——基础知识篇
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/05/06/破解补丁/" rel="prev" title="破解补丁">
-                破解补丁 <i class="fa fa-chevron-right"></i>
-              </a>
-            
-          </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+    </header>
   </article>
 
 
 
-    <div class="post-spread">
       
+
     </div>
   </div>
+  
+  
+  
+
+  
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/archives/2020/page/6/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/2020/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2020/page/6/">6</a><span class="page-number current">7</span>
+  </nav>
+
+
 
 
           </div>
@@ -414,10 +330,6 @@
 
 
           
-
-  
-
-
 
         </div>
         
@@ -438,17 +350,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -529,22 +432,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、根据栈平衡原理寻找OEP"><span class="nav-number">1.</span> <span class="nav-text">1、根据栈平衡原理寻找OEP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、用内存访问断点寻找OEP"><span class="nav-number">2.</span> <span class="nav-text">2、用内存访问断点寻找OEP</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
@@ -691,10 +578,6 @@
 
 
   
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
 
   
 

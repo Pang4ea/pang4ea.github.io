@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="逆向,Hook,">
 
 
 
@@ -80,6 +80,7 @@
 
 
 <meta name="description" content="1、IAT钩取工作原理进程的IAT中保存着程序中调用的API的地址，IAT钩取通过修改IAT中保存的API地址来钩取某个API。图中描述的是计算器（calc.exe）进程正常调用user32.SetWindowTextW()API的情形。地址01001110属于IAT区域，程序开始运行时，PE装载器会将user32.SetWindowTextW()API地址（77D0960E）记录到该地址（010">
+<meta name="keywords" content="逆向,Hook">
 <meta property="og:type" content="article">
 <meta property="og:title" content="IAT HOOK">
 <meta property="og:url" content="https://pang4ea.github.io/2020/05/14/IAT HOOK/index.html">
@@ -90,7 +91,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/05/14/YDdOvn.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/05/14/YDrwT0.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/05/14/YDygd1.png">
-<meta property="og:updated_time" content="2020-06-04T13:17:57.742Z">
+<meta property="og:updated_time" content="2020-11-03T07:18:59.146Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="IAT HOOK">
 <meta name="twitter:description" content="1、IAT钩取工作原理进程的IAT中保存着程序中调用的API的地址，IAT钩取通过修改IAT中保存的API地址来钩取某个API。图中描述的是计算器（calc.exe）进程正常调用user32.SetWindowTextW()API的情形。地址01001110属于IAT区域，程序开始运行时，PE装载器会将user32.SetWindowTextW()API地址（77D0960E）记录到该地址（010">
@@ -317,6 +318,28 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Windows/" itemprop="url" rel="index">
+                    <span itemprop="name">Windows</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -380,6 +403,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/逆向/" rel="tag"># 逆向</a>
+          
+            <a href="/tags/Hook/" rel="tag"># Hook</a>
+          
+        </div>
       
 
       
@@ -492,7 +523,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -503,7 +534,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

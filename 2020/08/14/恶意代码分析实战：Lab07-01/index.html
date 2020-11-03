@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="逆向,恶意代码,">
 
 
 
@@ -80,6 +80,7 @@
 
 
 <meta name="description" content="问题首先使用PEiD来查看一下程序的导入表：在导入表的ADVAPI32.dll这个动态链接库中，可以看到CreateServiceA以及OpenSCManagerA这两个API函数，说明这个恶意程序很可能会创建一个服务，来保证它会在系统被重启后运行。WININET.dll这个动态链接库中的InternetOpenUrlA以及InternetOpenA说明这个程序可能会连接到一个网站。首先看一下这个">
+<meta name="keywords" content="逆向,恶意代码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="恶意代码分析实战：Lab07-01">
 <meta property="og:url" content="https://pang4ea.github.io/2020/08/14/恶意代码分析实战：Lab07-01/index.html">
@@ -90,7 +91,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/14/dPljOg.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/14/dPJ8PA.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/14/dPJ2rT.png">
-<meta property="og:updated_time" content="2020-08-14T09:58:43.580Z">
+<meta property="og:updated_time" content="2020-11-03T07:17:18.070Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="恶意代码分析实战：Lab07-01">
 <meta name="twitter:description" content="问题首先使用PEiD来查看一下程序的导入表：在导入表的ADVAPI32.dll这个动态链接库中，可以看到CreateServiceA以及OpenSCManagerA这两个API函数，说明这个恶意程序很可能会创建一个服务，来保证它会在系统被重启后运行。WININET.dll这个动态链接库中的InternetOpenUrlA以及InternetOpenA说明这个程序可能会连接到一个网站。首先看一下这个">
@@ -317,6 +318,28 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/恶意代码分析实战/" itemprop="url" rel="index">
+                    <span itemprop="name">恶意代码分析实战</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -380,6 +403,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/逆向/" rel="tag"># 逆向</a>
+          
+            <a href="/tags/恶意代码/" rel="tag"># 恶意代码</a>
+          
+        </div>
       
 
       
@@ -492,7 +523,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -503,7 +534,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="逆向,恶意代码,">
 
 
 
@@ -80,6 +80,7 @@
 
 
 <meta name="description" content="1、问题首先用Strings查看一下字符串：我们可以看到字符串GinaDLL以及Winlogon这个注册表的位置。在Windows XP系统中，恶意程序可以使用微软图形识别和验证界面（GINA）拦截技术来窃取用户的登陆凭证。通过PEID我们可以看到很多关于资源的API函数。可以猜测它对资源进行了某些操作，接下来用Resource Hacker来查看一下这个程序的资源。用Resource Hacke">
+<meta name="keywords" content="逆向,恶意代码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="恶意代码分析实战：Lab11-01">
 <meta property="og:url" content="https://pang4ea.github.io/2020/10/08/恶意代码分析实战：Lab11-01/index.html">
@@ -94,7 +95,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/10/08/00MzEF.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/10/08/00lHO0.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/10/08/001COx.png">
-<meta property="og:updated_time" content="2020-10-08T09:46:21.664Z">
+<meta property="og:updated_time" content="2020-11-03T07:25:59.884Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="恶意代码分析实战：Lab11-01">
 <meta name="twitter:description" content="1、问题首先用Strings查看一下字符串：我们可以看到字符串GinaDLL以及Winlogon这个注册表的位置。在Windows XP系统中，恶意程序可以使用微软图形识别和验证界面（GINA）拦截技术来窃取用户的登陆凭证。通过PEID我们可以看到很多关于资源的API函数。可以猜测它对资源进行了某些操作，接下来用Resource Hacker来查看一下这个程序的资源。用Resource Hacke">
@@ -321,6 +322,28 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/恶意代码分析实战/" itemprop="url" rel="index">
+                    <span itemprop="name">恶意代码分析实战</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -368,6 +391,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/逆向/" rel="tag"># 逆向</a>
+          
+            <a href="/tags/恶意代码/" rel="tag"># 恶意代码</a>
+          
+        </div>
       
 
       
@@ -480,7 +511,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -491,7 +522,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

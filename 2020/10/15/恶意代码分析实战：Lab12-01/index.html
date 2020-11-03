@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="逆向,恶意代码,">
 
 
 
@@ -80,6 +80,7 @@
 
 
 <meta name="description" content="问题1、在你运行恶意代码可执行文件时，会发生什么？程序弹出了一个对话框，而这个对话框每分钟都会出现一次。 2、哪个进程会被注入？这段程序一开始是在解析psapi.dll中的用于枚举进程的函数。连续使用了三次LoadLibrary以及GetProcAddress的组合来解析这三个函数。并且将获取的函数地址分别保存在dword_408714、dword_40870C以及dword_408710中。之后">
+<meta name="keywords" content="逆向,恶意代码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="恶意代码分析实战：Lab12-01">
 <meta property="og:url" content="https://pang4ea.github.io/2020/10/15/恶意代码分析实战：Lab12-01/index.html">
@@ -93,7 +94,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/10/15/07CQBQ.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/10/15/07CGhq.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/10/15/07PP2V.png">
-<meta property="og:updated_time" content="2020-10-15T12:03:45.310Z">
+<meta property="og:updated_time" content="2020-11-03T07:25:52.774Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="恶意代码分析实战：Lab12-01">
 <meta name="twitter:description" content="问题1、在你运行恶意代码可执行文件时，会发生什么？程序弹出了一个对话框，而这个对话框每分钟都会出现一次。 2、哪个进程会被注入？这段程序一开始是在解析psapi.dll中的用于枚举进程的函数。连续使用了三次LoadLibrary以及GetProcAddress的组合来解析这三个函数。并且将获取的函数地址分别保存在dword_408714、dword_40870C以及dword_408710中。之后">
@@ -320,6 +321,28 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/恶意代码分析实战/" itemprop="url" rel="index">
+                    <span itemprop="name">恶意代码分析实战</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -366,6 +389,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/逆向/" rel="tag"># 逆向</a>
+          
+            <a href="/tags/恶意代码/" rel="tag"># 恶意代码</a>
+          
+        </div>
       
 
       
@@ -478,7 +509,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -489,7 +520,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

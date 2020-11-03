@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="逆向,恶意代码,">
 
 
 
@@ -80,6 +80,7 @@
 
 
 <meta name="description" content="Lab 3-2使用动态分析技术来分析在Lab03-03.dll文件中发现的恶意代码 问题首先用PEID查看一下实验文件的导出表：可以发现，一共有5个导出函数，第二个和第三个从名称上看与服务相关。利用strings进行字符串查看：可以看到这里出现了svchost这个程序，它是一个宿主程序。DLL文件自身是不能够运行的，因此我们系统中的很多DLL就会依附svchost.exe这个程序上面。 1、你怎样">
+<meta name="keywords" content="逆向,恶意代码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="恶意代码分析实战：Lab03-02">
 <meta property="og:url" content="https://pang4ea.github.io/2020/08/07/恶意代码分析实战：Lab03-02/index.html">
@@ -93,7 +94,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/07/ahKnZF.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/07/ahMeSI.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/07/ahlAxI.png">
-<meta property="og:updated_time" content="2020-08-07T14:00:08.175Z">
+<meta property="og:updated_time" content="2020-11-03T07:17:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="恶意代码分析实战：Lab03-02">
 <meta name="twitter:description" content="Lab 3-2使用动态分析技术来分析在Lab03-03.dll文件中发现的恶意代码 问题首先用PEID查看一下实验文件的导出表：可以发现，一共有5个导出函数，第二个和第三个从名称上看与服务相关。利用strings进行字符串查看：可以看到这里出现了svchost这个程序，它是一个宿主程序。DLL文件自身是不能够运行的，因此我们系统中的很多DLL就会依附svchost.exe这个程序上面。 1、你怎样">
@@ -320,6 +321,28 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/恶意代码分析实战/" itemprop="url" rel="index">
+                    <span itemprop="name">恶意代码分析实战</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -372,6 +395,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/逆向/" rel="tag"># 逆向</a>
+          
+            <a href="/tags/恶意代码/" rel="tag"># 恶意代码</a>
+          
+        </div>
       
 
       
@@ -484,7 +515,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -495,7 +526,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

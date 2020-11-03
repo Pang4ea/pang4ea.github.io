@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="逆向,恶意代码,">
 
 
 
@@ -80,6 +80,7 @@
 
 
 <meta name="description" content="问题首先用PEID查看一下Lab07-03.exe的导入表信息。在这里我们发现了CreateFileA、CreateFileMappingA以及MapViewOfFile，说明这个程序很可能会打开一个文件，并将其映射到内存中。而FindFirstFileA以及FindNextFileA函数，说明这个程序会在计算机中搜索文件或目录。CopyFileA说明这个程序会进行文件的拷贝。打开ida，查看一下">
+<meta name="keywords" content="逆向,恶意代码">
 <meta property="og:type" content="article">
 <meta property="og:title" content="恶意代码分析实战：Lab07-03">
 <meta property="og:url" content="https://pang4ea.github.io/2020/08/22/恶意代码分析实战：Lab07-03/index.html">
@@ -103,7 +104,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/22/daxd1O.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/22/daxhjg.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/22/daxzDJ.png">
-<meta property="og:updated_time" content="2020-08-22T15:15:02.271Z">
+<meta property="og:updated_time" content="2020-11-03T07:26:21.390Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="恶意代码分析实战：Lab07-03">
 <meta name="twitter:description" content="问题首先用PEID查看一下Lab07-03.exe的导入表信息。在这里我们发现了CreateFileA、CreateFileMappingA以及MapViewOfFile，说明这个程序很可能会打开一个文件，并将其映射到内存中。而FindFirstFileA以及FindNextFileA函数，说明这个程序会在计算机中搜索文件或目录。CopyFileA说明这个程序会进行文件的拷贝。打开ida，查看一下">
@@ -330,6 +331,28 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/恶意代码分析实战/" itemprop="url" rel="index">
+                    <span itemprop="name">恶意代码分析实战</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -381,6 +404,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/逆向/" rel="tag"># 逆向</a>
+          
+            <a href="/tags/恶意代码/" rel="tag"># 恶意代码</a>
+          
+        </div>
       
 
       
@@ -493,7 +524,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -504,7 +535,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

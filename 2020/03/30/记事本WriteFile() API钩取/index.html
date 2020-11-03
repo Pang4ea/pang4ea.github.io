@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT">
+  <meta name="keywords" content="逆向,Hook,">
 
 
 
@@ -80,6 +80,7 @@
 
 
 <meta name="description" content="1、调试技术流程具体调试流程如下： 1、对想钩取的进程进行附加操作，使之成为被调试者； 2、“钩子”：将API起始地址的第一个字节修改为0xCC； 3、调用相应API时，控制权转移到调试器； 4、执行需要的操作（操作参数、返回值等）； 5、脱钩：将0xCC恢复原值； 6、运行相应API（无0xCC的正常状态）； 7、“钩子”：再次修改为0xCC（为了继续钩取）； 8、控制器返还被调试者。以上是最简">
+<meta name="keywords" content="逆向,Hook">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记事本WriteFile() API钩取">
 <meta property="og:url" content="https://pang4ea.github.io/2020/03/30/记事本WriteFile() API钩取/index.html">
@@ -89,7 +90,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/03/29/GZoaVS.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/03/29/GZTWOP.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/03/29/GZ7BXq.png">
-<meta property="og:updated_time" content="2020-03-30T13:24:04.512Z">
+<meta property="og:updated_time" content="2020-11-03T07:22:53.121Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="记事本WriteFile() API钩取">
 <meta name="twitter:description" content="1、调试技术流程具体调试流程如下： 1、对想钩取的进程进行附加操作，使之成为被调试者； 2、“钩子”：将API起始地址的第一个字节修改为0xCC； 3、调用相应API时，控制权转移到调试器； 4、执行需要的操作（操作参数、返回值等）； 5、脱钩：将0xCC恢复原值； 6、运行相应API（无0xCC的正常状态）； 7、“钩子”：再次修改为0xCC（为了继续钩取）； 8、控制器返还被调试者。以上是最简">
@@ -316,6 +317,28 @@
           </span>
 
           
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Windows/" itemprop="url" rel="index">
+                    <span itemprop="name">Windows</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
 
           
             
@@ -424,6 +447,14 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/逆向/" rel="tag"># 逆向</a>
+          
+            <a href="/tags/Hook/" rel="tag"># Hook</a>
+          
+        </div>
       
 
       
@@ -536,7 +567,7 @@
               
               <div class="site-state-item site-state-categories">
                 <a href="/categories/index.html">
-                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-count">4</span>
                   <span class="site-state-item-name">分类</span>
                 </a>
               </div>
@@ -547,7 +578,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-count">10</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

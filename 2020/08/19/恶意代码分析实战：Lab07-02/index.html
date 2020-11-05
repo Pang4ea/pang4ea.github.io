@@ -96,7 +96,7 @@
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/19/d3CcB6.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/19/d3PZ8J.png">
 <meta property="og:image" content="https://s1.ax1x.com/2020/08/19/d3PGPe.png">
-<meta property="og:updated_time" content="2020-11-03T07:17:08.459Z">
+<meta property="og:updated_time" content="2020-11-05T10:24:27.387Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="恶意代码分析实战：Lab07-02">
 <meta name="twitter:description" content="问题用ida打开Lab07-02.exe，查看恶意程序的导入表。可以发现，该样本的的函数导入表并没有文件、服务及注册表的操作。所以可以判断该样本没有持久化驻留的行为，运行一次便退出了。这个程序首先调用了OleInitialize用于初始化组件对象模型库，之后调用CoCreateInstance用于创建一个COM的对象。返回的COM对象被保存在栈上的一个变量中，IDA将它标记为ppv。为了判断这个程">
@@ -335,8 +335,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/恶意代码分析实战/" itemprop="url" rel="index">
-                    <span itemprop="name">恶意代码分析实战</span>
+                  <a href="/categories/《恶意代码分析实战》/" itemprop="url" rel="index">
+                    <span itemprop="name">《恶意代码分析实战》</span>
                   </a>
                 </span>
 

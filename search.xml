@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[pwnable.kr - fd]]></title>
+    <url>%2F2021%2F01%2F22%2Fpwnable.kr%20-%20fd%2F</url>
+    <content type="text"><![CDATA[题目 1连接登录：ssh fd@pwnable.kr -p2222（pw:guest） 1查看文件以及权限：ls -al 看到flag文件，但是当前用户fd并没有读权限，所以不能对flag文件直接进行查看。ps：文件权限说明查看fd.c文件关键点是read函数对buf缓冲区的读取必须为“LETMEWIN”。 1234567891011函数原型：ssize_t read( int fd, void*buf, size_t count )参数说明：fd: 是文件描述符, 从command line获取数据时，为0buf: 为读出数据的缓冲区；count: 为每次读取的字节数（是请求读取的字节数，读上来的数据保存在缓冲区buf中，同时文件的当前读写位置向后移） atoi()将字符串转换为整数，可以知道输入的字符串为0x1234 转换为10进制就是4660，所以执行./fd 4660，然后根据题目提示输入LETMEWIN就能够得到flag。]]></content>
+      <categories>
+        <category>pwn</category>
+      </categories>
+      <tags>
+        <tag>pwn</tag>
+        <tag>pwnable.kr</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[卷积神经网络(CNN)]]></title>
     <url>%2F2020%2F11%2F27%2F%E5%8D%B7%E7%A7%AF%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C(CNN)%2F</url>
     <content type="text"><![CDATA[卷积神经网络卷积神经网络（Convolutional Neural Networks, CNN）是一类包含卷积计算且具有深度结构的前馈神经网络（Feedforward Neural Networks），是深度学习（deep learning）的代表算法之一。卷积神经网络具有表征学习（representation learning）能力，能够按其阶层结构对输入信息进行平移不变分类（shift-invariant classification），因此也被称为“平移不变人工神经网络（Shift-Invariant Artificial Neural Networks, SIANN）” 1、卷积层卷积运算的定义如下。 1、单个卷积核：如图所示，我们有一个5x5的图像，我们用一个3x3的卷积核：1 0 10 1 01 0 1来对图像进行卷积操作，步长stride为1，把卷积核与对应的像素做点积，得到3x3的卷积结果。卷积核放在神经网络里，就代表对应的权重（weight)卷积核和图像进行点乘（dot product), 就代表卷积核里的权重单独对相应位置的Pixel进行作用 2、多个卷积核：一张RGB图片，红绿蓝三个分量叠加起来产生了一张真正意义上的的图片，假设上图中的三个输入分量分别对应红绿蓝。Filter W0，Filter W1两个过滤器（卷积核）也是三维的，分别对三个分量的进行卷积操作，再将三个输出叠加在一起形成RGB特征分量。W1_output = 1(-1) +11+10+0(-1)+10+2*1+0(-1)+11+2(-1) =1 W2_output = 21+20+11+11+01+02+01+00+1*1=5 W3_output = 1(-1)+1(-1)+0(-1)+0*2+0(1)+02+10+11+01 = -1 Bias = 0 Final_output =W1output + W2output+W3output+bias= 1+5-1+0 = 5 总结：当卷积层获得输入图片时会先对其尺寸按照设定进行处理，然后第一个卷积核根据步长历遍整张图片中所有的像素点进行矩阵卷积运算提取特征，由此得到了输出图片的第一层，然后下一个卷积核参与到运算中，直至全部卷积核都运算结束，最后一步，把每一张输出图片叠起来的结果就是整个卷积层的输出。卷积层的主要作用：提取图像特征，参数共享，能够大幅减少计算代价。 2、激活函数在神经元中，输入的 inputs 通过加权，求和后，还被作用了一个函数，这个函数就是激活函数。引入激活函数是为了增加神经网络模型的非线性。如果不用激活函数，每一层输出都是上层输入的线性函数，无论神经网络有多少层，输出都是输入的线性组合，这种情况就是最原始的感知机（Perceptron）。激活函数给神经元引入了非线性因素，使得神经网络可以任意逼近任何非线性函数，这样神经网络就可以应用到众多的非线性模型中。在单层神经网络中（感知机 Perceptron），输入和输出计算关系如下：多个神经元之后，计算公式也是类似，如下图：这样的模型就只能处理一些简单的线性数据，而对于非线性数据则很难有效的处理（也可通过组合多个不同线性表示，但这样更加复杂和不灵活），如下图所示：通过在神经网络中加入非线性激励函数后，神经网络就有可能学习到平滑的曲线来实现对非线性数据的处理了，如下图所示：神经网络中激励函数的作用通俗上讲就是将多个线性输入转换为非线性的关系。如果不使用激励函数的话，神经网络的每层都只是做线性变换，即使是多层输入叠加后也还是线性变换。 1、Sigmoid 函数Sigmoid函数时使用范围最广的一类激活函数，具有指数函数的形状，它在物理意义上最为接近生物神经元。其自身的缺陷，最明显的就是饱和性。从函数图可以看到，其两侧导数逐渐趋近于0，杀死梯度。 2、tanh函数tanh是双曲函数中的一个，tanh() 为双曲正切。在数学中，双曲正切 tanh 是由双曲正弦和双曲余弦这两者基本双曲函数推导而来。正切函数时非常常见的激活函数，与Sigmoid函数相比，它的输出均值是0，使得其收敛速度要比Sigmoid快，减少迭代次数。 3、ReLU 函数针对Sigmoid函数和tanh的缺点，提出ReLU函数。线性整流函数（Rectified Linear Unit, ReLU），又称修正线性单元，是一种人工神经网络中常用的激活函数（activation function），通常指代以斜坡函数及其变种为代表的非线性函数。最近几年比较受欢迎的一个激活函数，无饱和区，收敛快，计算简单，有时候会比较脆弱，如果变量的更新太快，还没有找到最佳值，就进入小于零的分段就会使得梯度变为零，无法更新直接死掉了。 详情请见：https://www.cnblogs.com/wj-1314/p/12015278.html 3、池化层池化（Pooling）是卷积神经网络中另一个重要的概念，它实际上是一种形式的降采样。有多种不同形式的非线性池化函数，而其中“最大池化（Max pooling）”是最为常见的。它是将输入的图像划分为若干个矩形区域，对每个子区域输出最大值。直觉上，这种机制能够有效地原因在于，在发现一个特征之后，它的精确位置远不及它和其他特征的相对位置的关系重要。池化层会不断地减小数据的空间大小，因此参数的数量和计算量也会下降，这在一定程度上也控制了过拟合。通常来说，CNN的卷积层之间都会周期性地插入池化层。池化层通常会分别作用于每个输入的特征并减小其大小。当前最常用形式的池化层是每隔2个元素从图像划分出2*2的区块，然后对每个区块中的4个数取最大值。这将会减少75%的数据量。]]></content>
@@ -466,17 +478,6 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[一道RE学习：IngiteMe]]></title>
-    <url>%2F2019%2F09%2F10%2FIgniteMe%E9%80%86%E5%90%91%E7%AE%97%E6%B3%95%2F</url>
-    <content type="text"><![CDATA[1、RE-IgniteMe这道题来自XCTF社区，比较简单。 题目链接：https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe2、解题思路下载好后我们发现这是一个EXE文件，先拖入PEID查壳看看，发现没有壳。直接运行，题目要求你输入flag，我们用IDA打开，进入_main函数，按F5 我们可以发现一串“Congratulations！”字符，这里应该就是关键判断，双击它sub_4011C0函数，进入查看 可以看到末尾的关键字符串，从后往前推，它的主要算法是异或和加减以及大小写字母之间的转换，我用C语言写了段代码进行解码，代码如下： 12345678910111213141516171819202122int main()&#123; int i; char str[32] = "GONDPHyGjPEKruv&#123;&#123;pj]X@rF"; int num[32] = &#123;0x0D, 0x13,0x17,0x11,2,1, 0x20,0x1D,0x0C,2,0x19,0x2F,0x17,0x2B,0x24, 0x1F,0x1E,0x16,9,0x0F,0x15,0x27,0x13,0x26, 0x0A,0x2F,0x1E,0x1A,0x2D,0x0C,0x22,4&#125;; for(i = 0; str[i] !='\0'; i++) &#123; str[i] = ((str[i]^num[i])-72)^0x55; if(str[i] &gt;= 'a' &amp;&amp; str[i] &lt;= 'z') str[i] -= 32; if(str[i] &gt;= 'A' &amp;&amp; str[i] &lt;= 'Z') str[i] += 32; &#125; printf("EIS&#123;%s&#125;\n",str); return 0;&#125; 运行后得出flag： 1EIS&#123;wadx_tdgk_aihc_ihkn_pjlm&#125; 3、总结逆向过程需要耐心和不断地尝试。]]></content>
-      <categories>
-        <category>Windows</category>
-      </categories>
-      <tags>
-        <tag>逆向</tag>
-      </tags>
-  </entry>
-  <entry>
     <title><![CDATA[Python正则表达式的学习]]></title>
     <url>%2F2019%2F09%2F10%2FPython%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E7%9A%84%E5%AD%A6%E4%B9%A0%2F</url>
     <content type="text"><![CDATA[1、re.match函数re.match尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。 函数语法：1、re.match(pattren, string, flags=0) 说明：pattern:匹配的正则表达式。 string:要匹配的字符串。 flags:标志位，用于控制正则表达式的匹配方式，如：是否区分大小写，多行匹配等等。匹配成功re.match方法返回一个匹配的对象，否则返回none。可以使用group(num)或group()匹配对象函数来获取匹配表达式。 group(num=0):匹配的整个表达式的字符串，group()可以一次输入多个组号，在这种情况下它将返回一个包含那些所对应值的元组。 groups():返回一个包含所有小组字符串的元组，从1到所含的小组号。实例： 123import reprint(re.match('www', 'www.runoob.com').span()) # 在起始位置匹配print(re.match('com', 'www.runoob.com')) # 不在起始位置匹配 运行结果： 12(0, 3)None 实例： 12345678910111213#!/usr/bin/pythonimport re line = "Cats are smarter than dogs" matchObj = re.match( r'(.*) are (.*?) .*', line, re.M|re.I) if matchObj: print "matchObj.group() : ", matchObj.group() print "matchObj.group(1) : ", matchObj.group(1) print "matchObj.group(2) : ", matchObj.group(2)else: print "No match!!" 运行结果: 123matchObj.group() : Cats are smarter than dogsmatchObj.group(1) : CatsmatchObj.group(2) : smarter 2、re.search方法re.search扫描整个字符串并返回第一个成功的匹配。 函数语法： re.search(p,attern, string, flags=0)实例： 123456#!/usr/bin/python# -*- coding: UTF-8 -*- import reprint(re.search('www', 'www.runoob.com').span()) # 在起始位置匹配print(re.search('com', 'www.runoob.com').span()) # 不在起始位置匹配 结果： 12(0, 3)(11, 14) re.match与re.search的区别re.match只匹配字符串的开始，如果字符串开始不符合正则表达式，则匹配失败，函数返回None；而re.search匹配整个字符串，直到找到一个匹配。 3、检索和替换re.sub(pattren, repl, string, count=0, flags=0) 说明：repl：替换的字符串，也可以为一个函数。 count：模式匹配后替换的最大次数，默认0表示替换所有的匹配。1234567891011121314#!/usr/bin/python# -*- coding: UTF-8 -*- import re phone = "2004-959-559 # 这是一个国外电话号码" # 删除字符串中的 Python注释 num = re.sub(r'#.*$', "", phone)print "电话号码是: ", num # 删除非数字(-)的字符串 num = re.sub(r'\D', "", phone)print "电话号码是 : ", num 结果： 12电话号码是: 2004-959-559 电话号码是 : 2004959559 findall 在字符串中找到正则表达式所匹配的所有子串，并返回一个列表，如果没有找到匹配的，则返回空列表。 注意： match 和 search 是匹配一次 findall 匹配所有。语法格式为： findall(string[, pos[, endpos]]) 参数： string : 待匹配的字符串。 pos : 可选参数，指定字符串的起始位置，默认为 0。 endpos : 可选参数，指定字符串的结束位置，默认为字符串的长度。实例： 12345678910# -*- coding:UTF8 -*- import re pattern = re.compile(r'\d+') # 查找数字result1 = pattern.findall('runoob 123 google 456')result2 = pattern.findall('run88oob123google456', 0, 10) print(result1)print(result2) 结果： 12['123', '456']['88', '12'] re.finditer 和 findall 类似，在字符串中找到正则表达式所匹配的所有子串，并把它们作为一个迭代器返回。 re.finditer(pattern, string, flags=0)实例： 1234import reit = re.finditer(r"\d+","12a32bc43jf3") for match in it: print (match.group() ) 结果： 123412 32 43 3 4、正则表达式修饰符 - 可选标志re.I：使匹配对大小写不敏感 re.L：做本地化识别（locale-aware）匹配 re.M：多行匹配，影响 ^ 和 $ re.S：使 . 匹配包括换行在内的所有字符 re.U：根据Unicode字符集解析字符。这个标志影响 \w, \W, \b, \B. re.X：该标志通过给予你更灵活的格式以便你将正则表达式写得更易于理解。6、正则表达式模式^：匹配字符串的开头$：匹配字符串的末尾。.：匹配任意字符，除了换行符，当re.DOTALL标记被指定时，则可以匹配包括换行符的任意字符。[…]：用来表示一组字符,单独列出：[amk] 匹配’a’，’m’或’k’[^…]：不在[]中的字符：[^abc] 匹配除了a,b,c之外的字符。re：匹配0个或多个的表达式。re+：匹配1个或多个的表达式。re?：匹配0个或1个由前面的正则表达式定义的片段，非贪婪方式re{ n}：精确匹配 n 个前面表达式。例如， o{2} 不能匹配 “Bob” 中的 “o”，但是能匹配 “food” 中的两个 o。re{ n,}：匹配 n 个前面表达式。例如， o{2,} 不能匹配”Bob”中的”o”，但能匹配 “foooood”中的所有 o。”o{1,}” 等价于 “o+”。”o{0,}” 则等价于”o“。re{ n, m}：匹配 n 到 m 次由前面的正则表达式定义的片段，贪婪方式a| b：匹配a或b(re)：对正则表达式分组并记住匹配的文本(?imx)：正则表达式包含三种可选标志：i, m, 或 x 。只影响括号中的区域。(?-imx)：正则表达式关闭 i, m, 或 x 可选标志。只影响括号中的区域。(?: re)：类似 (…), 但是不表示一个组(?imx: re)：在括号中使用i, m, 或 x 可选标志(?-imx: re)：在括号中不使用i, m, 或 x 可选标志(?#…)：注释.(?= re)：前向肯定界定符。如果所含正则表达式，以 … 表示，在当前位置成功匹配时成功，否则失败。但一旦所含表达式已经尝试，匹配引擎根本没有提高；模式的剩余部分还要尝试界定符的右边。(?! re)：前向否定界定符。与肯定界定符相反；当所含表达式不能在字符串当前位置匹配时成功(?&gt; re)：匹配的独立模式，省去回溯。\w：匹配字母数字及下划线\W：匹配非字母数字及下划线\s：匹配任意空白字符，等价于 [\t\n\r\f].\S：匹配任意非空字符\d：匹配任意数字，等价于 [0-9].\D：匹配任意非数字\A：匹配字符串开始\Z：匹配字符串结束，如果是存在换行，只匹配到换行前的结束字符串。\z：匹配字符串结束\G：匹配最后匹配完成的位置。\b：匹配一个单词边界，也就是指单词和空格间的位置。例如， ‘er\b’：可以匹配”never” 中的 ‘er’，但不能匹配 “verb” 中的 ‘er’。\B：匹配非单词边界。’er\B’ 能匹配 “verb”中的’er’，但不能匹配 “never” 中的 ‘er’。\n, \t, 等. ：匹配一个换行符。匹配一个制表符。等\1…\9：匹配第n个分组的内容。\10：匹配第n个分组的内容，如果它经匹配。否则指的是八进制字符码的表达式。]]></content>
@@ -486,6 +487,17 @@
       <tags>
         <tag>Python</tag>
         <tag>正则表达式</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[一道RE学习：IngiteMe]]></title>
+    <url>%2F2019%2F09%2F10%2FIgniteMe%E9%80%86%E5%90%91%E7%AE%97%E6%B3%95%2F</url>
+    <content type="text"><![CDATA[1、RE-IgniteMe这道题来自XCTF社区，比较简单。 题目链接：https://adworld.xctf.org.cn/media/task/attachments/fac4d1290e604fdfacbbe06fd1a5ca39.exe2、解题思路下载好后我们发现这是一个EXE文件，先拖入PEID查壳看看，发现没有壳。直接运行，题目要求你输入flag，我们用IDA打开，进入_main函数，按F5 我们可以发现一串“Congratulations！”字符，这里应该就是关键判断，双击它sub_4011C0函数，进入查看 可以看到末尾的关键字符串，从后往前推，它的主要算法是异或和加减以及大小写字母之间的转换，我用C语言写了段代码进行解码，代码如下： 12345678910111213141516171819202122int main()&#123; int i; char str[32] = "GONDPHyGjPEKruv&#123;&#123;pj]X@rF"; int num[32] = &#123;0x0D, 0x13,0x17,0x11,2,1, 0x20,0x1D,0x0C,2,0x19,0x2F,0x17,0x2B,0x24, 0x1F,0x1E,0x16,9,0x0F,0x15,0x27,0x13,0x26, 0x0A,0x2F,0x1E,0x1A,0x2D,0x0C,0x22,4&#125;; for(i = 0; str[i] !='\0'; i++) &#123; str[i] = ((str[i]^num[i])-72)^0x55; if(str[i] &gt;= 'a' &amp;&amp; str[i] &lt;= 'z') str[i] -= 32; if(str[i] &gt;= 'A' &amp;&amp; str[i] &lt;= 'Z') str[i] += 32; &#125; printf("EIS&#123;%s&#125;\n",str); return 0;&#125; 运行后得出flag： 1EIS&#123;wadx_tdgk_aihc_ihkn_pjlm&#125; 3、总结逆向过程需要耐心和不断地尝试。]]></content>
+      <categories>
+        <category>Windows</category>
+      </categories>
+      <tags>
+        <tag>逆向</tag>
       </tags>
   </entry>
 </search>

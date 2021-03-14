@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="漏洞分析,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、栈溢出原理栈溢出属于缓冲区溢出的一种，有时候也称作堆栈溢出。例如下面的程序： 123456789101112131415#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;int main()&amp;#123;	char *str = &amp;quot;AAAAAAAAAAAAAAAAAAAAAAAA&amp;quot;;	vulnfun(str);	return;&amp;">
+<meta name="keywords" content="漏洞分析">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二进制各种漏洞原理">
+<meta property="og:url" content="https://pang4ea.github.io/2021/03/14/二进制各种漏洞原理/index.html">
+<meta property="og:site_name" content="Pang4ea">
+<meta property="og:description" content="1、栈溢出原理栈溢出属于缓冲区溢出的一种，有时候也称作堆栈溢出。例如下面的程序： 123456789101112131415#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;int main()&amp;#123;	char *str = &amp;quot;AAAAAAAAAAAAAAAAAAAAAAAA&amp;quot;;	vulnfun(str);	return;&amp;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://s3.ax1x.com/2021/03/14/60ZrOe.png">
+<meta property="og:image" content="https://s3.ax1x.com/2021/03/14/60NYvQ.png">
+<meta property="og:image" content="https://s3.ax1x.com/2021/03/14/60UzwR.png">
+<meta property="og:image" content="https://s3.ax1x.com/2021/03/14/60diEn.png">
+<meta property="og:image" content="https://s3.ax1x.com/2021/03/14/60dzPx.png">
+<meta property="og:image" content="https://s3.ax1x.com/2021/03/14/60wlLQ.png">
+<meta property="og:image" content="https://s3.ax1x.com/2021/03/14/602cHf.png">
+<meta property="og:image" content="https://s3.ax1x.com/2021/03/14/60zd39.png">
+<meta property="og:image" content="https://s3.ax1x.com/2021/03/14/6BSOIO.png">
+<meta property="og:image" content="https://s3.ax1x.com/2021/03/14/6Bijv4.png">
+<meta property="og:image" content="https://s3.ax1x.com/2021/03/14/6BAC9K.png">
+<meta property="og:updated_time" content="2021-03-14T14:33:20.516Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="二进制各种漏洞原理">
+<meta name="twitter:description" content="1、栈溢出原理栈溢出属于缓冲区溢出的一种，有时候也称作堆栈溢出。例如下面的程序： 123456789101112131415#include &amp;lt;stdio.h&amp;gt;#include &amp;lt;string.h&amp;gt;int main()&amp;#123;	char *str = &amp;quot;AAAAAAAAAAAAAAAAAAAAAAAA&amp;quot;;	vulnfun(str);	return;&amp;">
+<meta name="twitter:image" content="https://s3.ax1x.com/2021/03/14/60ZrOe.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://pang4ea.github.io/2021/03/14/二进制各种漏洞原理/">
+
+
+
+
+
+  <title>二进制各种漏洞原理 | Pang4ea</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pang4ea</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://pang4ea.github.io/2021/03/14/二进制各种漏洞原理/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pang4ea">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pang4ea">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">二进制各种漏洞原理</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-14T22:32:52+08:00">
+                2021-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/《漏洞战争》/" itemprop="url" rel="index">
+                    <span itemprop="name">《漏洞战争》</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1、栈溢出原理"><a href="#1、栈溢出原理" class="headerlink" title="1、栈溢出原理"></a>1、栈溢出原理</h2><p>栈溢出属于缓冲区溢出的一种，有时候也称作堆栈溢出。<br>例如下面的程序：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">	char *str = &quot;AAAAAAAAAAAAAAAAAAAAAAAA&quot;;</span><br><span class="line">	vulnfun(str);</span><br><span class="line">	return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int vulnfun(char *str)</span><br><span class="line">&#123;</span><br><span class="line">	char stack[10];</span><br><span class="line">	strcpy(stack,str);		// 这里造成溢出！	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用OD加载运行：<br><a href="https://imgtu.com/i/60ZrOe" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2021/03/14/60ZrOe.png" alt="60ZrOe.png"></a><br>堆栈中的返回地址变成了0x41414141，即“AAAA”，由于在通过strcpy复制字符串到固定长度的堆栈空间时，未对字符串长度进行限制，导致栈溢出，最后覆盖到返回地址。</p>
+<h2 id="2、堆溢出原理"><a href="#2、堆溢出原理" class="headerlink" title="2、堆溢出原理"></a>2、堆溢出原理</h2><p>代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;windows.h&gt;</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int main ( )</span><br><span class="line">&#123;</span><br><span class="line">	HANDLE hHeap;</span><br><span class="line">	char *heap;</span><br><span class="line">	char str[] = &quot;AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA&quot;;</span><br><span class="line"></span><br><span class="line">	hHeap = HeapCreate(HEAP_GENERATE_EXCEPTIONS, 0x1000, 0xffff);</span><br><span class="line">	getchar();	// 用于暂停程序，便于调试器加载</span><br><span class="line"></span><br><span class="line">	heap = HeapAlloc(hHeap, 0, 0x10);</span><br><span class="line">	printf(&quot;heap addr:0x%08x\n&quot;,heap);</span><br><span class="line"></span><br><span class="line">	strcpy(heap,str);	// 导致堆溢出</span><br><span class="line">	HeapFree(hHeap, 0, heap);	// 触发崩溃</span><br><span class="line"></span><br><span class="line">	HeapDestroy(hHeap);</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>由于调试堆和常态堆的结构不同，在演示代码中加入getchar函数，用于暂停进程，方便运行heapoverflowexe后用调试器附加进程。debug版本和release版本实际运行的进程中各个内存结构和分配过程也不同，因此测试的时候应该编译成release版本。<br>运行程序，使用windbg附加调试（一定要附加调试），g运行后程序崩溃<br><a href="https://imgtu.com/i/60NYvQ" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2021/03/14/60NYvQ.png" alt="60NYvQ.png"></a><br>上面的ecx已经被“AAAA”字符串覆盖，导致程序崩溃。<br>在字符串复制的地址对其下断点。<br><a href="https://imgtu.com/i/60UzwR" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2021/03/14/60UzwR.png" alt="60UzwR.png"></a><br>此时堆块已经分配完成，其对应的分配地址位于0x00b504b0，0x00b504b0是堆块数据的起始地址，并非堆头信息的起始地址。对于已分配的堆块，开头都有8字节的HEAP_ENTRY结构，对于空闲堆块，它的开头是HEAP_FREE_ENTRY结构，因此heap的HEAP_ENTRY结构位于0x00b504b0-8 = 0x00b504a8。<br>在WinDbg上查看两个堆块的信息，这两个堆块目前处于占用状态，共0x10大小的数据空间。<br><a href="https://imgtu.com/i/60diEn" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2021/03/14/60diEn.png" alt="60diEn.png"></a><br>在WinDbg中使用!heap命令查看HeapCreate创建的整个堆信息，可以发现在堆块heap之后还有个空闲堆块0x00b504c0</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">0:000&gt; !heap</span><br><span class="line">        Heap Address      NT/Segment Heap</span><br><span class="line"></span><br><span class="line">              760000              NT Heap</span><br><span class="line">              9d0000              NT Heap</span><br><span class="line">              b50000              NT Heap</span><br><span class="line">0:000&gt; !heap -a 00b50000</span><br><span class="line">Index   Address  Name      Debugging options enabled</span><br><span class="line">  3:   00b50000 </span><br><span class="line">    Segment at 00b50000 to 00b60000 (00001000 bytes committed)</span><br><span class="line">    Flags:                00001004</span><br><span class="line">    ForceFlags:           00000004</span><br><span class="line">    Granularity:          8 bytes</span><br><span class="line">    Segment Reserve:      00100000</span><br><span class="line">    Segment Commit:       00002000</span><br><span class="line">    DeCommit Block Thres: 00000200</span><br><span class="line">    DeCommit Total Thres: 00002000</span><br><span class="line">    Total Free Size:      00000164</span><br><span class="line">    Max. Allocation Size: 7ffdefff</span><br><span class="line">    Lock Variable at:     00b50258</span><br><span class="line">    Next TagIndex:        0000</span><br><span class="line">    Maximum TagIndex:     0000</span><br><span class="line">    Tag Entries:          00000000</span><br><span class="line">    PsuedoTag Entries:    00000000</span><br><span class="line">    Virtual Alloc List:   00b5009c</span><br><span class="line">    Uncommitted ranges:   00b5008c</span><br><span class="line">            00b51000: 0000f000  (61440 bytes)</span><br><span class="line">    FreeList[ 00 ] at 00b500c0: 00b504c8 . 00b504c8  </span><br><span class="line">        00b504c0: 00018 . 00b20 [100] - free</span><br><span class="line"></span><br><span class="line">    Segment00 at 00b50000:</span><br><span class="line">        Flags:           00000000</span><br><span class="line">        Base:            00b50000</span><br><span class="line">        First Entry:     00b504a8</span><br><span class="line">        Last Entry:      00b60000</span><br><span class="line">        Total Pages:     00000010</span><br><span class="line">        Total UnCommit:  0000000f</span><br><span class="line">        Largest UnCommit:00000000</span><br><span class="line">        UnCommitted Ranges: (1)</span><br><span class="line"></span><br><span class="line">    Heap entries for Segment00 in Heap 00b50000</span><br><span class="line">         address: psize . size  flags   state (requested size)</span><br><span class="line">        00b50000: 00000 . 004a8 [101] - busy (4a7)</span><br><span class="line">        00b504a8: 004a8 . 00018 [101] - busy (10)</span><br><span class="line">        00b504c0: 00018 . 00b20 [100]</span><br><span class="line">        00b50fe0: 00b20 . 00020 [111] - busy (1d)</span><br><span class="line">        00b51000:      0000f000      - uncommitted bytes.</span><br></pre></td></tr></table></figure>
+
+<p>在复制字符串时，原本只有0x10大小的堆，当填充过多的字符串时就会覆盖到下方的空闲堆00b504c0，在复制前00b504c0空闲块的HEAP_FREE_ENTRY结构数据如下：<br><a href="https://imgtu.com/i/60dzPx" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2021/03/14/60dzPx.png" alt="60dzPx.png"></a><br>覆盖后，00b504c0的空闲块的HEAP_FREE_ENTRY结构数据如下：<br><a href="https://imgtu.com/i/60wlLQ" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2021/03/14/60wlLQ.png" alt="60wlLQ.png"></a><br>整个空闲堆头信息都被覆盖了，包括最后的空闲链表中的前后向指针都被成了0x41414141，后面调用HeapFree释放堆块的时候，就会将buf2和后面的空闲堆块0x007104c0合并，修改两个空闲堆块的前后向指针就会引用0x41414141，最后造成崩溃。<br><a href="https://imgtu.com/i/602cHf" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2021/03/14/602cHf.png" alt="602cHf.png"></a></p>
+<h2 id="3、整数溢出原理"><a href="#3、整数溢出原理" class="headerlink" title="3、整数溢出原理"></a>3、整数溢出原理</h2><p>整数分为有符号和无符号的两种类型，有符号数以最高位作为其符号位，不同类型的整数在内存中均有不同的固定取值范围，当我们向其存储的值超过该类型整数的最大值，就会造成整数溢出。<br>基于栈的整数溢出示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdio.h&quot;</span><br><span class="line">#include &quot;string.h&quot;</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv)&#123;</span><br><span class="line"></span><br><span class="line">	int i;</span><br><span class="line">	char buf[8];	// 栈缓冲区</span><br><span class="line">	unsigned short int size;	// 无符号短整数取值范围：0 ~ 65535</span><br><span class="line">	char overflow[65550];</span><br><span class="line"></span><br><span class="line">	memset(overflow,65,sizeof(overflow));	// 填充为“A”字符</span><br><span class="line"></span><br><span class="line">	printf(&quot;请输入数值:\n&quot;);</span><br><span class="line">	scanf(&quot;%d&quot;,&amp;i);	</span><br><span class="line">	</span><br><span class="line">	size = i;</span><br><span class="line">	printf(&quot;size：%d\n&quot;,size);	// 输出系统识别出来的size数值</span><br><span class="line">	printf(&quot;i：%d\n&quot;,i);	// 输出系统识别出来的i数据</span><br><span class="line"></span><br><span class="line">	if (size &gt; 8)</span><br><span class="line">		return -1;</span><br><span class="line">	memcpy(buf,overflow,i);		// 栈溢出</span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>基于堆的整数溢出示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdio.h&quot;</span><br><span class="line">#include &quot;windows.h&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main(int argc, char * argv)</span><br><span class="line">&#123;</span><br><span class="line">	int* heap;</span><br><span class="line">	unsigned short int size;</span><br><span class="line">	char *pheap1, *pheap2;</span><br><span class="line">	HANDLE hHeap;</span><br><span class="line"></span><br><span class="line">	printf(&quot;ÊäÈësizeÊýÖµ£º\n&quot;);</span><br><span class="line">	scanf(&quot;%d&quot;,&amp;size);</span><br><span class="line">	</span><br><span class="line">	hHeap = HeapCreate(HEAP_GENERATE_EXCEPTIONS, 0x100, 0xfff);</span><br><span class="line">	</span><br><span class="line">	if (size &lt;= 0x50)</span><br><span class="line">	&#123;</span><br><span class="line">		size -= 5;</span><br><span class="line">		printf(&quot;size£º%d\n&quot;,size);</span><br><span class="line">		pheap1 = HeapAlloc(hHeap, 0, size);</span><br><span class="line">		pheap2 = HeapAlloc(hHeap, 0, 0x50);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	HeapFree(hHeap, 0, pheap1);</span><br><span class="line">	HeapFree(hHeap, 0, pheap2);</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="4、格式化字符串漏洞"><a href="#4、格式化字符串漏洞" class="headerlink" title="4、格式化字符串漏洞"></a>4、格式化字符串漏洞</h2><p>格式化字符串漏洞的产生主要源于对用户输入内容未进行过滤，这些输入数据都是作为参数传递给某些执行格式化操作的函数，如printf、fprintf、vprintf、sprintf等。恶意用户可以使用%s和%x等个数符，从堆栈或其他内存位置输出数据，也可以使用格式符%n向任意地址写入任意数据，配合printf()函数和其他类似功能的函数就可以向任意地址写入被格式化的字节数，可能导致任意代码执行，或从漏洞程序中读取敏感信息，比如密码。<br>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line"></span><br><span class="line">int main (int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">		char buff[1024];	// 设置栈空间</span><br><span class="line"></span><br><span class="line">        strncpy(buff,argv[1],sizeof(buff)-1);</span><br><span class="line">        printf(buff); //触发漏洞</span><br><span class="line"></span><br><span class="line">        return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://imgtu.com/i/60zd39" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2021/03/14/60zd39.png" alt="60zd39.png"></a></p>
+<h2 id="5、双重释放漏洞"><a href="#5、双重释放漏洞" class="headerlink" title="5、双重释放漏洞"></a>5、双重释放漏洞</h2><p>双重释放漏洞主要是由对同一块内存进行二次重复释放导致的，利用漏洞可以执行任意代码。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &quot;windows.h&quot;</span><br><span class="line"></span><br><span class="line">int main (int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">	void *p1,*p2,*p3;</span><br><span class="line"></span><br><span class="line">	p1 = malloc(100);	</span><br><span class="line">	printf(&quot;Alloc p1£º%p\n&quot;,p1);</span><br><span class="line">	p2 = malloc(100);</span><br><span class="line">	printf(&quot;Alloc p2£º%p\n&quot;,p2);</span><br><span class="line">	p3 = malloc(100);</span><br><span class="line">	printf(&quot;Alloc p3£º%p\n&quot;,p3);</span><br><span class="line">		</span><br><span class="line">	printf(&quot;Free p2\n&quot;);</span><br><span class="line">	free(p2);</span><br><span class="line">	printf(&quot;Double Free p2\n&quot;);</span><br><span class="line">	free(p2);</span><br><span class="line">	printf(&quot;Free p1\n&quot;);</span><br><span class="line">	free(p1);</span><br><span class="line">	printf(&quot;Free p3\n&quot;);</span><br><span class="line">	free(p3);		</span><br><span class="line"></span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>编译执行后，在多次二次释放p2堆块后，程序崩溃。<br><a href="https://imgtu.com/i/6BSOIO" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2021/03/14/6BSOIO.png" alt="6BSOIO.png"></a></p>
+<h2 id="6、释放重引用（UAF）漏洞"><a href="#6、释放重引用（UAF）漏洞" class="headerlink" title="6、释放重引用（UAF）漏洞"></a>6、释放重引用（UAF）漏洞</h2><p>释放重引用漏洞，顾名思义就是使用已被释放的内存，最终导致内存崩溃或任意代码执行的漏洞。<br>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">#define size 32 </span><br><span class="line"></span><br><span class="line">int main(int argc, char **argv) &#123; </span><br><span class="line">	</span><br><span class="line">    char *buf1;</span><br><span class="line">    char *buf2;</span><br><span class="line">	</span><br><span class="line">    buf1 = (char *) malloc(size);</span><br><span class="line">	printf(&quot;buf1：0x%p\n&quot;, buf1);</span><br><span class="line">	free(buf1);</span><br><span class="line"></span><br><span class="line">	// 分配 buf2 去“占坑”buf1 的内存位置</span><br><span class="line">    buf2 = (char *) malloc(size);</span><br><span class="line">	printf(&quot;buf2：0x%p\n\n&quot;, buf2);</span><br><span class="line">	</span><br><span class="line">	// 对buf2进行内存清零</span><br><span class="line">	memset(buf2, 0, size);</span><br><span class="line">	printf(&quot;buf2：%d\n&quot;, *buf2);</span><br><span class="line"></span><br><span class="line">	// 重引用已释放的buf1指针，但却导致buf2值被篡改</span><br><span class="line">	printf(&quot;==== Use After Free ===\n&quot;);</span><br><span class="line">    strncpy(buf1, &quot;hack&quot;, 5);</span><br><span class="line">	printf(&quot;buf2：%s\n\n&quot;, buf2);</span><br><span class="line"></span><br><span class="line">	free(buf2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://imgtu.com/i/6Bijv4" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2021/03/14/6Bijv4.png" alt="6Bijv4.png"></a><br>程序通过分配与buf1大小相等的堆块buf2实现“占坑”，使得buf2分配到已释放的buf1内存位置，但由于buf1指针依然有效，并且指向的内存数据是不可预测的，可能被堆管理器回收，也可能被其他数据占用填充，因此也被称为“悬挂指针”，借助悬挂指针buf1将其赋值为“hack”字符串，进而导致buf2也被篡改为“hack”字符串。</p>
+<h2 id="7、数组越界访问漏洞"><a href="#7、数组越界访问漏洞" class="headerlink" title="7、数组越界访问漏洞"></a>7、数组越界访问漏洞</h2><p>示例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#include &quot;stdio.h&quot;</span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	int index;</span><br><span class="line">	int array[3] = &#123;0x11, 0x22, 0x33&#125;;</span><br><span class="line">	</span><br><span class="line">	printf(&quot;输入数组索引下标：&quot;);</span><br><span class="line">	scanf(&quot;%d&quot;, &amp;index);</span><br><span class="line"></span><br><span class="line">	printf(&quot;输出数组元素：array[%d] = 0x%x\n&quot;, index, array[index]);</span><br><span class="line">	</span><br><span class="line">	return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://imgtu.com/i/6BAC9K" target="_blank" rel="noopener"><img src="https://s3.ax1x.com/2021/03/14/6BAC9K.png" alt="6BAC9K.png"></a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/漏洞分析/" rel="tag"># 漏洞分析</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/07/栈溢出漏洞分析：CVE-2010-2883 Adobe Reader TTF字体SING表栈溢出漏洞/" rel="next" title="栈溢出漏洞分析：CVE-2010-2883 Adobe Reader TTF字体SING表栈溢出漏洞">
+                <i class="fa fa-chevron-left"></i> 栈溢出漏洞分析：CVE-2010-2883 Adobe Reader TTF字体SING表栈溢出漏洞
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="pang4ea">
+            
+              <p class="site-author-name" itemprop="name">pang4ea</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">49</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/yourname" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="skype:yourname?call|chat" target="_blank" title="Skype">
+                      
+                        <i class="fa fa-fw fa-skype"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、栈溢出原理"><span class="nav-number">1.</span> <span class="nav-text">1、栈溢出原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、堆溢出原理"><span class="nav-number">2.</span> <span class="nav-text">2、堆溢出原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、整数溢出原理"><span class="nav-number">3.</span> <span class="nav-text">3、整数溢出原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4、格式化字符串漏洞"><span class="nav-number">4.</span> <span class="nav-text">4、格式化字符串漏洞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5、双重释放漏洞"><span class="nav-number">5.</span> <span class="nav-text">5、双重释放漏洞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6、释放重引用（UAF）漏洞"><span class="nav-number">6.</span> <span class="nav-text">6、释放重引用（UAF）漏洞</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7、数组越界访问漏洞"><span class="nav-number">7.</span> <span class="nav-text">7、数组越界访问漏洞</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pang4ea</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/ioufev/love.js"></script>
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>

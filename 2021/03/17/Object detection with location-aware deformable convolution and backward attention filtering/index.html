@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="逆向,恶意代码,">
+  <meta name="keywords" content="深度学习,">
 
 
 
@@ -79,28 +79,30 @@
 
 
 
-<meta name="description" content="PEID检测首先用PEID进行基本检测：可以发现，这个程序加了壳。并且只调用了kernel32.dll，以及ExitProcess()这个API。接下来用strings这个程序查看一下它包含哪些可打印字符：可以发现，字符串中出现了一个网址和几个注册表的位置。恶意代码通常通过SOFTVARE\Microsoft\Windows\CurrentUsersion\Run注册表位置进行自启动。 感染特征启">
-<meta name="keywords" content="逆向,恶意代码">
+<meta name="description" content="在本文中，提出了一种位置感知的可变形卷积和后向注意滤波，以提高检测性能。可感知位置的可变形卷积通过从存在信息上下文的地方对输入进行采样来提取不均匀分布的上下文特征。后向注意过滤模块通过突出信息性特征并使用来自深层的语义特征抑制干扰性特征来过滤高分辨率特征图。从主干神经网络backbone中提取出Conv1-Conv6，从Conv3开始使用位置感知变形卷积（location-aware deform">
+<meta name="keywords" content="深度学习">
 <meta property="og:type" content="article">
-<meta property="og:title" content="恶意代码分析实战：Lab03-01">
-<meta property="og:url" content="https://pang4ea.github.io/2020/08/05/恶意代码分析实战：Lab03-01/index.html">
+<meta property="og:title" content="Object detection with location-aware deformable convolution and backward attention filtering">
+<meta property="og:url" content="https://pang4ea.github.io/2021/03/17/Object detection with location-aware deformable convolution and backward attention filtering/index.html">
 <meta property="og:site_name" content="Pang4ea">
-<meta property="og:description" content="PEID检测首先用PEID进行基本检测：可以发现，这个程序加了壳。并且只调用了kernel32.dll，以及ExitProcess()这个API。接下来用strings这个程序查看一下它包含哪些可打印字符：可以发现，字符串中出现了一个网址和几个注册表的位置。恶意代码通常通过SOFTVARE\Microsoft\Windows\CurrentUsersion\Run注册表位置进行自启动。 感染特征启">
+<meta property="og:description" content="在本文中，提出了一种位置感知的可变形卷积和后向注意滤波，以提高检测性能。可感知位置的可变形卷积通过从存在信息上下文的地方对输入进行采样来提取不均匀分布的上下文特征。后向注意过滤模块通过突出信息性特征并使用来自深层的语义特征抑制干扰性特征来过滤高分辨率特征图。从主干神经网络backbone中提取出Conv1-Conv6，从Conv3开始使用位置感知变形卷积（location-aware deform">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://s1.ax1x.com/2020/05/24/tSOQm9.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/05/24/tSOrkt.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/05/ayPXKU.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/05/ayQM7t.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/05/aykfKK.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/05/ayA5Q0.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/05/ayEW7D.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/05/ayKugH.png">
-<meta property="og:image" content="https://s1.ax1x.com/2020/08/05/ayKjsA.png">
-<meta property="og:updated_time" content="2020-11-05T10:23:47.651Z">
+<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/5051a5a73b946fd3.png">
+<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/d329541496c70e62.png">
+<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/f75ec43a23095cfc.png">
+<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/19aa02129733c2e5.png">
+<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/43a26409a011d521.png">
+<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/a6cbc393664535f5.png">
+<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/5ee358d063ade01f.png">
+<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/ee735f3fd0deedea.png">
+<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/ebcea7e69c12a601.png">
+<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/12ad5249776ed037.png">
+<meta property="og:image" content="https://sc03.alicdn.com/kf/Ua963eba69e12413c899cbcd16774a750K.jpg">
+<meta property="og:updated_time" content="2021-03-17T14:20:37.688Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="恶意代码分析实战：Lab03-01">
-<meta name="twitter:description" content="PEID检测首先用PEID进行基本检测：可以发现，这个程序加了壳。并且只调用了kernel32.dll，以及ExitProcess()这个API。接下来用strings这个程序查看一下它包含哪些可打印字符：可以发现，字符串中出现了一个网址和几个注册表的位置。恶意代码通常通过SOFTVARE\Microsoft\Windows\CurrentUsersion\Run注册表位置进行自启动。 感染特征启">
-<meta name="twitter:image" content="https://s1.ax1x.com/2020/05/24/tSOQm9.png">
+<meta name="twitter:title" content="Object detection with location-aware deformable convolution and backward attention filtering">
+<meta name="twitter:description" content="在本文中，提出了一种位置感知的可变形卷积和后向注意滤波，以提高检测性能。可感知位置的可变形卷积通过从存在信息上下文的地方对输入进行采样来提取不均匀分布的上下文特征。后向注意过滤模块通过突出信息性特征并使用来自深层的语义特征抑制干扰性特征来过滤高分辨率特征图。从主干神经网络backbone中提取出Conv1-Conv6，从Conv3开始使用位置感知变形卷积（location-aware deform">
+<meta name="twitter:image" content="https://ftp.bmp.ovh/imgs/2021/03/5051a5a73b946fd3.png">
 
 
 
@@ -130,13 +132,13 @@
 
 
 
-  <link rel="canonical" href="https://pang4ea.github.io/2020/08/05/恶意代码分析实战：Lab03-01/">
+  <link rel="canonical" href="https://pang4ea.github.io/2021/03/17/Object detection with location-aware deformable convolution and backward attention filtering/">
 
 
 
 
 
-  <title>恶意代码分析实战：Lab03-01 | Pang4ea</title>
+  <title>Object detection with location-aware deformable convolution and backward attention filtering | Pang4ea</title>
   
 
 
@@ -283,7 +285,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://pang4ea.github.io/2020/08/05/恶意代码分析实战：Lab03-01/">
+    <link itemprop="mainEntityOfPage" href="https://pang4ea.github.io/2021/03/17/Object detection with location-aware deformable convolution and backward attention filtering/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="pang4ea">
@@ -300,7 +302,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">恶意代码分析实战：Lab03-01</h1>
+          <h1 class="post-title" itemprop="name headline">Object detection with location-aware deformable convolution and backward attention filtering</h1>
         
 
         <div class="post-meta">
@@ -312,8 +314,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-08-05T18:57:19+08:00">
-                2020-08-05
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-17T22:20:14+08:00">
+                2021-03-17
               </time>
             
 
@@ -335,8 +337,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/《恶意代码分析实战》/" itemprop="url" rel="index">
-                    <span itemprop="name">《恶意代码分析实战》</span>
+                  <a href="/categories/深度学习/" itemprop="url" rel="index">
+                    <span itemprop="name">深度学习</span>
                   </a>
                 </span>
 
@@ -372,9 +374,11 @@
       
 
       
-        <h2 id="PEID检测"><a href="#PEID检测" class="headerlink" title="PEID检测"></a>PEID检测</h2><p>首先用PEID进行基本检测：<br><img src="https://s1.ax1x.com/2020/05/24/tSOQm9.png" alt="tSOQm9.png"><br><a href="https://imgchr.com/i/tSOrkt" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/05/24/tSOrkt.png" alt="tSOrkt.png"></a><br>可以发现，这个程序加了壳。并且只调用了kernel32.dll，以及ExitProcess()这个API。<br>接下来用strings这个程序查看一下它包含哪些可打印字符：<br><a href="https://imgchr.com/i/ayPXKU" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/08/05/ayPXKU.png" alt="ayPXKU.png"></a><br>可以发现，字符串中出现了一个网址和几个注册表的位置。恶意代码通常通过SOFTVARE\Microsoft\Windows\CurrentUsersion\Run注册表位置进行自启动。<br><a href="https://imgchr.com/i/ayQM7t" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/08/05/ayQM7t.png" alt="ayQM7t.png"></a></p>
-<h2 id="感染特征"><a href="#感染特征" class="headerlink" title="感染特征"></a>感染特征</h2><p>启动Process Explorer、Process Monitor以及Wireshark，在Process Monitor筛选器中设置筛选条件，将Process Name设置为我们的实验文件的名称Lab03-01.exe，<br>运行程序，可以看到Process Explorer已经监控到了Lab03-01.exe，通过Process Explorer可以发现，该程序创建了一个名为WinVMX32的互斥量。<br><a href="https://imgchr.com/i/aykfKK" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/08/05/aykfKK.png" alt="aykfKK.png"></a><br>以及包含ws2_32.dll和wshtcpip.dll两个DLL文件，有互联网的一些操作。<br><a href="https://imgchr.com/i/ayA5Q0" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/08/05/ayA5Q0.png" alt="ayA5Q0.png"></a><br>查看Process monitor，在Operation中选择WriteFile和RegSetValue，查看文件写入以及注册表写入：<br><a href="https://imgchr.com/i/ayEW7D" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/08/05/ayEW7D.png" alt="ayEW7D.png"></a><br>第一个Seed键值，一般用于随机数的生成。<br>第二个监控结果，可以发现程序在系统目录中创建了一个名为vmx32to64.exe这样的一个程序，并且还包含有写入的操作。<br>第三条监控结果则说明了程序添加了名为VideoDriver的自启动项。</p>
-<h2 id="网络特征码"><a href="#网络特征码" class="headerlink" title="网络特征码"></a>网络特征码</h2><p>打开WireShark进行查看，可以发现一个DNS域名解析：<br><a href="https://imgchr.com/i/ayKugH" target="_blank" rel="noopener"><img src="https://s1.ax1x.com/2020/08/05/ayKugH.png" alt="ayKugH.png"></a><br>它会尝试进行网络访问。然后发现几个SSL，查看数据，可以发现，每一个SSL的蓝色高亮部分都是不一样的，其大小为256个字节，可以认为这部分的数据内容其实是随机的，定期发送，不断进行广播：<br><img src="https://s1.ax1x.com/2020/08/05/ayKjsA.png" alt="ayKjsA.png"></p>
+        <p>在本文中，提出了一种位置感知的可变形卷积和后向注意滤波，以提高检测性能。可感知位置的可变形卷积通过从存在信息上下文的地方对输入进行采样来提取不均匀分布的上下文特征。后向注意过滤模块通过突出信息性特征并使用来自深层的语义特征抑制干扰性特征来过滤高分辨率特征图。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/5051a5a73b946fd3.png" alt><br>从主干神经网络backbone中提取出Conv1-Conv6，从Conv3开始使用位置感知变形卷积（location-aware deformable convolution）以增强上下文信息，获得增强的Conv3，Conv4，Conv5。在向后传递的过程中，有三个后向注意过滤模块（backward<br>attention filtering），每个模块都使用前一个模块的输出来过滤输入特征映射，三个经过过滤的特征映射被输入到区域生成网络（RPN），经过skip pooling整合然后进行分类预测。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/d329541496c70e62.png" alt><br><img src="https://ftp.bmp.ovh/imgs/2021/03/f75ec43a23095cfc.png" alt><br>一般的可变形卷积，只有一个基于标准卷积相同感受野的卷积层来预测所有的偏移。可是使用相同感受野以及卷积层对每个输入样本进行偏移预测可能无法获得最优的结果；此外，感受野太小在偏移预测时不能查看周围的特征，也使其不能捕获有用的上下文信息。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/19aa02129733c2e5.png" alt><br>其中I为输入特征，O为输出特征，D为膨胀率，pn为相对于中心的位置变化，Δn为偏移；<br>如上图所示，首先使用1×1的卷积来压缩通道至64，经过1×1卷积，9个3×3卷积层Cn, n∈{0,1，，，8}用于估计每个输入样本的偏移量卷积层Cn位于pc+D·pn。因此，每个输入样本的偏移估计是由其位置和独特的环境决定的；之后由于预测的偏移通常是小数，使用插值以获得对应的特征值，最后计算加权和得到最终输出。<br>Location-aware deformable convolution的目的是为了获得更丰富的上下文信息，得到的结果需要与标准卷积的结果一起处理，将两者连接起来，然后使用1×1卷积压缩到原来的通道数组成最终的输出特征。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/43a26409a011d521.png" alt><br><img src="https://ftp.bmp.ovh/imgs/2021/03/a6cbc393664535f5.png" alt><br>反向注意过滤模块的架构如图5所示。注意过滤模块有两个输入，一个是待过滤的目标特征图T，另一个是更深卷积层的语义特征图S，用来生成注意图。将上层语义信息使用3×3卷积后进行sigmoid激活，作为注意力，然后上采样（Aup）到对应大小与当前层特征相乘。</p>
+<p>使用相同backbone与faster R-CNN间的效果对比。使用两个backbone，本文的方法效果对比Faster R-CNN均有较大的提高，最高分别提升2.9与3.4个点。每个模块的使用也都有相应的提升。其中(a)为仅使用location-aware deformable convolution，(b)仅使用backward attention filtering，(c)同时使用两个模块。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/5ee358d063ade01f.png" alt></p>
+<p>Location-aware deformable convolution模块与一般的convolution以及deformable convolution间的对比，同时对比了不同膨胀率的结果。最优的结果是使用膨胀率为2的膨胀卷积。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/ee735f3fd0deedea.png" alt></p>
+<p>与其他使用attention机制的方法的对比。本文提出的backward attention filtering的效果最佳。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/ebcea7e69c12a601.png" alt></p>
+<p>本文结果与其他方法的对比。本文提出的虽不至于在效果上达到最优，但是均衡了速度与性能。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/12ad5249776ed037.png" alt><br><img src="https://sc03.alicdn.com/kf/Ua963eba69e12413c899cbcd16774a750K.jpg" alt="1.png"></p>
 
       
     </div>
@@ -392,9 +396,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/逆向/" rel="tag"># 逆向</a>
-          
-            <a href="/tags/恶意代码/" rel="tag"># 恶意代码</a>
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
           
         </div>
       
@@ -407,8 +409,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/07/19/Python爬虫/" rel="next" title="Python爬虫">
-                <i class="fa fa-chevron-left"></i> Python爬虫
+              <a href="/2021/03/14/栈溢出漏洞分析：CVE-2010-2883 Adobe Reader TTF字体SING表栈溢出漏洞/" rel="next" title="栈溢出漏洞分析：CVE-2010-2883 Adobe Reader TTF字体SING表栈溢出漏洞">
+                <i class="fa fa-chevron-left"></i> 栈溢出漏洞分析：CVE-2010-2883 Adobe Reader TTF字体SING表栈溢出漏洞
               </a>
             
           </div>
@@ -416,10 +418,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/08/07/恶意代码分析实战：Lab03-02/" rel="prev" title="恶意代码分析实战：Lab03-02">
-                恶意代码分析实战：Lab03-02 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -471,17 +469,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview-wrap sidebar-panel">
+      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -571,22 +560,6 @@
         </div>
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#PEID检测"><span class="nav-number">1.</span> <span class="nav-text">PEID检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#感染特征"><span class="nav-number">2.</span> <span class="nav-text">感染特征</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#网络特征码"><span class="nav-number">3.</span> <span class="nav-text">网络特征码</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       

@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="漏洞挖掘,Fuzz,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="1、AFL下载和安装12345wget http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgztar xvf afl-latest.tgzcd afl-2.52b# make &amp;amp;&amp;amp; make installsudo make &amp;amp;&amp;amp; sudo make install  安装好后，修改.bashrc加入环境变量ex">
+<meta name="keywords" content="漏洞挖掘,Fuzz">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用AFL进行Fuzz">
+<meta property="og:url" content="https://pang4ea.github.io/2021/03/22/使用AFL进行Fuzz/index.html">
+<meta property="og:site_name" content="Pang4ea">
+<meta property="og:description" content="1、AFL下载和安装12345wget http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgztar xvf afl-latest.tgzcd afl-2.52b# make &amp;amp;&amp;amp; make installsudo make &amp;amp;&amp;amp; sudo make install  安装好后，修改.bashrc加入环境变量ex">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="https://z3.ax1x.com/2021/03/21/65GOfO.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/03/21/65a70H.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/03/21/65diAs.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/03/21/65wQsS.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/03/21/65zL9g.png">
+<meta property="og:image" content="https://z3.ax1x.com/2021/03/22/6IYkTI.png">
+<meta property="og:updated_time" content="2021-03-22T01:56:23.864Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用AFL进行Fuzz">
+<meta name="twitter:description" content="1、AFL下载和安装12345wget http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgztar xvf afl-latest.tgzcd afl-2.52b# make &amp;amp;&amp;amp; make installsudo make &amp;amp;&amp;amp; sudo make install  安装好后，修改.bashrc加入环境变量ex">
+<meta name="twitter:image" content="https://z3.ax1x.com/2021/03/21/65GOfO.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://pang4ea.github.io/2021/03/22/使用AFL进行Fuzz/">
+
+
+
+
+
+  <title>使用AFL进行Fuzz | Pang4ea</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Pang4ea</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-schedule">
+          <a href="/schedule/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br>
+            
+            日程表
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://pang4ea.github.io/2021/03/22/使用AFL进行Fuzz/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="pang4ea">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Pang4ea">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用AFL进行Fuzz</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-22T09:56:05+08:00">
+                2021-03-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/漏洞挖掘/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞挖掘</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="1、AFL下载和安装"><a href="#1、AFL下载和安装" class="headerlink" title="1、AFL下载和安装"></a>1、AFL下载和安装</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http://lcamtuf.coredump.cx/afl/releases/afl-latest.tgz</span><br><span class="line">tar xvf afl-latest.tgz</span><br><span class="line">cd afl-2.52b</span><br><span class="line"># make &amp;&amp; make install</span><br><span class="line">sudo make &amp;&amp; sudo make install</span><br></pre></td></tr></table></figure>
+
+<p>安装好后，修改.bashrc加入环境变量export PATH=/usr/home:$PATH后即可使用。PATH为AFL的目录。</p>
+<h2 id="2、AFL-Fuzzing步骤"><a href="#2、AFL-Fuzzing步骤" class="headerlink" title="2、AFL Fuzzing步骤"></a>2、AFL Fuzzing步骤</h2><p>1、使用afl-gcc编译项目代码，将编译脚本中的CC=afl-gcc/CXX=afl-g++；<br>2、新建两个文件夹，如fuzz_in/fuzz_out,文件夹名随意；<br>3、将初始化testcase放到fuzz_in目录下；<br>4、执行afl-fuzz -i fuzz_in -o fuzz_out ./xxx @@ xxx为可执行程序名，@@表示从文件中读入<br>5、观察fuzzing结果，如有crash，定位问题。</p>
+<h2 id="3、示例代码"><a href="#3、示例代码" class="headerlink" title="3、示例代码"></a>3、示例代码</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;signal.h&gt;</span><br><span class="line"></span><br><span class="line">void vuln(char *buf) &#123;</span><br><span class="line">    int n = 0;</span><br><span class="line">    if(buf[0] == &apos;a&apos;) n++;</span><br><span class="line">    if(buf[1] == &apos;f&apos;) n++;</span><br><span class="line">    if(buf[2] == &apos;l&apos;) n++;</span><br><span class="line">    if(buf[3] == &apos;!&apos;) n++;</span><br><span class="line"> </span><br><span class="line">    if(n == 4) &#123;</span><br><span class="line">    printf(&quot;awesome!\n&quot;);</span><br><span class="line">        raise(SIGSEGV);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        printf(&quot;wrong!\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[])</span><br><span class="line">&#123;</span><br><span class="line">    char buf[40] = &#123;0&#125;;</span><br><span class="line">    FILE *input = NULL;</span><br><span class="line">    input = fopen(argv[1], &quot;r&quot;);</span><br><span class="line">    if (input != 0)</span><br><span class="line">    &#123;</span><br><span class="line">        fscanf(input, &quot;%s&quot;, &amp;buf);</span><br><span class="line">        printf(&quot;buf is %s\n&quot;, buf);</span><br><span class="line">        vuln(buf);</span><br><span class="line">        fclose(input);</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;bad file!&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1、有源码AFL测试"><a href="#1、有源码AFL测试" class="headerlink" title="1、有源码AFL测试"></a>1、有源码AFL测试</h3><p>编译代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">afl-gcc afl.c -o afl_test</span><br></pre></td></tr></table></figure>
+
+<p>准备环境<br>新建输入、输出文件夹：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir fuzz_in fuzz_out</span><br></pre></td></tr></table></figure>
+
+<p>准备初始化testcase, 将testcase内容随意写成aaa:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo aaa &gt; fuzz_in/testcase</span><br></pre></td></tr></table></figure>
+
+<p>开始Fuzzing</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">afl-fuzz -i fuzz_in -o fuzz_out ./afl_test @@</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://imgtu.com/i/65GOfO" target="_blank" rel="noopener"><img src="https://z3.ax1x.com/2021/03/21/65GOfO.png" alt="65GOfO.png"></a></p>
+<p>我们可以在fuzz_out/crashes中看到得到了三个crash。<br><a href="https://imgtu.com/i/65a70H" target="_blank" rel="noopener"><img src="https://z3.ax1x.com/2021/03/21/65a70H.png" alt="65a70H.png"></a></p>
+<p><a href="https://imgtu.com/i/65diAs" target="_blank" rel="noopener"><img src="https://z3.ax1x.com/2021/03/21/65diAs.png" alt="65diAs.png"></a></p>
+<p>前两个crash发生了栈溢出。<br><a href="https://imgtu.com/i/65wQsS" target="_blank" rel="noopener"><img src="https://z3.ax1x.com/2021/03/21/65wQsS.png" alt="65wQsS.png"></a></p>
+<h3 id="2、无源码AFL测试"><a href="#2、无源码AFL测试" class="headerlink" title="2、无源码AFL测试"></a>2、无源码AFL测试</h3><p>上面是对进简单的有源码的程序进行测试的，但是实际情况下不可能每次都有源码进行插桩编译测试，afl使用了qemu模式进行测试，只要在之前的命令的基础上加上-Q的参数即可，但是要先进行安装,在afl的根目录打开终端执行以下命令。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd qemu_mode</span><br><span class="line"></span><br><span class="line">./build_qemu_support.sh</span><br><span class="line"></span><br><span class="line">cd ..</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<p>在执行./build_qemu_support.sh命令时有两个报错</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static declaration of ‘memfd_create’ follows non-static declaration</span><br><span class="line"></span><br><span class="line">qemu_mode/qemu-2.10.0/rules.mak:66: util/memfd.o] 错误 1</span><br></pre></td></tr></table></figure>
+
+<p>解决方法：<br>在patches目录下，将syscall.diff文件内容改成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">--- qemu-2.10.0-clean/linux-user/syscall.c	2020-03-12 18:47:47.898592169 +0100</span><br><span class="line">+++ qemu-2.10.0/linux-user/syscall.c	2020-03-12 19:16:41.563074307 +0100</span><br><span class="line">@@ -34,6 +34,7 @@</span><br><span class="line"> #include &lt;sys/resource.h&gt;</span><br><span class="line"> #include &lt;sys/swap.h&gt;</span><br><span class="line"> #include &lt;linux/capability.h&gt;</span><br><span class="line">+#include &lt;linux/sockios.h&gt; // https://lkml.org/lkml/2019/6/3/988</span><br><span class="line"> #include &lt;sched.h&gt;</span><br><span class="line"> #include &lt;sys/timex.h&gt;</span><br><span class="line"> #ifdef __ia64__</span><br><span class="line">@@ -116,6 +117,8 @@ int __clone2(int (*fn)(void *), void *ch</span><br><span class="line"> #include &quot;qemu.h&quot;</span><br><span class="line"></span><br><span class="line">+extern unsigned int afl_forksrv_pid;</span><br><span class="line">+</span><br><span class="line"> #ifndef CLONE_IO</span><br><span class="line"> #define CLONE_IO                0x80000000      /* Clone io context */</span><br><span class="line"> #endif</span><br><span class="line"> </span><br><span class="line">@@ -256,7 +259,9 @@ static type name (type1 arg1,type2 arg2,</span><br><span class="line"> #endif</span><br><span class="line"></span><br><span class="line"> #ifdef __NR_gettid</span><br><span class="line">-_syscall0(int, gettid)</span><br><span class="line">+// taken from https://patchwork.kernel.org/patch/10862231/</span><br><span class="line">+#define __NR_sys_gettid __NR_gettid</span><br><span class="line">+_syscall0(int, sys_gettid)</span><br><span class="line"> #else</span><br><span class="line"> /* This is a replacement for the host gettid() and must return a host</span><br><span class="line">    errno. */</span><br><span class="line">@@ -6219,7 +6224,8 @@ static void *clone_func(void *arg)</span><br><span class="line">     cpu = ENV_GET_CPU(env);</span><br><span class="line">     thread_cpu = cpu;</span><br><span class="line">     ts = (TaskState *)cpu-&gt;opaque;</span><br><span class="line">-    info-&gt;tid = gettid();</span><br><span class="line">+    // taken from https://patchwork.kernel.org/patch/10862231/</span><br><span class="line">+    info-&gt;tid = sys_gettid();</span><br><span class="line">     task_settid(ts);</span><br><span class="line">     if (info-&gt;child_tidptr)</span><br><span class="line">         put_user_u32(info-&gt;tid, info-&gt;child_tidptr);</span><br><span class="line">@@ -6363,9 +6369,11 @@ static int do_fork(CPUArchState *env, un</span><br><span class="line">                mapping.  We can&apos;t repeat the spinlock hack used above because</span><br><span class="line">                the child process gets its own copy of the lock.  */</span><br><span class="line">             if (flags &amp; CLONE_CHILD_SETTID)</span><br><span class="line">-                put_user_u32(gettid(), child_tidptr);</span><br><span class="line">+                // taken from https://patchwork.kernel.org/patch/10862231/</span><br><span class="line">+                put_user_u32(sys_gettid(), child_tidptr);</span><br><span class="line">             if (flags &amp; CLONE_PARENT_SETTID)</span><br><span class="line">-                put_user_u32(gettid(), parent_tidptr);</span><br><span class="line">+                // taken from https://patchwork.kernel.org/patch/10862231/</span><br><span class="line">+                put_user_u32(sys_gettid(), parent_tidptr);</span><br><span class="line">             ts = (TaskState *)cpu-&gt;opaque;</span><br><span class="line">             if (flags &amp; CLONE_SETTLS)</span><br><span class="line">                 cpu_set_tls (env, newtls);</span><br><span class="line">@@ -11402,7 +11410,8 @@ abi_long do_syscall(void *cpu_env, int n</span><br><span class="line">         break;</span><br><span class="line"> #endif</span><br><span class="line">     case TARGET_NR_gettid:</span><br><span class="line">-        ret = get_errno(gettid());</span><br><span class="line">+        // taken from https://patchwork.kernel.org/patch/10862231/</span><br><span class="line">+        ret = get_errno(sys_gettid());</span><br><span class="line">         break;</span><br><span class="line"> #ifdef TARGET_NR_readahead</span><br><span class="line">     case TARGET_NR_readahead:</span><br></pre></td></tr></table></figure>
+
+<p>创建memfd_create.diff文件，写入：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">diff -ru qemu-2.10.0-clean/util/memfd.c qemu-2.10.0/util/memfd.c</span><br><span class="line">--- qemu-2.10.0-clean/util/memfd.c      2018-11-20 18:11:00.170271506 +0100</span><br><span class="line">+++ qemu-2.10.0/util/memfd.c    2018-11-20 18:11:13.398423613 +0100</span><br><span class="line">@@ -37,7 +37,7 @@</span><br><span class="line"> #include &lt;sys/syscall.h&gt;</span><br><span class="line"> #include &lt;asm/unistd.h&gt;</span><br><span class="line"> </span><br><span class="line">-static int memfd_create(const char *name, unsigned int flags)</span><br><span class="line">+int memfd_create(const char *name, unsigned int flags)</span><br><span class="line"> &#123;</span><br><span class="line"> #ifdef __NR_memfd_create</span><br><span class="line">     return syscall(__NR_memfd_create, name, flags);</span><br></pre></td></tr></table></figure>
+
+<p>最后在加上build_qemu_support.sh文件中加上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">patch -p1 &lt;../patches/memfd_create.diff || exit 1</span><br></pre></td></tr></table></figure>
+
+<p>完成之后再执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">./build_qemu_support.sh</span><br><span class="line">cd ..</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<p>然后用gcc对测试文件进行编译</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gcc -g -o afl_test2 afl.c</span><br></pre></td></tr></table></figure>
+
+<p>执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">afl-fuzz -i fuzz_in -o fuzz_out -Q ./afl_test2 @@</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://imgtu.com/i/65zL9g" target="_blank" rel="noopener"><img src="https://z3.ax1x.com/2021/03/21/65zL9g.png" alt="65zL9g.png"></a></p>
+<p><a href="https://imgtu.com/i/6IYkTI" target="_blank" rel="noopener"><img src="https://z3.ax1x.com/2021/03/22/6IYkTI.png" alt="6IYkTI.png"></a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/漏洞挖掘/" rel="tag"># 漏洞挖掘</a>
+          
+            <a href="/tags/Fuzz/" rel="tag"># Fuzz</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2021/03/17/Object detection with location-aware deformable convolution and backward attention filtering/" rel="next" title="Object detection with location-aware deformable convolution and backward attention filtering">
+                <i class="fa fa-chevron-left"></i> Object detection with location-aware deformable convolution and backward attention filtering
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/avatar.gif" alt="pang4ea">
+            
+              <p class="site-author-name" itemprop="name">pang4ea</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">42</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/yourname" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:yourname@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://stackoverflow.com/yourname" target="_blank" title="StackOverflow">
+                      
+                        <i class="fa fa-fw fa-stack-overflow"></i></a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="skype:yourname?call|chat" target="_blank" title="Skype">
+                      
+                        <i class="fa fa-fw fa-skype"></i></a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、AFL下载和安装"><span class="nav-number">1.</span> <span class="nav-text">1、AFL下载和安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、AFL-Fuzzing步骤"><span class="nav-number">2.</span> <span class="nav-text">2、AFL Fuzzing步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3、示例代码"><span class="nav-number">3.</span> <span class="nav-text">3、示例代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1、有源码AFL测试"><span class="nav-number">3.1.</span> <span class="nav-text">1、有源码AFL测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2、无源码AFL测试"><span class="nav-number">3.2.</span> <span class="nav-text">2、无源码AFL测试</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">pang4ea</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Gemini</a> v5.1.4</div>
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/canvas-nest/canvas-nest.min.js"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+
+<script type="text/javascript" src="https://blog-static.cnblogs.com/files/ioufev/love.js"></script>
+
+
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+</body>
+</html>

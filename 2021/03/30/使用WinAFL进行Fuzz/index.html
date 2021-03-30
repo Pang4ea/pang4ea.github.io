@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="深度学习,">
+  <meta name="keywords" content="漏洞挖掘,Fuzz,">
 
 
 
@@ -79,30 +79,18 @@
 
 
 
-<meta name="description" content="在本文中，提出了一种位置感知的可变形卷积和后向注意滤波，以提高检测性能。可感知位置的可变形卷积通过从存在信息上下文的地方对输入进行采样来提取不均匀分布的上下文特征。后向注意过滤模块通过突出信息性特征并使用来自深层的语义特征抑制干扰性特征来过滤高分辨率特征图。从主干神经网络backbone中提取出Conv1-Conv6，从Conv3开始使用位置感知变形卷积（location-aware deform">
-<meta name="keywords" content="深度学习">
+<meta name="description" content="1、环境配置 Windows 10 虚拟机 Visual Studio 2019 git 2.31.0 CMake 3.20.1 dynamorio winafl ida 6.8  2、安装步骤1、安装git一路next即可2、安装CMake在设置PATH时勾选Add CMake to the system PATH for all users，其它地方一路next3、编译dynamorio编译3">
+<meta name="keywords" content="漏洞挖掘,Fuzz">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Object detection with location-aware deformable convolution and backward attention filtering">
-<meta property="og:url" content="https://pang4ea.github.io/2021/03/17/Object detection with location-aware deformable convolution and backward attention filtering/index.html">
+<meta property="og:title" content="使用WinAFL进行Fuzz">
+<meta property="og:url" content="https://pang4ea.github.io/2021/03/30/使用WinAFL进行Fuzz/index.html">
 <meta property="og:site_name" content="Pang4ea">
-<meta property="og:description" content="在本文中，提出了一种位置感知的可变形卷积和后向注意滤波，以提高检测性能。可感知位置的可变形卷积通过从存在信息上下文的地方对输入进行采样来提取不均匀分布的上下文特征。后向注意过滤模块通过突出信息性特征并使用来自深层的语义特征抑制干扰性特征来过滤高分辨率特征图。从主干神经网络backbone中提取出Conv1-Conv6，从Conv3开始使用位置感知变形卷积（location-aware deform">
+<meta property="og:description" content="1、环境配置 Windows 10 虚拟机 Visual Studio 2019 git 2.31.0 CMake 3.20.1 dynamorio winafl ida 6.8  2、安装步骤1、安装git一路next即可2、安装CMake在设置PATH时勾选Add CMake to the system PATH for all users，其它地方一路next3、编译dynamorio编译3">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/5051a5a73b946fd3.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/d329541496c70e62.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/f75ec43a23095cfc.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/19aa02129733c2e5.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/43a26409a011d521.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/a6cbc393664535f5.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/5ee358d063ade01f.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/ee735f3fd0deedea.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/ebcea7e69c12a601.png">
-<meta property="og:image" content="https://ftp.bmp.ovh/imgs/2021/03/12ad5249776ed037.png">
-<meta property="og:image" content="https://sc03.alicdn.com/kf/Ua963eba69e12413c899cbcd16774a750K.jpg">
-<meta property="og:updated_time" content="2021-03-17T14:20:37.688Z">
+<meta property="og:updated_time" content="2021-03-30T05:31:24.961Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Object detection with location-aware deformable convolution and backward attention filtering">
-<meta name="twitter:description" content="在本文中，提出了一种位置感知的可变形卷积和后向注意滤波，以提高检测性能。可感知位置的可变形卷积通过从存在信息上下文的地方对输入进行采样来提取不均匀分布的上下文特征。后向注意过滤模块通过突出信息性特征并使用来自深层的语义特征抑制干扰性特征来过滤高分辨率特征图。从主干神经网络backbone中提取出Conv1-Conv6，从Conv3开始使用位置感知变形卷积（location-aware deform">
-<meta name="twitter:image" content="https://ftp.bmp.ovh/imgs/2021/03/5051a5a73b946fd3.png">
+<meta name="twitter:title" content="使用WinAFL进行Fuzz">
+<meta name="twitter:description" content="1、环境配置 Windows 10 虚拟机 Visual Studio 2019 git 2.31.0 CMake 3.20.1 dynamorio winafl ida 6.8  2、安装步骤1、安装git一路next即可2、安装CMake在设置PATH时勾选Add CMake to the system PATH for all users，其它地方一路next3、编译dynamorio编译3">
 
 
 
@@ -132,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://pang4ea.github.io/2021/03/17/Object detection with location-aware deformable convolution and backward attention filtering/">
+  <link rel="canonical" href="https://pang4ea.github.io/2021/03/30/使用WinAFL进行Fuzz/">
 
 
 
 
 
-  <title>Object detection with location-aware deformable convolution and backward attention filtering | Pang4ea</title>
+  <title>使用WinAFL进行Fuzz | Pang4ea</title>
   
 
 
@@ -285,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://pang4ea.github.io/2021/03/17/Object detection with location-aware deformable convolution and backward attention filtering/">
+    <link itemprop="mainEntityOfPage" href="https://pang4ea.github.io/2021/03/30/使用WinAFL进行Fuzz/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="pang4ea">
@@ -302,7 +290,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Object detection with location-aware deformable convolution and backward attention filtering</h1>
+          <h1 class="post-title" itemprop="name headline">使用WinAFL进行Fuzz</h1>
         
 
         <div class="post-meta">
@@ -314,8 +302,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-17T22:20:14+08:00">
-                2021-03-17
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2021-03-30T13:30:57+08:00">
+                2021-03-30
               </time>
             
 
@@ -337,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/深度学习/" itemprop="url" rel="index">
-                    <span itemprop="name">深度学习</span>
+                  <a href="/categories/漏洞挖掘/" itemprop="url" rel="index">
+                    <span itemprop="name">漏洞挖掘</span>
                   </a>
                 </span>
 
@@ -374,11 +362,36 @@
       
 
       
-        <p>在本文中，提出了一种位置感知的可变形卷积和后向注意滤波，以提高检测性能。可感知位置的可变形卷积通过从存在信息上下文的地方对输入进行采样来提取不均匀分布的上下文特征。后向注意过滤模块通过突出信息性特征并使用来自深层的语义特征抑制干扰性特征来过滤高分辨率特征图。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/5051a5a73b946fd3.png" alt><br>从主干神经网络backbone中提取出Conv1-Conv6，从Conv3开始使用位置感知变形卷积（location-aware deformable convolution）以增强上下文信息，获得增强的Conv3，Conv4，Conv5。在向后传递的过程中，有三个后向注意过滤模块（backward<br>attention filtering），每个模块都使用前一个模块的输出来过滤输入特征映射，三个经过过滤的特征映射被输入到区域生成网络（RPN），经过skip pooling整合然后进行分类预测。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/d329541496c70e62.png" alt><br><img src="https://ftp.bmp.ovh/imgs/2021/03/f75ec43a23095cfc.png" alt><br>一般的可变形卷积，只有一个基于标准卷积相同感受野的卷积层来预测所有的偏移。可是使用相同感受野以及卷积层对每个输入样本进行偏移预测可能无法获得最优的结果；此外，感受野太小在偏移预测时不能查看周围的特征，也使其不能捕获有用的上下文信息。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/19aa02129733c2e5.png" alt><br>其中I为输入特征，O为输出特征，D为膨胀率，pn为相对于中心的位置变化，Δn为偏移；<br>如上图所示，首先使用1×1的卷积来压缩通道至64，经过1×1卷积，9个3×3卷积层Cn, n∈{0,1，，，8}用于估计每个输入样本的偏移量卷积层Cn位于pc+D·pn。因此，每个输入样本的偏移估计是由其位置和独特的环境决定的；之后由于预测的偏移通常是小数，使用插值以获得对应的特征值，最后计算加权和得到最终输出。<br>Location-aware deformable convolution的目的是为了获得更丰富的上下文信息，得到的结果需要与标准卷积的结果一起处理，将两者连接起来，然后使用1×1卷积压缩到原来的通道数组成最终的输出特征。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/43a26409a011d521.png" alt><br><img src="https://ftp.bmp.ovh/imgs/2021/03/a6cbc393664535f5.png" alt><br>反向注意过滤模块的架构如图5所示。注意过滤模块有两个输入，一个是待过滤的目标特征图T，另一个是更深卷积层的语义特征图S，用来生成注意图。将上层语义信息使用3×3卷积后进行sigmoid激活，作为注意力，然后上采样（Aup）到对应大小与当前层特征相乘。</p>
-<p>使用相同backbone与faster R-CNN间的效果对比。使用两个backbone，本文的方法效果对比Faster R-CNN均有较大的提高，最高分别提升2.9与3.4个点。每个模块的使用也都有相应的提升。其中(a)为仅使用location-aware deformable convolution，(b)仅使用backward attention filtering，(c)同时使用两个模块。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/5ee358d063ade01f.png" alt></p>
-<p>Location-aware deformable convolution模块与一般的convolution以及deformable convolution间的对比，同时对比了不同膨胀率的结果。最优的结果是使用膨胀率为2的膨胀卷积。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/ee735f3fd0deedea.png" alt></p>
-<p>与其他使用attention机制的方法的对比。本文提出的backward attention filtering的效果最佳。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/ebcea7e69c12a601.png" alt></p>
-<p>本文结果与其他方法的对比。本文提出的虽不至于在效果上达到最优，但是均衡了速度与性能。<br><img src="https://ftp.bmp.ovh/imgs/2021/03/12ad5249776ed037.png" alt><br><img src="https://sc03.alicdn.com/kf/Ua963eba69e12413c899cbcd16774a750K.jpg" alt="1.png"></p>
+        <h2 id="1、环境配置"><a href="#1、环境配置" class="headerlink" title="1、环境配置"></a>1、环境配置</h2><ul>
+<li>Windows 10 虚拟机</li>
+<li>Visual Studio 2019</li>
+<li>git 2.31.0</li>
+<li>CMake 3.20.1</li>
+<li>dynamorio</li>
+<li>winafl</li>
+<li>ida 6.8</li>
+</ul>
+<h2 id="2、安装步骤"><a href="#2、安装步骤" class="headerlink" title="2、安装步骤"></a>2、安装步骤</h2><p>1、安装git<br>一路next即可<br>2、安装CMake<br>在设置PATH时勾选Add CMake to the system PATH for all users，其它地方一路next<br>3、编译dynamorio<br>编译32位<br>1）首先找到Virsual Studio文件夹中的vcvarsall.bat所在目录，并打开cmd<br>2）执行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vcvarsall x86</span><br><span class="line">cd dynamorio源码目录</span><br><span class="line">mkdir build32 &amp;&amp; cd build32</span><br><span class="line">cmake -G&quot;Visual Studio 16 2019&quot; -A Win32 ..</span><br><span class="line">cmake --build . --config RelWithDebInfo</span><br></pre></td></tr></table></figure>
+
+<p>编译64位<br>1）首先找到Virsual Studio文件夹中的vcvarsall.bat所在目录，并打开cmd<br>2）执行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vcvarsall amd64_x86</span><br><span class="line">cd dynamorio源码目录</span><br><span class="line">mkdir build64 &amp;&amp; cd build64</span><br><span class="line">cmake -G&quot;Visual Studio 16 2019&quot; -A x64 ..</span><br><span class="line">cmake --build . --config RelWithDebInfo</span><br></pre></td></tr></table></figure>
+
+<p>4、编译winafl<br>编译32位<br>1）首先找到Virsual Studio文件夹中的vcvarsall.bat所在目录，并打开cmd<br>2）执行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vcvarsall x86</span><br><span class="line">cd winafl源码目录</span><br><span class="line">mkdir build32 &amp;&amp; cd build32</span><br><span class="line">cmake -G&quot;Visual Studio 16 2019&quot; -A Win32 .. -DDynamoRIO_DIR=dynamorio源码目录\build32\cmake</span><br><span class="line">cmake --build . --config Release</span><br></pre></td></tr></table></figure>
+
+<p>编译64位<br>1）首先找到Virsual Studio文件夹中的vcvarsall.bat所在目录，并打开cmd<br>2）执行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vcvarsall amd64_x86</span><br><span class="line">cd winafl源码目录</span><br><span class="line">mkdir build64 &amp;&amp; cd build64</span><br><span class="line">cmake -G&quot;Visual Studio 16 2019&quot; -A x64 .. -DDynamoRIO_DIR=dynamorio源码目录\build32\cmake</span><br><span class="line">cmake --build . --config Release</span><br></pre></td></tr></table></figure>
+
+<p>1）检测程序会执行哪些代码块</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">drrun.exe -t drcov -- target_module</span><br></pre></td></tr></table></figure>
+
+<p>2）使用winafl.dll检测模块执行概况</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">drrun.exe -c xxx -debug -target_module xxx -target_offset xxx -fuzz_iterations 10 -nargs 2 -- xxx testcase</span><br><span class="line"></span><br><span class="line">-debug				//必须为debug模式, 结束后会生成一个log文件</span><br><span class="line">-target_module		//目标程序(只能有一个), 也是target_offset所在的模块</span><br><span class="line">-target_offset		//目标程序偏移，相对于target_module的偏移，在method无法导出的时候使用</span><br><span class="line">-fuzz_iterations	//目标程序重新启动一次内运行目标函数(即target_method)的最大迭代数</span><br><span class="line">-nargs				//目标程序执行所需要的参数个数(包括目标程序本身)</span><br><span class="line">-target_module		//目标函数,需要export或者调试符号(pdb)</span><br><span class="line">-coverage_module	//计算覆盖率的模块,也就是目标程序会调用的模块(dll); (可以有多个)</span><br></pre></td></tr></table></figure>
+
+<p>3）afl-fuzz测试</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">afl-fuzz.exe -i fuzz_in -o fuzz_out -D C:\Fuzz\dynamorio\bin32 -t 20000+ -- -coverage_module xxx -fuzz_iterations 5000 -target_module xxx -target_offset xxx -nargs 2 -- xxx @@</span><br></pre></td></tr></table></figure>
+
 
       
     </div>
@@ -396,7 +409,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+            <a href="/tags/漏洞挖掘/" rel="tag"># 漏洞挖掘</a>
+          
+            <a href="/tags/Fuzz/" rel="tag"># Fuzz</a>
           
         </div>
       
@@ -409,8 +424,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2021/03/14/二进制各种漏洞原理/" rel="next" title="二进制各种漏洞原理">
-                <i class="fa fa-chevron-left"></i> 二进制各种漏洞原理
+              <a href="/2021/03/22/使用AFL进行Fuzz/" rel="next" title="使用AFL进行Fuzz">
+                <i class="fa fa-chevron-left"></i> 使用AFL进行Fuzz
               </a>
             
           </div>
@@ -418,10 +433,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2021/03/22/使用AFL进行Fuzz/" rel="prev" title="使用AFL进行Fuzz">
-                使用AFL进行Fuzz <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -473,8 +484,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -564,6 +584,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1、环境配置"><span class="nav-number">1.</span> <span class="nav-text">1、环境配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2、安装步骤"><span class="nav-number">2.</span> <span class="nav-text">2、安装步骤</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
